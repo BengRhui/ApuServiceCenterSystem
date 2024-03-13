@@ -37,7 +37,7 @@ public class Asset {
     }
 }
 
-// This class is used to draw the rounded rectangle to be inserted into Hava
+// This class is used to draw the rounded rectangle to be inserted into Java
 class DrawRoundedRectangle extends JPanel {
 
     // Initializes the data of the DrawRoundedRectangle.class
