@@ -3,7 +3,7 @@ import java.awt.*;
 
 // This class is used to manipulate assets (like images, rounded text box, etc.).
 public class Asset {
-
+    
     // File path of the image is declared.
     private final static String filePath = "asset/";
 
