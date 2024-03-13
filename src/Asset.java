@@ -43,7 +43,7 @@ class DrawRoundedRectangle extends JPanel {
     // Initializes the data of the DrawRoundedRectangle.class
     int width, height, roundedCorner, borderThickness;
 
-    // Constructor to include the inputted strings as one of the data in daily lives.
+    // Constructor to include the inputted strings as one of the data from the objects.
     DrawRoundedRectangle(int width, int height, int roundedCorner, int borderThickness) {
         this.width = width;
         this.height = height;
