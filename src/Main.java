@@ -20,7 +20,7 @@ public class Main {
         JTextField userText = new JTextField();
         userText.setBounds(650,325,250,40);
         panel.add(userText);
-        Border rotatedBorder = (Border) new RotatedLineBorder(Color.BLACK, 15);
+        //Border rotatedBorder = (Border) new RotatedLineBorder(Color.BLACK, 15);
 
         JLabel passwordLabel = new JLabel ("Password");
         passwordLabel.setBounds(650,370,80,25);
