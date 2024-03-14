@@ -1,20 +1,13 @@
+import jdk.internal.icu.text.UnicodeSet;
+
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static jdk.internal.org.jline.utils.InfoCmp.Capability.buttons;
-
 public class Main implements ActionListener {
-    
 
-
-    public static void main(String[] args) {
-
-        ImageIcon emailIcon = new ImageIcon("email_icon.png");
-        ImageIcon passwordIcon = new ImageIcon("password_icon.png");
-        
+    private void initRegister() {
 
         JPanel Panel = new JPanel();
         Panel.setBackground(Color.blue);
@@ -34,10 +27,9 @@ public class Main implements ActionListener {
         userLabel.setBounds(650, 300, 80, 25);
         panel.add(userLabel);
 
-        JTextField userText = new JTextField();
-        userText.setBounds(650, 325, 250, 40);
-        panel.add(userText);
-        userText.setIcon(emailIcon);
+        JTextField txtUser = new JTextField("Email");
+        txtUser.setPrefixIcon(new ImageIcon(getClass().getResource("email_icon.png")));
+        register.add(txtUser, "w 60%");
 //        Border rotatedBorder = (Border) new RotatedLineBorder(Color.BLACK, 15);
 
         JLabel passwordLabel = new JLabel("Password");
