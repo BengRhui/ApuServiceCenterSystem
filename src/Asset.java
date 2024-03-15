@@ -1,11 +1,44 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
 // This class is used to manipulate assets (like images, rounded text box, etc.).
 public class Asset {
     
     // File path of the image is declared.
     private final static String filePath = "asset/";
+
+    // Size of the frame is declared.
+    private final static int frameWidth = 1250;
+    private final static int frameHeight = 900;
+
+    // Position of the frame is declared.
+    private static int framePositionX;
+    private static int framePositionY;
+
+    // Getters to obtain the width and height of the frame
+    public static int getFrameHeight() {
+        return frameHeight;
+    }
+
+    public static int getFrameWidth() {
+        return frameWidth;
+    }
+
+    // Getters to obtain the position of the frame on the screen
+    public static int getFramePositionX() {
+        return framePositionX;
+    }
+
+    public static int getFramePositionY() {
+        return framePositionY;
+    }
+
+    // Setters to set the coordinates of the frame
+    public void setFramePositionX(double coordinateX, double coordinateY){
+        framePositionX = (int) coordinateX;
+        framePositionY = (int) coordinateY;
+    }
 
     // This method aims to generate a JLabel that consists of the image at the original size.
     public JLabel generateImage(String pictureName) {
@@ -67,3 +100,23 @@ class DrawRoundedRectangle extends JPanel {
     }
 }
 
+// This class is used to draw a circle-shaped picture.
+class CirclePicture extends JPanel {
+    
+    private final static String filePath = "asset/";
+    int radius;
+    ImageIcon picturePlaceholder;
+
+    CirclePicture(String picturePath, int radius) {
+        this.radius = radius;
+        picturePlaceholder = new ImageIcon(filePath + picturePath);
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setClip(new Ellipse2D.Double(0, 0, radius * 2, radius * 2));
+        g2d.drawImage(picturePlaceholder, 0, 0, null);
+    }
+
+}
