@@ -7,53 +7,69 @@ import java.awt.event.KeyListener;
 
 public class Main implements ActionListener, KeyListener {
 
+    JPanel panel;
+    JFrame frame;
+    JLabel label, userLabel, userTextField, passwordLabel, success;
+    JTextField textField;
+    JPasswordField passwordText;
+    JButton button;
+    Color transparentColour = new Color(255,255,255,0);
+
     public Main(){
-        JPanel panel = new JPanel();
-        JFrame frame = new JFrame();
-        Color transparentColour = new Color(255,255,255,0);
+        panel = new JPanel();
+        frame = new JFrame();
         frame.setSize(1250, 900);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
 
-        JLabel label = new Asset().generateImage("background_1.jpg");
+        label = new Asset().generateImage("background_1.jpg");
         label.setBounds(0,0,frame.getWidth(),frame.getHeight());
 
         panel.setLayout(null);
         panel.setBounds(0,0,frame.getWidth(),frame.getHeight());
         panel.setBackground(transparentColour);
 
-        JLabel userLabel = new JLabel("Email");
+        userLabel = new JLabel("Email");
         userLabel.setBounds(650, 300, 80, 25);
-        panel.add(userLabel);
 
-        JTextField textField = new JTextField();
+        textField = new JTextField();
         textField.setBounds(650,325,250,40);
-        panel.add(textField);
+        textField.addKeyListener(this);
 
-        JLabel userTextField = new JLabel("Enter your email here:");
+        userTextField = new JLabel("Enter your email here:");
         userTextField.setForeground(Color.GRAY);
-        userTextField.addKeyListener(this);
+        userTextField.setBounds(675, 325, 200, 40);
+        userTextField.setVisible(true);
 
+<<<<<<< HEAD
         JLabel passwordLabel = new JLabel("Password");
+=======
+        passwordLabel = new JLabel("Password");
+>>>>>>> 75c74b425b977670b77deb5387960e00cb08b25f
         passwordLabel.setBounds(650, 370, 80, 25);
-        panel.add(passwordLabel);
 
-        JPasswordField passwordText = new JPasswordField();
+        passwordText = new JPasswordField();
         passwordText.setBounds(650, 395, 250, 40);
-        panel.add(passwordText);
 
-        JButton button = new JButton("Login");
+        button = new JButton("Login");
         button.setBounds(650, 465, 250, 40);
         button.addActionListener(this);
-        panel.add(button);
 
-        JLabel success = new JLabel("");
+        success = new JLabel("");
         success.setBounds(10, 110, 300, 25);
+
+        panel.add(userTextField);
+        panel.add(userLabel);
+        panel.add(textField);
+        panel.add(passwordLabel);
+        panel.add(passwordText);
+        panel.add(button);
         panel.add(success);
 
         frame.add(panel);
         frame.add(label);
         frame.setVisible(true);
+
 
     }
 
@@ -73,7 +89,6 @@ public class Main implements ActionListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if(textField.
 
     }
 
@@ -84,6 +99,10 @@ public class Main implements ActionListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        if(!textField.getText().isEmpty()) {
+            userTextField.setVisible(false);
+        } else if (textField.getText().isEmpty()) {
+            userTextField.setVisible(true);
+        }
     }
 }
