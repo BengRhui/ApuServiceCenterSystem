@@ -27,7 +27,7 @@ public class Main implements ActionListener {
 
         JTextField textField = new JTextField();
         textField.setBounds(650,325,250,40);
-        textField.set("Enter Your Email Here:");
+//        textField.setHint("Enter Your Email Here:");
         panel.add(textField);
 
 //        Border rotatedBorder = (Border) new RotatedLineBorder(Color.BLACK, 15);
@@ -50,7 +50,7 @@ public class Main implements ActionListener {
         panel.add(success);
 
         frame.add(panel);
-//        frame.add(label);
+        frame.add(label);
         frame.setVisible(true);
 
     }
