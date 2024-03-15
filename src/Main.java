@@ -2,24 +2,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Main implements ActionListener {
+public class Main implements ActionListener, KeyListener {
 
-    public static void main(String[] args){
-
+    public Main(){
         JPanel panel = new JPanel();
         JFrame frame = new JFrame();
+        Color transparentColour = new Color(255,255,255,0);
         frame.setSize(1250, 900);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(null);
 
-
-        JLabel label = new JLabel();
-        label.setIcon(new ImageIcon("C:\\Users\\Admin\\Documents\\GitHub\\ApuServiceCenterSystem\\asset\\background_1.jpg"));
-
-
-
+        JLabel label = new Asset().generateImage("background_1.jpg");
+        label.setBounds(0,0,frame.getWidth(),frame.getHeight());
 
         panel.setLayout(null);
+        panel.setBounds(0,0,frame.getWidth(),frame.getHeight());
+        panel.setBackground(transparentColour);
 
         JLabel userLabel = new JLabel("Email");
         userLabel.setBounds(650, 300, 80, 25);
@@ -27,8 +28,13 @@ public class Main implements ActionListener {
 
         JTextField textField = new JTextField();
         textField.setBounds(650,325,250,40);
-//        textField.setHint("Enter Your Email Here:");
         panel.add(textField);
+
+        JLabel userTextField = new JLabel("Enter your email here:");
+        userTextField.setForeground(Color.GRAY);
+        userTextField.addKeyListener(this);
+
+
 
 //        Border rotatedBorder = (Border) new RotatedLineBorder(Color.BLACK, 15);
 
@@ -42,7 +48,7 @@ public class Main implements ActionListener {
 
         JButton button = new JButton("Login");
         button.setBounds(650, 465, 250, 40);
-        button.addActionListener(new Main());
+        button.addActionListener(this);
         panel.add(button);
 
         JLabel success = new JLabel("");
@@ -55,10 +61,33 @@ public class Main implements ActionListener {
 
     }
 
+    public static void main(String[] args){
+
+        new Main();
+
+
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        if(textField.
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
 
     }
 }
