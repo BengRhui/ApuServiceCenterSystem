@@ -34,10 +34,6 @@ public class Main implements ActionListener, KeyListener {
         userTextField.setForeground(Color.GRAY);
         userTextField.addKeyListener(this);
 
-
-
-//        Border rotatedBorder = (Border) new RotatedLineBorder(Color.BLACK, 15);
-
         JLabel passwordLabel = new JLabel("Password");
         passwordLabel.setBounds(650, 370, 80, 25);
         panel.add(passwordLabel);
