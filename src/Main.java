@@ -9,7 +9,7 @@ public class Main implements ActionListener, KeyListener {
 
     JPanel panel;
     JFrame frame;
-    JLabel label, userLabel, userTextField, passwordLabel, success;
+    JLabel label, userLabel, userTextField, passwordLabel, success, userPasswordText, userTextlabel;
     JTextField textField;
     JPasswordField passwordText;
     JButton button;
@@ -36,20 +36,30 @@ public class Main implements ActionListener, KeyListener {
         textField.setBounds(650,325,250,40);
         textField.addKeyListener(this);
 
+
         userTextField = new JLabel("Enter your email here:");
         userTextField.setForeground(Color.GRAY);
         userTextField.setBounds(675, 325, 200, 40);
         userTextField.setVisible(true);
 
-<<<<<<< HEAD
-        JLabel passwordLabel = new JLabel("Password");
-=======
+        userTextlabel = new JLabel();
+        userTextlabel = new Asset().generateImage("email_icon.png");
+        userTextField.setBounds(660,325,200,40);
+        userTextField.setVisible(true);
+
+
+
         passwordLabel = new JLabel("Password");
->>>>>>> 75c74b425b977670b77deb5387960e00cb08b25f
+        passwordLabel = new JLabel("Password");
         passwordLabel.setBounds(650, 370, 80, 25);
 
         passwordText = new JPasswordField();
         passwordText.setBounds(650, 395, 250, 40);
+
+        userPasswordText = new JLabel("Enter your password here:");
+        userPasswordText.setForeground(Color.GRAY);
+        userPasswordText.setBounds(675, 395,200,40);
+        userPasswordText.setVisible(true);
 
         button = new JButton("Login");
         button.setBounds(650, 465, 250, 40);
@@ -90,10 +100,16 @@ public class Main implements ActionListener, KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
 
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if(!userPasswordText.getText().isEmpty()) {
+            userPasswordText.setVisible(false);
+        } else if (userPasswordText.getText().isEmpty()) {
+            userPasswordText.setVisible(true);
+        }
 
     }
 
@@ -104,5 +120,7 @@ public class Main implements ActionListener, KeyListener {
         } else if (textField.getText().isEmpty()) {
             userTextField.setVisible(true);
         }
+
+
     }
 }
