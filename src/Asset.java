@@ -68,6 +68,13 @@ public class Asset {
         // Return result as a panel
         return panel;
     }
+
+    // This method generates a round profile picture for technicians and managers
+    public JPanel generateRoundProfile(String filePath, int radius) {
+        JPanel profilePic = new CircleProfilePicture(filePath, radius);
+        profilePic.setSize(radius * 2, radius * 2);
+        return profilePic;
+    }
 }
 
 // This class is used to draw the rounded rectangle to be inserted into Java
@@ -100,23 +107,29 @@ class DrawRoundedRectangle extends JPanel {
     }
 }
 
-// This class is used to draw a circle-shaped picture.
-class CirclePicture extends JPanel {
-    
-    private final static String filePath = "asset/";
+// This class is used to draw a circle-shaped profile picture.
+class CircleProfilePicture extends JPanel {
+
+    // Declare a file path that stores the profile pictures
+    private final static String filePath = "asset/profilePicture/";
+
+    // Declares the variables required
     int radius;
     ImageIcon picturePlaceholder;
 
-    CirclePicture(String picturePath, int radius) {
+    // Constructor to build a round profile picture
+    CircleProfilePicture(String picturePath, int radius) {
         this.radius = radius;
         picturePlaceholder = new ImageIcon(filePath + picturePath);
     }
 
+    // Paint component used to shape the picture into a circle
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setClip(new Ellipse2D.Double(0, 0, radius * 2, radius * 2));
-        g2d.drawImage(picturePlaceholder, 0, 0, null);
+        g2d.drawImage(picturePlaceholder.getImage(), 0, 0, null);
+        g2d.drawOval(0, 0, radius * 2, radius * 2);
     }
 
 }
