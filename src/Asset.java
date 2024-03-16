@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -197,6 +196,7 @@ public class Asset implements MouseListener {
 
         button = new JLayeredPane();
         button.setSize(width + 3, height + 3);
+        button.addMouseListener(this);
 
         buttonFront = new JPanel(null);
         buttonFront.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -213,7 +213,6 @@ public class Asset implements MouseListener {
 
         buttonFront.add(imagePlaceholder);
         buttonFront.add(buttonText);
-        buttonFront.addMouseListener(this);
 
         JPanel background = new JPanel();
         background.setBounds(0, 3, width, height);
@@ -223,6 +222,34 @@ public class Asset implements MouseListener {
         button.add(buttonFront, JLayeredPane.PALETTE_LAYER);
         button.add(background, JLayeredPane.DEFAULT_LAYER);
 
+        return button;
+    }
+
+    public JLayeredPane generateButtonWithImageLeft(String text, String imagePath, int width, int height) {
+        button = new JLayeredPane();
+        button.setSize(width + 3, height + 3);
+        button.addMouseListener(this);
+
+        buttonFront = new JPanel();
+        buttonFront.setBounds(0, 3, width, height);
+
+        JLabel imagePlaceholder = new Asset().generateImage(imagePath);
+        imagePlaceholder.setBounds(5, 5, height - 10, height - 10);
+
+        JLabel textPlaceholder = new JLabel(text);
+        textPlaceholder.setSize(buttonFront.getWidth() - imagePlaceholder.getWidth() - 5, buttonFront.getHeight());
+        textPlaceholder.setLocation(5 + imagePlaceholder.getWidth(), (buttonFront.getHeight() - textPlaceholder.getHeight()) / 2);
+        textPlaceholder.setFont(Asset.getNameFont("Bold"));
+
+        buttonFront.add(imagePlaceholder);
+        buttonFront.add(textPlaceholder);
+
+        JPanel background = new JPanel();
+        background.setBounds(0, 3, width, height);
+        background.setBackground(Color.BLACK);
+
+        button.add(buttonFront, JLayeredPane.PALETTE_LAYER);
+        button.add(background, JLayeredPane.DEFAULT_LAYER);
         return button;
     }
 

@@ -3,10 +3,10 @@ import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-public class ManagerMainPage implements ComponentListener {
+public class TechnicianMainPage implements ComponentListener {
 
     static JFrame frame;
-    JLayeredPane leftPanel, rightPanel, createAccountButton, modifyAccountButton, createAppointmentButton, viewFeedbackButton;
+    JLayeredPane leftPanel, rightPanel, modifyAccountButton, manageAppointmentButton, viewFeedbackButton;
     JPanel profilePicture, line, informationPanel;
     JLabel backgroundLeft, name, accountType, position, gender, dateJoined, nationality, maritalStatus, address, email,
             contactNo, positionInfo, genderInfo, dateJoinedInfo, nationalityInfo, maritalStatusInfo, addressLine1,
@@ -14,11 +14,11 @@ public class ManagerMainPage implements ComponentListener {
     int profileRadius = 125, lineStroke = 5;
 
     public static void main(String[] args) {
-        new ManagerMainPage();
+        new TechnicianMainPage();
     }
 
-    public ManagerMainPage() {
-        frame = new JFrame("Manager Main Page");
+    public TechnicianMainPage() {
+        frame = new JFrame("Technician Main Page");
         frame.setSize(Asset.getFrameWidth(), Asset.getFrameHeight());
         frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,10 +36,10 @@ public class ManagerMainPage implements ComponentListener {
 
         line = new Asset().drawLine(leftPanel.getX() + leftPanel.getWidth(), leftPanel.getY(), leftPanel.getX() + leftPanel.getWidth(), leftPanel.getHeight() * 2, lineStroke);
 
-        name = new JLabel("Muhammad Ali bin Abu Baker", JLabel.CENTER);
+        name = new JLabel("Joshua Wafiq A/L Selvakumar", JLabel.CENTER);
         name.setFont(Asset.getNameFont("Bold"));
 
-        accountType = new JLabel("(Manager Account)", JLabel.CENTER);
+        accountType = new JLabel("(Technician Account)", JLabel.CENTER);
         accountType.setFont(Asset.getNameFont("Italic"));
 
         informationPanel = new JPanel();
@@ -49,7 +49,7 @@ public class ManagerMainPage implements ComponentListener {
         position = new JLabel("Position");
         position.setFont(Asset.getBodyFont("Plain"));
 
-        positionInfo = new JLabel(": Warden");
+        positionInfo = new JLabel(": Electrician");
         positionInfo.setFont(Asset.getBodyFont("Plain"));
 
         gender = new JLabel("Gender");
@@ -61,7 +61,7 @@ public class ManagerMainPage implements ComponentListener {
         dateJoined = new JLabel("Date Joined");
         dateJoined.setFont(Asset.getBodyFont("Plain"));
 
-        dateJoinedInfo = new JLabel(": 16 March 2024");
+        dateJoinedInfo = new JLabel(": 5 March 2024");
         dateJoinedInfo.setFont(Asset.getBodyFont("Plain"));
 
         nationality = new JLabel("Nationality");
@@ -79,13 +79,13 @@ public class ManagerMainPage implements ComponentListener {
         address = new JLabel("Address");
         address.setFont(Asset.getBodyFont("Plain"));
 
-        addressLine1 = new JLabel(": No. 12A");
+        addressLine1 = new JLabel(": No 10");
         addressLine1.setFont(Asset.getBodyFont("Plain"));
 
-        addressLine2 = new JLabel("  Jalan Ipoh Timur Baru 5");
+        addressLine2 = new JLabel("  Jalan Merah 20");
         addressLine2.setFont(Asset.getBodyFont("Plain"));
 
-        addressLine3 = new JLabel("  Taman Ipoh Timur Baru");
+        addressLine3 = new JLabel("  Taman Biru 30");
         addressLine3.setFont(Asset.getBodyFont("Plain"));
 
         addressLine4 = new JLabel("  31400 Ipoh, Perak");
@@ -131,6 +131,7 @@ public class ManagerMainPage implements ComponentListener {
         leftPanel.setPreferredSize(new Dimension(frame.getWidth() / 3, frame.getHeight()));
 
         rightPanel = new JLayeredPane();
+        rightPanel.setBounds(leftPanel.getWidth(), 0, frame.getWidth() - leftPanel.getWidth(), frame.getHeight());
 
         backgroundRight = new JLabel();
         backgroundRight.setBackground(Color.WHITE);
@@ -141,18 +142,13 @@ public class ManagerMainPage implements ComponentListener {
 
         exitButton = new Asset().generateImage("logout_icon.png");
 
-        createAccountButton = new Asset().generateButtonWithImageTop("Create Account", "registerAccount_vector.png", 300, 300);
-        modifyAccountButton = new Asset().generateButtonWithImageTop("Modify Account", "edit_vector.png", 300, 300);
-        createAppointmentButton = new Asset().generateButtonWithImageTop("Modify Account", "checkAppointment_vector.png", 300, 300);
-        viewFeedbackButton = new Asset().generateButtonWithImageTop("Modify Account", "feedback_vector.png", 300, 300);
+        modifyAccountButton = new Asset().generateButtonWithImageLeft("Hello", "registerAccount_vector.png", rightPanel.getWidth() - mainTitle.getX() * 2, 250);
+        
 
         rightPanel.add(backgroundRight, JLayeredPane.DEFAULT_LAYER);
         rightPanel.add(mainTitle, JLayeredPane.PALETTE_LAYER);
         rightPanel.add(exitButton, JLayeredPane.PALETTE_LAYER);
-        rightPanel.add(createAccountButton, JLayeredPane.PALETTE_LAYER);
-        rightPanel.add(modifyAccountButton, JLayeredPane.PALETTE_LAYER);
-        rightPanel.add(createAppointmentButton, JLayeredPane.PALETTE_LAYER);
-        rightPanel.add(viewFeedbackButton, JLayeredPane.PALETTE_LAYER);
+        rightPanel.add(modifyAccountButton, JLayeredPane.MODAL_LAYER);
 
 
         frame.add(line);
@@ -209,10 +205,8 @@ public class ManagerMainPage implements ComponentListener {
 
         exitButton.setBounds(rightPanel.getWidth() * 4 / 5, mainTitle.getY(), 100, 100);
 
-        createAccountButton.setLocation(mainTitle.getX(), mainTitle.getY() + mainTitle.getHeight() + 25);
-        modifyAccountButton.setLocation(mainTitle.getX() + createAccountButton.getWidth() + 20, createAccountButton.getY());
-        createAppointmentButton.setLocation(mainTitle.getX(), createAccountButton.getY() + createAccountButton.getHeight() + 20);
-        viewFeedbackButton.setLocation(modifyAccountButton.getX(), modifyAccountButton.getY() + modifyAccountButton.getWidth() + 20);
+        modifyAccountButton.setLocation(mainTitle.getX(), 300);
+
     }
 
     @Override
