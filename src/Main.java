@@ -41,11 +41,10 @@ public class Main implements ActionListener, KeyListener {
         userTextField.setBounds(675, 325, 200, 40);
         userTextField.setVisible(true);
 
-<<<<<<< HEAD
         JLabel passwordLabel = new JLabel("Password");
-=======
+
         passwordLabel = new JLabel("Password");
->>>>>>> 75c74b425b977670b77deb5387960e00cb08b25f
+
         passwordLabel.setBounds(650, 370, 80, 25);
 
         passwordText = new JPasswordField();
