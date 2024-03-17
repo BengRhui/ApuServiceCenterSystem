@@ -231,14 +231,17 @@ public class Asset implements MouseListener {
         button.addMouseListener(this);
 
         buttonFront = new JPanel();
+        buttonFront.setLayout(null);
         buttonFront.setBounds(0, 3, width, height);
+        buttonFront.setBackground(Color.WHITE);
+        buttonFront.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
         JLabel imagePlaceholder = new Asset().generateImage(imagePath);
-        imagePlaceholder.setBounds(5, 5, height - 10, height - 10);
+        imagePlaceholder.setBounds(15, 15, height - 30, height - 30);
 
         JLabel textPlaceholder = new JLabel(text);
-        textPlaceholder.setSize(buttonFront.getWidth() - imagePlaceholder.getWidth() - 5, buttonFront.getHeight());
-        textPlaceholder.setLocation(5 + imagePlaceholder.getWidth(), (buttonFront.getHeight() - textPlaceholder.getHeight()) / 2);
+        textPlaceholder.setSize(buttonFront.getWidth() - imagePlaceholder.getWidth() - 30, buttonFront.getHeight());
+        textPlaceholder.setLocation( imagePlaceholder.getWidth() + 45, (buttonFront.getHeight() - textPlaceholder.getHeight()) / 2);
         textPlaceholder.setFont(Asset.getNameFont("Bold"));
 
         buttonFront.add(imagePlaceholder);

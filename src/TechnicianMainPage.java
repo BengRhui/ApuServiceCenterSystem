@@ -142,14 +142,16 @@ public class TechnicianMainPage implements ComponentListener {
 
         exitButton = new Asset().generateImage("logout_icon.png");
 
-        modifyAccountButton = new Asset().generateButtonWithImageLeft("Hello", "registerAccount_vector.png", rightPanel.getWidth() - mainTitle.getX() * 2, 250);
-        
+        modifyAccountButton = new Asset().generateButtonWithImageLeft("<html>Modify Account <br>and Password</html>", "edit_vector_small.png", 600, 180);
+        manageAppointmentButton = new Asset().generateButtonWithImageLeft("<html>Manage Appointment <br>and Payment</html>", "checkAppointment_vector_small.png", 600, 180);
+        viewFeedbackButton = new Asset().generateButtonWithImageLeft("View Feedback", "feedback_vector_small.png", 600, 180);
 
         rightPanel.add(backgroundRight, JLayeredPane.DEFAULT_LAYER);
         rightPanel.add(mainTitle, JLayeredPane.PALETTE_LAYER);
         rightPanel.add(exitButton, JLayeredPane.PALETTE_LAYER);
         rightPanel.add(modifyAccountButton, JLayeredPane.MODAL_LAYER);
-
+        rightPanel.add(manageAppointmentButton, JLayeredPane.MODAL_LAYER);
+        rightPanel.add(viewFeedbackButton, JLayeredPane.MODAL_LAYER);
 
         frame.add(line);
         frame.add(rightPanel);
@@ -205,7 +207,9 @@ public class TechnicianMainPage implements ComponentListener {
 
         exitButton.setBounds(rightPanel.getWidth() * 4 / 5, mainTitle.getY(), 100, 100);
 
-        modifyAccountButton.setLocation(mainTitle.getX(), 300);
+        modifyAccountButton.setLocation(mainTitle.getX(), mainTitle.getY() + mainTitle.getHeight() + 50);
+        manageAppointmentButton.setLocation(mainTitle.getX(), modifyAccountButton.getY() + modifyAccountButton.getHeight() + 20);
+        viewFeedbackButton.setLocation(mainTitle.getX(), manageAppointmentButton.getY() + manageAppointmentButton.getHeight() + 20);
 
     }
 
