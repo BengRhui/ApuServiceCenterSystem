@@ -38,11 +38,14 @@ public class InformationPane extends JPanel {
         return finalPane;
     }
 
-    public JScrollPane createManagerAndTechnicianAccount() {
+    JPanel panel1;
+    InformationPane infoPane;
+    public JPanel createManagerAndTechnicianAccount() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
-        JPanel panel1 = new InformationPane().managerAndTechnicianPersonalDetails();
+        infoPane = new InformationPane();
+        panel1 = infoPane.managerAndTechnicianPersonalDetails();
         JPanel panel2 = new InformationPane().divider();
         JPanel panel3 = new InformationPane().customerInformation();
 
@@ -58,9 +61,9 @@ public class InformationPane extends JPanel {
 
         panel.setPreferredSize(new Dimension(panel1.getWidth(), sumOfHeight));
 
-        JScrollPane finalPane = new JScrollPane(panel);
-        finalPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        return finalPane;
+        //JScrollPane finalPane = new JScrollPane(panel);
+        //finalPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        return panel;
     }
 
     // Sub-pane
@@ -201,6 +204,8 @@ public class InformationPane extends JPanel {
         return panel;
     }
 
+    private JTextField addressLine1;
+
     public JPanel managerAndTechnicianPersonalDetails() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
@@ -237,7 +242,7 @@ public class InformationPane extends JPanel {
         addressText.setFont(Asset.getBodyFont("Plain"));
         addressText.setBounds(genderChoice.getX(), genderChoice.getY() + genderChoice.getHeight() + 20, genderChoice.getWidth(), genderChoice.getHeight());
 
-        JTextField addressLine1 = new Asset().generateTextField();
+        addressLine1 = new Asset().generateTextField();
         addressLine1.setBounds(addressText.getX(), addressText.getY() + addressText.getHeight(), name.getWidth(), addressText.getHeight());
 
         JTextField addressLine2 = new Asset().generateTextField();
@@ -266,6 +271,10 @@ public class InformationPane extends JPanel {
         panel.add(postcodeText);
 
         return panel;
+    }
+
+    public String getAddressLine1() {
+        return infoPane.addressLine1.getText();
     }
 
     // Line pane

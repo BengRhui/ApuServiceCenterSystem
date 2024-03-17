@@ -18,6 +18,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
     JLayeredPane confirmButton, cancelButton, saveButton;
     JComboBox<String> selectAccount;
     CardLayout layout;
+    InformationPane infoPane1;
 
     public CreateAccountPage() {
         frame = new JFrame("Create Account Page");
@@ -58,8 +59,9 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
         fillInfoPane = new JPanel(layout);
         fillInfoPane.setVisible(false);
 
-        displayManagerPanel = new JScrollPane(new InformationPane().createManagerAndTechnicianAccount());
-        displayTechnicianPanel = new JScrollPane(new InformationPane().bookAppointmentPane());
+        infoPane1 = new InformationPane();
+        displayManagerPanel = new JScrollPane(infoPane1.createManagerAndTechnicianAccount());
+        displayTechnicianPanel = new InformationPane().bookAppointmentPane();
         displayCustomerPanel = new JScrollPane(new InformationPane().customerInformation());
 
         fillInfoPane.add(displayManagerPanel);
@@ -73,6 +75,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
         cancelButton = new Asset().generateButtonWithoutImage("Cancel", confirmButton.getWidth(), confirmButton.getHeight());
 
         saveButton = new Asset().generateButtonWithoutImage("Place appointment", cancelButton.getWidth() + 100, confirmButton.getHeight());
+        saveButton.addMouseListener(this);
 
         backgroundPanel.add(backArrow);
         backgroundPanel.add(logoutButton);
@@ -134,6 +137,8 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
                 System.out.println("Error with selecting accounts.");
             }
             fillInfoPane.setVisible(true);
+        } else if (e.getSource() == saveButton) {
+            System.out.println(infoPane1.getAddressLine1());
         }
     }
 
