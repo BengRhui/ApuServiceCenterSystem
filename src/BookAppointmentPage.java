@@ -9,7 +9,8 @@ public class BookAppointmentPage implements ComponentListener {
     }
 
     static JFrame frame;
-    JLabel backgroundPicture;
+    JLabel backgroundPicture, backArrow;
+    JPanel backgroundPanel;
 
     public BookAppointmentPage() {
         frame = new JFrame("Appointment Booking Page");
@@ -19,9 +20,17 @@ public class BookAppointmentPage implements ComponentListener {
         frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
         frame.addComponentListener(this);
 
-        backgroundPicture = new Asset().generateImage("4689.jpg");
+        backgroundPicture = new Asset().generateImage("background.jpg");
 
+        backgroundPanel = new JPanel();
+        backgroundPanel.setBackground(Color.WHITE);
+        backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 
+        backArrow = new Asset().generateImage("backArrow_icon.png");
+
+        backgroundPanel.add(backArrow);
+
+        frame.add(backgroundPanel);
         frame.add(backgroundPicture);
         frame.setVisible(true);
     }
@@ -29,6 +38,9 @@ public class BookAppointmentPage implements ComponentListener {
     @Override
     public void componentResized(ComponentEvent e) {
         backgroundPicture.setBounds(0, 0, frame.getWidth(), frame.getHeight());
+        backgroundPanel.setSize(frame.getWidth() * 9 / 10, frame.getHeight() * 9 / 10 - 30);
+        backgroundPanel.setLocation((frame.getWidth() - backgroundPanel.getWidth()) / 2, (frame.getHeight() - backgroundPanel.getHeight()) / 2 - 15);
+        backArrow.setLocation(backgroundPanel.getX() + 10, backgroundPanel.getY() + 10);
     }
 
     @Override
