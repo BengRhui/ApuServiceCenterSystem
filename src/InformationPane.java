@@ -7,17 +7,42 @@ import org.jdatepicker.impl.UtilDateModel;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Properties;
-import java.util.PropertyPermission;
 
 public class InformationPane extends JPanel {
 
     private final static int scrollPaneWidth = 900;
-    // Overall pane
+
+    // Overall pane - book appointment
     public JScrollPane bookAppointmentPane() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
-        JPanel panel1 = new InformationPane().appointmentDetails();
+        JPanel panel1 = new InformationPane().customerInformation();
+        JPanel panel2 = new InformationPane().divider();
+        JPanel panel3 = new InformationPane().appointmentDetails();
+
+        panel1.setLocation(0, 0);
+        panel2.setLocation(0, panel1.getHeight());
+        panel3.setLocation(0, panel1.getHeight() + panel2.getHeight());
+
+        panel.add(panel1);
+        panel.add(panel2);
+        panel.add(panel3);
+
+        int sumOfHeight = panel1.getHeight() + panel2.getHeight() + panel3.getHeight();
+
+        panel.setPreferredSize(new Dimension(panel1.getWidth(), sumOfHeight));
+
+        JScrollPane finalPane = new JScrollPane(panel);
+        finalPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        return finalPane;
+    }
+
+    public JScrollPane createManagerAndTechnicianAccount() {
+        JPanel panel = new JPanel(null);
+        panel.setBackground(Color.WHITE);
+
+        JPanel panel1 = new InformationPane().managerAndTechnicianPersonalDetails();
         JPanel panel2 = new InformationPane().divider();
         JPanel panel3 = new InformationPane().customerInformation();
 
@@ -172,6 +197,73 @@ public class InformationPane extends JPanel {
         panel.add(appointmentStart);
         panel.add(appointmentEndTimeText);
         panel.add(appointmentEnd);
+
+        return panel;
+    }
+
+    public JPanel managerAndTechnicianPersonalDetails() {
+        JPanel panel = new JPanel(null);
+        panel.setBackground(Color.WHITE);
+        panel.setSize(scrollPaneWidth, 800);
+
+        JLabel title = new JLabel("<html>Personal<br>Information</html>");
+        title.setFont(Asset.getNameFont("Bold"));
+        title.setBounds(30, 0, panel.getWidth() / 5, 100);
+
+        JLabel namePlaceholder = new JLabel("Name");
+        namePlaceholder.setFont(Asset.getBodyFont("Plain"));
+        namePlaceholder.setBounds(title.getWidth() + title.getX(), title.getY() + 10, panel.getWidth() - title.getWidth() - title.getX(), 50);
+
+        JTextField name = new Asset().generateTextField();
+        name.setBounds(namePlaceholder.getX(), namePlaceholder.getY() + namePlaceholder.getHeight(), namePlaceholder.getWidth() - 20, namePlaceholder.getHeight());
+
+        JLabel genderText = new JLabel("Gender");
+        genderText.setFont(Asset.getBodyFont("Plain"));
+        genderText.setBounds(namePlaceholder.getX(), name.getY() + name.getHeight() + 20, namePlaceholder.getWidth() / 2 - 20, name.getHeight());
+
+        JComboBox<String> genderChoice = new JComboBox<>(User.getGenderTypes());
+        genderChoice.setBounds(genderText.getX(), genderText.getY() + genderText.getHeight(), genderText.getWidth(), genderText.getHeight());
+        genderChoice.setFont(Asset.getBodyFont("Plain"));
+
+        JLabel maritalStatusText = new JLabel("Marital Status");
+        maritalStatusText.setFont(Asset.getBodyFont("Plain"));
+        maritalStatusText.setBounds(genderText.getX() + genderText.getWidth() + 20, genderText.getY(), genderText.getWidth(), genderText.getHeight());
+
+        JComboBox<String> maritalStatusChoice = new JComboBox<>(User.getMaritalStatus());
+        maritalStatusChoice.setFont(Asset.getBodyFont("Plain"));
+        maritalStatusChoice.setBounds(maritalStatusText.getX(), maritalStatusText.getY() + maritalStatusText.getHeight(), maritalStatusText.getWidth(), maritalStatusText.getHeight());
+
+        JLabel addressText = new JLabel("Address");
+        addressText.setFont(Asset.getBodyFont("Plain"));
+        addressText.setBounds(genderChoice.getX(), genderChoice.getY() + genderChoice.getHeight() + 20, genderChoice.getWidth(), genderChoice.getHeight());
+
+        JTextField addressLine1 = new Asset().generateTextField();
+        addressLine1.setBounds(addressText.getX(), addressText.getY() + addressText.getHeight(), name.getWidth(), addressText.getHeight());
+
+        JTextField addressLine2 = new Asset().generateTextField();
+        addressLine2.setBounds(addressLine1.getX(), addressLine1.getY() + addressLine1.getHeight() + 10, addressLine1.getWidth(), addressLine1.getHeight());
+
+        JTextField addressLine3 = new Asset().generateTextField();
+        addressLine3.setBounds(addressLine2.getX(), addressLine2.getY() + addressLine2.getHeight() + 10, addressLine2.getWidth(), addressLine2.getHeight());
+
+        JLabel postcodeText = new JLabel("Postcode");
+        postcodeText.setFont(Asset.getBodyFont("Plain"));
+        postcodeText.setBounds(addressLine3.getX(), addressLine3.getY() + addressLine3.getHeight() + 20, genderText.getWidth(), genderText.getHeight());
+
+        
+
+        panel.add(title);
+        panel.add(namePlaceholder);
+        panel.add(name);
+        panel.add(genderText);
+        panel.add(genderChoice);
+        panel.add(maritalStatusText);
+        panel.add(maritalStatusChoice);
+        panel.add(addressText);
+        panel.add(addressLine1);
+        panel.add(addressLine2);
+        panel.add(addressLine3);
+        panel.add(postcodeText);
 
         return panel;
     }
