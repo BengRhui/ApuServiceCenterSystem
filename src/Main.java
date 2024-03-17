@@ -42,20 +42,16 @@ public class Main implements ActionListener, KeyListener {
         userTextField.setBounds(675, 325, 200, 40);
         userTextField.setVisible(true);
 
-<<<<<<< HEAD
-
         userTextlabel = new Asset().generateImage("email_icon.png");
         userTextlabel.setBounds(660,325,200,40);
         userTextlabel.setVisible(true);
 
         passwordLabel = new JLabel("Password");
         passwordLabel = new JLabel("Password");
-=======
+
         JLabel passwordLabel = new JLabel("Password");
 
         passwordLabel = new JLabel("Password");
-
->>>>>>> c6d2a71b75e0746f4eeba638def7292be6b91160
         passwordLabel.setBounds(650, 370, 80, 25);
 
         passwordText = new JPasswordField();

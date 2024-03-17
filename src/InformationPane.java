@@ -11,7 +11,7 @@ import java.util.PropertyPermission;
 
 public class InformationPane extends JPanel {
 
-    private final static int scrollPaneWidth = 933;
+    private final static int scrollPaneWidth = 900;
     // Overall pane
     public JScrollPane bookAppointmentPane() {
         JPanel panel = new JPanel(null);
@@ -51,14 +51,14 @@ public class InformationPane extends JPanel {
 
         JLabel namePlaceholder = new JLabel("Name");
         namePlaceholder.setFont(Asset.getBodyFont("Plain"));
-        namePlaceholder.setBounds(title.getWidth() + title.getX(), title.getY() + 10, panel.getWidth() - title.getWidth() - title.getX() - 20, 50);
+        namePlaceholder.setBounds(title.getWidth() + title.getX(), title.getY() + 10, panel.getWidth() - title.getWidth() - title.getX(), 50);
 
         JTextField name = new Asset().generateTextField();
-        name.setBounds(namePlaceholder.getX(), namePlaceholder.getY() + namePlaceholder.getHeight(), namePlaceholder.getWidth() - 40, namePlaceholder.getHeight());
+        name.setBounds(namePlaceholder.getX(), namePlaceholder.getY() + namePlaceholder.getHeight(), namePlaceholder.getWidth() - 20, namePlaceholder.getHeight());
 
         JLabel emailText = new JLabel("Email");
         emailText.setFont(Asset.getBodyFont("Plain"));
-        emailText.setBounds(namePlaceholder.getX(), name.getY() + name.getHeight() + 20, namePlaceholder.getWidth() / 2 - 30, name.getHeight());
+        emailText.setBounds(namePlaceholder.getX(), name.getY() + name.getHeight() + 20, namePlaceholder.getWidth() / 2 - 20, name.getHeight());
 
         JTextField email = new Asset().generateTextField();
         email.setBounds(emailText.getX(), emailText.getY() + emailText.getHeight(), emailText.getWidth(), emailText.getHeight());
@@ -100,6 +100,7 @@ public class InformationPane extends JPanel {
         JComboBox<String> appointmentChoice = new JComboBox<>(technicianChoices);
         appointmentChoice.setFont(Asset.getBodyFont("Plain"));
         appointmentChoice.setBounds(technicianText.getX(), technicianText.getY() + technicianText.getHeight(), technicianText.getWidth(), technicianText.getHeight());
+        appointmentChoice.setBackground(Color.WHITE);
 
         JLabel itemsText = new JLabel("Items to be Serviced");
         itemsText.setFont(Asset.getBodyFont("Plain"));
@@ -116,6 +117,7 @@ public class InformationPane extends JPanel {
         JComboBox<String> serviceItemList = new JComboBox<>(itemsChoices);
         serviceItemList.setFont(Asset.getBodyFont("Plain"));
         serviceItemList.setBounds(itemsText.getX(), itemsText.getY() + itemsText.getHeight(), itemsText.getWidth(), itemsText.getHeight());
+        serviceItemList.setBackground(Color.WHITE);
 
         JLabel appointmentDateText = new JLabel("Appointment Date");
         appointmentDateText.setFont(Asset.getBodyFont("Plain"));
@@ -125,12 +127,17 @@ public class InformationPane extends JPanel {
         JDatePanelImpl datePanel = new JDatePanelImpl(model, new Properties());
         JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateComponentFormatter());
 
-        datePicker.setBackground(Color.WHITE);
         datePanel.setFont(Asset.getBodyFont("Plain"));
-        datePicker.setBounds(appointmentDateText.getX(), appointmentDateText.getY() + appointmentDateText.getHeight(), appointmentDateText.getWidth(), appointmentDateText.getHeight());
+        datePicker.setLocation(appointmentDateText.getX(), appointmentDateText.getY() + appointmentDateText.getHeight());
+        datePicker.setSize(new Dimension(appointmentDateText.getWidth(), appointmentDateText.getHeight()));
+        datePicker.getComponent(0).setPreferredSize(new Dimension(appointmentDateText.getWidth() - appointmentDateText.getHeight(),appointmentDateText.getHeight()));
+        datePicker.getComponent(1).setPreferredSize(new Dimension(appointmentDateText.getHeight(),appointmentDateText.getHeight()));
+        datePicker.getJFormattedTextField().setFont(Asset.getBodyFont("Plain"));
+        datePicker.getJFormattedTextField().setBackground(Color.WHITE);
+        datePicker.getComponent(1).setBackground(Color.WHITE);
 
         JLayeredPane checkAppointment = new Asset().generateButtonWithoutImage("Click to View Schedule", serviceItemList.getWidth(), serviceItemList.getHeight());
-        checkAppointment.setLocation(serviceItemList.getX(), appointmentDateText.getY() + appointmentDateText.getHeight() / 2);
+        checkAppointment.setLocation(serviceItemList.getX() + 3, datePicker.getY() - 3);
 
         panel.add(title);
         panel.add(technicianText);

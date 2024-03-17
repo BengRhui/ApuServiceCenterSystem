@@ -56,6 +56,7 @@ public class BookAppointmentPage implements ComponentListener, MouseListener {
         searchButton.addMouseListener(this);
 
         fillInfoPane = new InformationPane().bookAppointmentPane();
+        fillInfoPane.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         fillInfoPane.setVisible(false);
 
         cancelButton = new Asset().generateButtonWithoutImage("Cancel", searchButton.getWidth(), searchButton.getHeight());
