@@ -128,6 +128,7 @@ public class InformationPane extends JPanel {
         JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateComponentFormatter());
 
         datePanel.setFont(Asset.getBodyFont("Plain"));
+        datePicker.setBackground(Color.WHITE);
         datePicker.setLocation(appointmentDateText.getX(), appointmentDateText.getY() + appointmentDateText.getHeight());
         datePicker.setSize(new Dimension(appointmentDateText.getWidth(), appointmentDateText.getHeight()));
         datePicker.getComponent(0).setPreferredSize(new Dimension(appointmentDateText.getWidth() - appointmentDateText.getHeight(),appointmentDateText.getHeight()));
@@ -139,6 +140,26 @@ public class InformationPane extends JPanel {
         JLayeredPane checkAppointment = new Asset().generateButtonWithoutImage("Click to View Schedule", serviceItemList.getWidth(), serviceItemList.getHeight());
         checkAppointment.setLocation(serviceItemList.getX() + 3, datePicker.getY() - 3);
 
+        JLabel appointmentStartTimeText = new JLabel("Appointment Start Time");
+        appointmentStartTimeText.setFont(Asset.getBodyFont("Plain"));
+        appointmentStartTimeText.setBounds(datePicker.getX(), datePicker.getY() + datePicker.getHeight() + 20, datePicker.getWidth(), datePicker.getHeight());
+
+        String[] appointmentTimeSlot = Appointment.getAppointmentTime();
+
+        JComboBox<String> appointmentStart = new JComboBox<>(appointmentTimeSlot);
+        appointmentStart.setFont(Asset.getBodyFont("Plain"));
+        appointmentStart.setBounds(appointmentStartTimeText.getX(), appointmentStartTimeText.getY() + appointmentStartTimeText.getHeight(), appointmentStartTimeText.getWidth(), appointmentStartTimeText.getHeight());
+        appointmentStart.setBackground(Color.WHITE);
+
+        JLabel appointmentEndTimeText = new JLabel("Appointment End Time");
+        appointmentEndTimeText.setFont(Asset.getBodyFont("Plain"));
+        appointmentEndTimeText.setBounds(itemsText.getX(), checkAppointment.getY() + 3 + checkAppointment.getHeight() + 20, itemsText.getWidth(), itemsText.getHeight());
+
+        JComboBox<String> appointmentEnd = new JComboBox<>(appointmentTimeSlot);
+        appointmentEnd.setBackground(Color.WHITE);
+        appointmentEnd.setFont(Asset.getBodyFont("Plain"));
+        appointmentEnd.setBounds(appointmentEndTimeText.getX(), appointmentStart.getY(), appointmentStart.getWidth(), appointmentStart.getHeight());
+
         panel.add(title);
         panel.add(technicianText);
         panel.add(appointmentChoice);
@@ -147,6 +168,10 @@ public class InformationPane extends JPanel {
         panel.add(appointmentDateText);
         panel.add(datePicker);
         panel.add(checkAppointment);
+        panel.add(appointmentStartTimeText);
+        panel.add(appointmentStart);
+        panel.add(appointmentEndTimeText);
+        panel.add(appointmentEnd);
 
         return panel;
     }
