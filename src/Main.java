@@ -42,12 +42,10 @@ public class Main implements ActionListener, KeyListener {
         userTextField.setBounds(675, 325, 200, 40);
         userTextField.setVisible(true);
 
-        userTextlabel = new JLabel();
+
         userTextlabel = new Asset().generateImage("email_icon.png");
-        userTextField.setBounds(660,325,200,40);
-        userTextField.setVisible(true);
-
-
+        userTextlabel.setBounds(660,325,200,40);
+        userTextlabel.setVisible(true);
 
         passwordLabel = new JLabel("Password");
         passwordLabel = new JLabel("Password");
@@ -58,7 +56,7 @@ public class Main implements ActionListener, KeyListener {
 
         userPasswordText = new JLabel("Enter your password here:");
         userPasswordText.setForeground(Color.GRAY);
-        userPasswordText.setBounds(675, 395,200,40);
+        userPasswordText.setBounds(660, 395,200,40);
         userPasswordText.setVisible(true);
 
         button = new JButton("Login");
@@ -79,8 +77,6 @@ public class Main implements ActionListener, KeyListener {
         frame.add(panel);
         frame.add(label);
         frame.setVisible(true);
-
-
     }
 
     public static void main(String[] args){
