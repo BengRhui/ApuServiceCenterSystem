@@ -86,7 +86,7 @@ public class InformationPane extends JPanel {
 
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
-        panel.setSize(scrollPaneWidth, 400);
+        panel.setSize(scrollPaneWidth, 390);
 
         JLabel title = new JLabel("<html>Appointment<br>Details</html>");
         title.setFont(Asset.getNameFont("Bold"));
@@ -138,7 +138,7 @@ public class InformationPane extends JPanel {
         datePicker.getComponent(1).setBackground(Color.WHITE);
 
         JLayeredPane checkAppointment = new Asset().generateButtonWithoutImage("Click to View Schedule", serviceItemList.getWidth(), serviceItemList.getHeight());
-        checkAppointment.setLocation(serviceItemList.getX() + 3, datePicker.getY() - 3);
+        checkAppointment.setLocation(serviceItemList.getX(), datePicker.getY() - 3);
 
         JLabel appointmentStartTimeText = new JLabel("Appointment Start Time");
         appointmentStartTimeText.setFont(Asset.getBodyFont("Plain"));
