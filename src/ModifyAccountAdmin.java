@@ -7,23 +7,23 @@ import java.awt.event.MouseListener;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class CreateAccountPage implements ComponentListener, MouseListener {
+public class ModifyAccountAdmin implements ComponentListener, MouseListener {
     public static void main(String[] args) {
-        currentPage = new CreateAccountPage();
+        currentPage = new ModifyAccountAdmin();
     }
 
-    static CreateAccountPage currentPage;
+    static ModifyAccountAdmin currentPage;
     static JFrame frame;
-    JLabel backgroundPicture, backArrow, logoutButton, accountText, title;
+    JLabel backgroundPicture, backArrow, logoutButton, accountText, title, emailInputText;
     JPanel backgroundPanel;
     JScrollPane displayManagerPanel, displayTechnicianPanel, displayCustomerPanel;
     JLayeredPane confirmButton, cancelButton, saveButton;
     JComboBox<String> selectAccount;
     InformationPane infoPane1;
 
-    public CreateAccountPage() {
+    public ModifyAccountAdmin() {
 
-        frame = new JFrame("Create Account Page");
+        frame = new JFrame("Modify Account Page");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.setSize(Asset.getFrameWidth(), Asset.getFrameHeight());
@@ -42,7 +42,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
 
         logoutButton = new Asset().generateImage("logout_icon.png");
 
-        title = new JLabel("Create Account");
+        title = new JLabel("Modify Account");
         title.setFont(Asset.getTitleFont());
 
         accountText = new JLabel("Choose type of account:");
@@ -54,6 +54,10 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
         selectAccount.setFont(Asset.getBodyFont("Plain"));
         selectAccount.setSize(accountText.getWidth(), accountText.getHeight());
         selectAccount.setBackground(Color.WHITE);
+
+        emailInputText = new JLabel("Enter email for checking:");
+        emailInputText.setFont(Asset.getNameFont("Plain"));
+        emailInputText.setSize(accountText.getWidth(), accountText.getHeight());
 
         confirmButton = new Asset().generateButtonWithoutImage("Confirm", 150, accountText.getHeight());
         confirmButton.setFocusable(true);
@@ -71,6 +75,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
         backgroundPanel.add(logoutButton);
         backgroundPanel.add(title);
         backgroundPanel.add(accountText);
+        backgroundPanel.add(emailInputText);
         backgroundPanel.add(selectAccount);
         backgroundPanel.add(confirmButton);
         backgroundPanel.add(cancelButton);
@@ -91,6 +96,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
         logoutButton.setLocation(backgroundPanel.getWidth() - logoutButton.getWidth() - 50, backgroundPanel.getY() - 5);
         title.setBounds(backArrow.getX() + backArrow.getWidth() + 20, logoutButton.getY(), logoutButton.getX() - backArrow.getWidth() - backArrow.getX(), logoutButton.getHeight());
         accountText.setLocation(title.getX(), title.getY() + title.getHeight() + 20);
+        emailInputText.setLocation(accountText.getX(), accountText.getY() + accountText.getHeight() + 20);
         selectAccount.setLocation(accountText.getX() + accountText.getWidth(), accountText.getY());
         confirmButton.setLocation(selectAccount.getX() + selectAccount.getWidth() + 20, selectAccount.getY() - 3);
         saveButton.setLocation(backgroundPanel.getWidth() - saveButton.getWidth() - 40, backgroundPanel.getHeight() - saveButton.getHeight() - 40);
@@ -123,6 +129,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
                 if (backgroundPanel.getComponentZOrder(displayManagerPanel) > -1) {
                     backgroundPanel.remove(displayManagerPanel);
                 }
+
                 if (backgroundPanel.getComponentZOrder(displayTechnicianPanel) > -1) {
                     backgroundPanel.remove(displayTechnicianPanel);
                 }
@@ -130,17 +137,16 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
                     backgroundPanel.remove(displayCustomerPanel);
                 }
 
-                displayManagerPanel = new JScrollPane(infoPane1.createManagerAndTechnicianAccount());
-                displayManagerPanel.setBounds(title.getX(), accountText.getY() + accountText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - accountText.getY() - accountText.getHeight()) * 9 / 10 - 100);
+                displayManagerPanel = new JScrollPane(infoPane1.modifyManagerAndTechnicianAccount());
+                displayManagerPanel.setBounds(title.getX(), emailInputText.getY() + emailInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - emailInputText.getY() - emailInputText.getHeight()) * 9 / 10 - 100);
                 backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
                 backgroundPanel.add(displayManagerPanel);
                 displayManagerPanel.setVisible(true);
                 displayManagerPanel.revalidate();
-
                 backgroundPanel.addComponentListener(new ComponentListener() {
                     @Override
                     public void componentResized(ComponentEvent e) {
-                        displayManagerPanel.setBounds(title.getX(), accountText.getY() + accountText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - accountText.getY() - accountText.getHeight()) * 9 / 10 - 100);
+                        displayManagerPanel.setBounds(title.getX(), emailInputText.getY() + emailInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - emailInputText.getY() - emailInputText.getHeight()) * 9 / 10 - 100);
                         displayManagerPanel.revalidate();
                     }
 
@@ -169,7 +175,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
 
                 if (backgroundPanel.getComponentZOrder(displayTechnicianPanel) > -1) {
                     backgroundPanel.remove(displayTechnicianPanel);
-                }
+               }
                 if (backgroundPanel.getComponentZOrder(displayManagerPanel) > -1) {
                     backgroundPanel.remove(displayManagerPanel);
                 }
@@ -177,8 +183,8 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
                     backgroundPanel.remove(displayCustomerPanel);
                 }
 
-                displayTechnicianPanel = new JScrollPane(new InformationPane().createManagerAndTechnicianAccount());
-                displayTechnicianPanel.setBounds(title.getX(), accountText.getY() + accountText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - accountText.getY() - accountText.getHeight()) * 9 / 10 - 100);
+                displayTechnicianPanel = new JScrollPane(new InformationPane().modifyManagerAndTechnicianAccount());
+                displayTechnicianPanel.setBounds(title.getX(), emailInputText.getY() + emailInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - emailInputText.getY() - emailInputText.getHeight()) * 9 / 10 - 100);
                 backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
                 backgroundPanel.add(displayTechnicianPanel);
                 displayTechnicianPanel.setVisible(true);
@@ -186,7 +192,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
                 backgroundPanel.addComponentListener(new ComponentListener() {
                     @Override
                     public void componentResized(ComponentEvent e) {
-                        displayTechnicianPanel.setBounds(title.getX(), accountText.getY() + accountText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - accountText.getY() - accountText.getHeight()) * 9 / 10 - 100);
+                        displayTechnicianPanel.setBounds(title.getX(), emailInputText.getY() + emailInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - emailInputText.getY() - emailInputText.getHeight()) * 9 / 10 - 100);
                         displayTechnicianPanel.revalidate();
                     }
 
@@ -197,6 +203,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
 
                     @Override
                     public void componentShown(ComponentEvent e) {
+
                     }
 
                     @Override
@@ -204,7 +211,6 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
 
                     }
                 });
-
 
             } else if (Objects.equals(selectAccount.getSelectedItem(), "Customer")) {
 
@@ -218,8 +224,8 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
                     backgroundPanel.remove(displayManagerPanel);
                 }
 
-                displayCustomerPanel = new JScrollPane(new InformationPane().customerCreatePersonalInformation());
-                displayCustomerPanel.setBounds(title.getX(), accountText.getY() + accountText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - accountText.getY() - accountText.getHeight()) * 9 / 10 - 100);
+                displayCustomerPanel = new JScrollPane(new InformationPane().customerModifyPersonalInformation());
+                displayCustomerPanel.setBounds(title.getX(), emailInputText.getY() + emailInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - emailInputText.getY() - emailInputText.getHeight()) * 9 / 10 - 100);
                 backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
                 backgroundPanel.add(displayCustomerPanel);
                 displayCustomerPanel.setVisible(true);
@@ -227,7 +233,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
                 backgroundPanel.addComponentListener(new ComponentListener() {
                     @Override
                     public void componentResized(ComponentEvent e) {
-                        displayCustomerPanel.setBounds(title.getX(), accountText.getY() + accountText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - accountText.getY() - accountText.getHeight()) * 9 / 10 - 100);
+                        displayCustomerPanel.setBounds(title.getX(), emailInputText.getY() + emailInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - emailInputText.getY() - emailInputText.getHeight()) * 9 / 10 - 100);
                         displayCustomerPanel.revalidate();
                     }
 
@@ -246,6 +252,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
 
                     }
                 });
+
 
             } else {
                 System.out.println("Error with selecting accounts.");

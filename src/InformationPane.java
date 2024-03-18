@@ -69,8 +69,36 @@ public class InformationPane extends JPanel {
 
         panel.setPreferredSize(new Dimension(panel1.getWidth(), sumOfHeight));
 
-        //JScrollPane finalPane = new JScrollPane(panel);
-        //finalPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        return panel;
+    }
+
+    public JPanel modifyManagerAndTechnicianAccount() {
+        JPanel panel = new JPanel(null);
+        panel.setBackground(Color.WHITE);
+
+        infoPane = new InformationPane();
+        panel1 = infoPane.accountDetails();
+        JPanel panel2 = new InformationPane().divider();
+        JPanel panel3 = new InformationPane().jobDetails();
+        JPanel panel4 = new InformationPane().divider();
+        JPanel panel5 = new InformationPane().loginDetails();
+
+        panel1.setLocation(0, 0);
+        panel2.setLocation(0, panel1.getHeight());
+        panel3.setLocation(0, panel1.getHeight() + panel2.getHeight());
+        panel4.setLocation(0, panel1.getHeight() + panel2.getHeight() + panel3.getHeight());
+        panel5.setLocation(0, panel1.getHeight() + panel2.getHeight() + panel3.getHeight() + panel4.getHeight());
+
+        panel.add(panel1);
+        panel.add(panel2);
+        panel.add(panel3);
+        panel.add(panel4);
+        panel.add(panel5);
+
+        int sumOfHeight = panel1.getHeight() + panel2.getHeight() + panel3.getHeight() + panel4.getHeight() + panel5.getHeight();
+
+        panel.setPreferredSize(new Dimension(panel1.getWidth(), sumOfHeight));
+
         return panel;
     }
 
@@ -437,7 +465,7 @@ public class InformationPane extends JPanel {
         return panel;
     }
 
-    public JPanel customerPersonalInformation() {
+    public JPanel customerCreatePersonalInformation() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
         panel.setSize(scrollPaneWidth, 290);
@@ -497,7 +525,90 @@ public class InformationPane extends JPanel {
         panel.add(email);
         panel.add(contactNoText);
         panel.add(contactNo);
-        
+
+        return panel;
+    }
+
+    public JPanel customerModifyPersonalInformation() {
+        JPanel panel = new JPanel(null);
+        panel.setBackground(Color.WHITE);
+        panel.setSize(scrollPaneWidth, 290);
+
+        JLabel title = new JLabel("<html>Personal<br>Information</html>");
+        title.setFont(Asset.getNameFont("Bold"));
+        title.setBounds(30, 0, panel.getWidth() / 5, 100);
+
+        JLabel nameText = new JLabel("Name");
+        nameText.setFont(Asset.getBodyFont("Plain"));
+        nameText.setBounds(title.getWidth() + title.getX(), title.getY() + 10, (panel.getWidth() - title.getWidth() - title.getX()) * 2 / 3 - 10 , 50);
+
+        JTextField name = new Asset().generateTextField();
+        name.setFont(Asset.getBodyFont("Plain"));
+        name.setBounds(nameText.getX(), nameText.getY() + nameText.getHeight(), nameText.getWidth(), nameText.getHeight());
+
+        JLabel genderText = new JLabel("Gender");
+        genderText.setFont(Asset.getBodyFont("Plain"));
+        genderText.setBounds(nameText.getX() + nameText.getWidth() + 20, nameText.getY(), nameText.getWidth() / 2, nameText.getHeight());
+
+        String[] genderChoice = User.getGenderTypes();
+        JComboBox<String> gender = new JComboBox<>(genderChoice);
+        gender.setFont(Asset.getBodyFont("Plain"));
+        gender.setBounds(genderText.getX(), genderText.getY() + genderText.getHeight(), genderText.getWidth(), genderText.getHeight());
+
+        JLabel emailText = new JLabel("Email");
+        emailText.setFont(Asset.getBodyFont("Plain"));
+        emailText.setBounds(nameText.getX(), name.getY() + name.getHeight() + 20, nameText.getWidth(), nameText.getHeight());
+
+        JTextField email = new Asset().generateTextField();
+        email.setBounds(emailText.getX(), emailText.getY() + emailText.getHeight(), emailText.getWidth(), emailText.getHeight());
+
+        JLabel contactNoText = new JLabel("Contact No");
+        contactNoText.setFont(Asset.getBodyFont("Plain"));
+        contactNoText.setBounds(gender.getX(), gender.getY() + gender.getHeight() + 20, gender.getWidth(), gender.getHeight());
+
+        JTextField contactNo = new Asset().generateTextField();
+        contactNo.setFont(Asset.getBodyFont("Plain"));
+        contactNo.setBounds(contactNoText.getX(), contactNoText.getY() + contactNoText.getHeight(), contactNoText.getWidth(), contactNoText.getHeight());
+
+        panel.add(title);
+        panel.add(nameText);
+        panel.add(name);
+        panel.add(genderText);
+        panel.add(gender);
+        panel.add(emailText);
+        panel.add(email);
+        panel.add(contactNoText);
+        panel.add(contactNo);
+
+        return panel;
+    }
+
+    public JPanel accountDetails() {
+        JPanel panel = new JPanel(null);
+        panel.setBackground(Color.WHITE);
+        panel.setSize(scrollPaneWidth, 150);
+
+        JLabel title = new JLabel("<html>Account<br>Details</html>");
+        title.setFont(Asset.getNameFont("Bold"));
+        title.setBounds(30, 0, panel.getWidth() / 5, 100);
+
+        JLabel accountText = new JLabel("Account type");
+        accountText.setFont(Asset.getBodyFont("Plain"));
+        accountText.setBounds(title.getWidth() + title.getX(), title.getY() + 10, (panel.getWidth() - title.getWidth() - title.getX()) / 2 - 20, 50);
+
+        String[] accountChoice = {"Manager", "Technician"};
+        JComboBox<String> accountType = new JComboBox<>(accountChoice);
+        accountType.setFont(Asset.getBodyFont("Plain"));
+        accountType.setBounds(accountText.getX(), accountText.getY() + accountText.getHeight(), accountText.getWidth(), accountText.getHeight());
+
+        JLayeredPane confirm = new Asset().generateButtonWithoutImage("Confirm", accountType.getWidth(), accountType.getHeight());
+        confirm.setLocation(accountType.getX() + accountType.getWidth() + 20, accountType.getY());
+
+        panel.add(title);
+        panel.add(accountText);
+        panel.add(accountType);
+        panel.add(confirm);
+
         return panel;
     }
 
