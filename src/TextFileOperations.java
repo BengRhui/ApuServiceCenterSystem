@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class TextFileOperations {
     private final static String filePath = "textfile/";
     public static void readElectronicsData() {
+        ElectronicItems.getFullItemList().clear();
         try {
             String fileName = "electronicItems.txt";
             File file = new File(filePath + fileName);
@@ -27,8 +28,9 @@ public class TextFileOperations {
     }
 
     public static void readAppointment() {
+        Appointment.getOverallAppointmentList().clear();
         try {
-            String fileName = "appointmentlist.txt";
+            String fileName = "appointmentList.txt";
             File file = new File(filePath + fileName);
             Scanner read = new Scanner(file);
             while (read.hasNext()) {
@@ -40,9 +42,29 @@ public class TextFileOperations {
                 Appointment.setOverallAppointmentList(newAppointment);
             }
         } catch (IOException ex) {
-            System.out.println("appointmentlist.txt is not found. Please inspect readAppointmentData() method.");
+            System.out.println("appointmentList.txt is not found. Please inspect readAppointmentData() method.");
         } catch (NumberFormatException ex) {
-            System.out.println("Price of appointmentlist.txt cannot be converted to integer. Please inspect appointmentlist.txt file.");
+            System.out.println("Price of appointmentList.txt cannot be converted to integer. Please inspect appointmentList.txt file.");
+        }
+    }
+
+    public static void readStudent() {
+        Student.getOverallStudentList().clear();
+        try {
+            String fileName = "studentInformation.txt";
+            File file = new File(filePath + fileName);
+            Scanner read = new Scanner(file);
+            while (read.hasNext()) {
+                String[] student = read.nextLine().split(";");
+                int i = 0;
+                for (String element: student) {
+                    student[i] = element.strip();
+                    i ++;
+                }
+                new Student(student[0], student[1], student[2], student[3], student[4]);
+            }
+        } catch (IOException ex) {
+            System.out.println("Error with readStudent() method. Please inspect code.");
         }
     }
 }

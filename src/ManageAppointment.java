@@ -48,7 +48,7 @@ public class ManageAppointment implements ComponentListener, MouseListener {
 
         todayPanel = new ScheduleView(containerPane, "Lim", "09/03/2024");
 
-        tablePanel = new JPanel();
+        tablePanel = new AppointmentTable("T001");
         tablePanel.setBackground(Color.BLUE);
 
         switchButton = new Asset().generateButtonWithoutImage("Switch View", 250, 50);

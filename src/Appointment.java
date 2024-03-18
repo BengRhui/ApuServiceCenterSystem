@@ -44,5 +44,20 @@ public class Appointment {
         return overallAppointmentList;
     }
 
+    public static Object[][] createAppointmentTable() {
+
+        Object[][] objectInTable = new Object[overallAppointmentList.size()][];
+        int i = 0;
+        String status;
+        for (Appointment appointment: overallAppointmentList) {
+            if (appointment.paymentStatus) {
+                status = "Pass";
+            } else {
+                status = "Close";
+            }
+            String[] string = {appointment.appointmentID, appointment.technicianID, appointment.studentTP, appointment.item, appointment.date.toString(), appointment.startingTime.toString(), appointment.endingTime.toString(), status};
+            objectInTable[i] = string;
+        }
+    }
 
 }

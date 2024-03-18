@@ -32,7 +32,7 @@ public class ScheduleView extends JLayeredPane implements ComponentListener {
             JLabel timeHolder = new JLabel(time);
             timeHolder.setFont(Asset.getBodyFont("Plain"));
             timeHolder.setBounds(0, title.getHeight() + counter, 100, 50);
-            JPanel panel = new Asset().drawLine(70, title.getHeight() + timeHolder.getHeight() / 2 + counter, referencePane.getWidth(), title.getHeight() + timeHolder.getHeight() / 2 + counter, 1);
+            JPanel panel = new Asset().drawLine(70, title.getHeight() + timeHolder.getHeight() / 2 + counter, referencePane.getWidth() - 30, title.getHeight() + timeHolder.getHeight() / 2 + counter, 1);
             counter += (this.getHeight() - title.getHeight()) / Appointment.getAppointmentTime().length;
             add(timeHolder, DEFAULT_LAYER);
             add(panel, DEFAULT_LAYER);
@@ -55,7 +55,7 @@ public class ScheduleView extends JLayeredPane implements ComponentListener {
         int startingTime = 9;
         int scale = counter / Appointment.getAppointmentTime().length;
         int initialPoint = title.getHeight() + 25;
-        int width = referencePane.getWidth() - 70;
+        int width = referencePane.getWidth() - 100;
 
         for (Appointment appointment: filteredAppointment) {
 

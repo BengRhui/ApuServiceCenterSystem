@@ -5,12 +5,16 @@ public class ElectronicItems {
     String itemName;
     double price;
 
-    static ArrayList<ElectronicItems> fullItemList = new ArrayList<>();
+    private static final ArrayList<ElectronicItems> fullItemList = new ArrayList<>();
     public ElectronicItems(String itemID, String itemName, double price) {
         this.itemID = itemID;
         this.itemName = itemName;
         this.price = price;
         fullItemList.add(this);
+    }
+
+    public static ArrayList<ElectronicItems> getFullItemList() {
+        return fullItemList;
     }
 
 }

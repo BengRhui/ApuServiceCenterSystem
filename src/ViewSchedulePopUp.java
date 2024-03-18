@@ -1,20 +1,20 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.Date;
 
 public class ViewSchedulePopUp extends JFrame {
     JFrame frame;
     public ViewSchedulePopUp(String technicianName, String date) {
 
-        System.out.println("Hello");
-
         frame = new JFrame("View Schedule");
-        frame.setSize(1500, 1000);
+        frame.setSize(1100, 700);
+        frame.setBackground(Color.WHITE);
         frame.setLayout(null);
         JLayeredPane referencePane = new JLayeredPane();
-        referencePane.setSize(frame.getWidth(), frame.getHeight());
-        ScheduleView schedule = new ScheduleView(referencePane, technicianName, date);
+        referencePane.setSize(frame.getWidth() - 100, frame.getHeight() - 100);
+        ScheduleView schedule = new ScheduleView(referencePane, "T001", date);
 
-        schedule.setBounds(30, 30, frame.getWidth() - 60, frame.getHeight() - 60);
+        schedule.setBounds(50, 30, frame.getWidth() - 200, frame.getHeight() - 200);
         frame.add(schedule);
 
         frame.setVisible(true);
