@@ -471,7 +471,20 @@ public class InformationPane extends JPanel {
         gender.setFont(Asset.getBodyFont("Plain"));
         gender.setBounds(genderText.getX(), genderText.getY() + genderText.getHeight(), genderText.getWidth(), genderText.getHeight());
 
+        JLabel emailText = new JLabel("Email");
+        emailText.setFont(Asset.getBodyFont("Plain"));
+        emailText.setBounds(tpNumberText.getX(), tpNumber.getY() + tpNumber.getHeight() + 20, tpNumberText.getWidth(), tpNumberText.getHeight());
 
+        JTextField email = new Asset().generateTextField();
+        email.setBounds(emailText.getX(), emailText.getY() + emailText.getHeight(), emailText.getWidth(), emailText.getHeight());
+
+        JLabel contactNoText = new JLabel("Contact No");
+        contactNoText.setFont(Asset.getBodyFont("Plain"));
+        contactNoText.setBounds(gender.getX(), gender.getY() + gender.getHeight() + 20, gender.getWidth(), gender.getHeight());
+
+        JTextField contactNo = new Asset().generateTextField();
+        contactNo.setFont(Asset.getBodyFont("Plain"));
+        contactNo.setBounds(contactNoText.getX(), contactNoText.getY() + contactNoText.getHeight(), contactNoText.getWidth(), contactNoText.getHeight());
 
         panel.add(title);
         panel.add(nameText);
@@ -480,6 +493,11 @@ public class InformationPane extends JPanel {
         panel.add(tpNumber);
         panel.add(genderText);
         panel.add(gender);
+        panel.add(emailText);
+        panel.add(email);
+        panel.add(contactNoText);
+        panel.add(contactNo);
+        
         return panel;
     }
 
