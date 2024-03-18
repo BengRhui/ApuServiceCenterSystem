@@ -265,6 +265,7 @@ public class InformationPane extends JPanel {
         JComboBox<String> genderChoice = new JComboBox<>(User.getGenderTypes());
         genderChoice.setBounds(genderText.getX(), genderText.getY() + genderText.getHeight(), genderText.getWidth(), genderText.getHeight());
         genderChoice.setFont(Asset.getBodyFont("Plain"));
+        genderChoice.setBackground(Color.WHITE);
 
         JLabel maritalStatusText = new JLabel("Marital Status");
         maritalStatusText.setFont(Asset.getBodyFont("Plain"));
@@ -273,6 +274,7 @@ public class InformationPane extends JPanel {
         JComboBox<String> maritalStatusChoice = new JComboBox<>(User.getMaritalStatus());
         maritalStatusChoice.setFont(Asset.getBodyFont("Plain"));
         maritalStatusChoice.setBounds(maritalStatusText.getX(), maritalStatusText.getY() + maritalStatusText.getHeight(), maritalStatusText.getWidth(), maritalStatusText.getHeight());
+        maritalStatusChoice.setBackground(Color.WHITE);
 
         JLabel addressText = new JLabel("Address");
         addressText.setFont(Asset.getBodyFont("Plain"));
@@ -378,6 +380,7 @@ public class InformationPane extends JPanel {
 
         position.setFont(Asset.getBodyFont("Plain"));
         position.setBounds(positionText.getX(), positionText.getY() + positionText.getHeight(), positionText.getWidth(), positionText.getHeight());
+        position.setBackground(Color.WHITE);
 
         updatePositionCombo();
 
@@ -498,6 +501,7 @@ public class InformationPane extends JPanel {
         JComboBox<String> gender = new JComboBox<>(genderChoice);
         gender.setFont(Asset.getBodyFont("Plain"));
         gender.setBounds(genderText.getX(), genderText.getY() + genderText.getHeight(), genderText.getWidth(), genderText.getHeight());
+        gender.setBackground(Color.WHITE);
 
         JLabel emailText = new JLabel("Email");
         emailText.setFont(Asset.getBodyFont("Plain"));
@@ -554,6 +558,7 @@ public class InformationPane extends JPanel {
         JComboBox<String> gender = new JComboBox<>(genderChoice);
         gender.setFont(Asset.getBodyFont("Plain"));
         gender.setBounds(genderText.getX(), genderText.getY() + genderText.getHeight(), genderText.getWidth(), genderText.getHeight());
+        gender.setBackground(Color.WHITE);
 
         JLabel emailText = new JLabel("Email");
         emailText.setFont(Asset.getBodyFont("Plain"));
@@ -600,6 +605,7 @@ public class InformationPane extends JPanel {
         JComboBox<String> accountType = new JComboBox<>(accountChoice);
         accountType.setFont(Asset.getBodyFont("Plain"));
         accountType.setBounds(accountText.getX(), accountText.getY() + accountText.getHeight(), accountText.getWidth(), accountText.getHeight());
+        accountType.setBackground(Color.WHITE);
 
         JLayeredPane confirm = new Asset().generateButtonWithoutImage("Confirm", accountType.getWidth(), accountType.getHeight());
         confirm.setLocation(accountType.getX() + accountType.getWidth() + 20, accountType.getY());
