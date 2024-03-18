@@ -464,7 +464,7 @@ public class InformationPane extends JPanel {
 
         JLabel genderText = new JLabel("Gender");
         genderText.setFont(Asset.getBodyFont("Plain"));
-        genderText.setBounds(tpNumberText.getX() + tpNumberText.getWidth() + 20, tpNumberText.getY(), name.getWidth() / 3, tpNumberText.getHeight());
+        genderText.setBounds(tpNumberText.getX() + tpNumberText.getWidth() + 20, tpNumberText.getY(), name.getWidth() / 3 - 10, tpNumberText.getHeight());
 
         String[] genderChoice = User.getGenderTypes();
         JComboBox<String> gender = new JComboBox<>(genderChoice);
