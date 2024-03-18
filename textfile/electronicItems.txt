@@ -3,3 +3,4 @@ I002 ;Bedside lamp                   ;90
 I003 ;Iron / steamer                 ;100
 I004 ;Hair dryer                     ;70
 I005 ;Electronic shaver              ;150
+I006 ;Alarm clock                    ;80

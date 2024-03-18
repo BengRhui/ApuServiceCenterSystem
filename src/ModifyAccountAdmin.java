@@ -14,12 +14,13 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
 
     static ModifyAccountAdmin currentPage;
     static JFrame frame;
-    JLabel backgroundPicture, backArrow, logoutButton, accountText, title, emailInputText;
+    JLabel backgroundPicture, backArrow, logoutButton, accountText, title, checkInputText;
     JPanel backgroundPanel;
     JScrollPane displayManagerPanel, displayTechnicianPanel, displayCustomerPanel;
-    JLayeredPane confirmButton, cancelButton, saveButton;
+    JLayeredPane confirmButton, cancelButton, saveButton, searchButton;
     JComboBox<String> selectAccount;
     InformationPane infoPane1;
+    JTextField checkPrompt;
 
     public ModifyAccountAdmin() {
 
@@ -55,10 +56,6 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
         selectAccount.setSize(accountText.getWidth(), accountText.getHeight());
         selectAccount.setBackground(Color.WHITE);
 
-        emailInputText = new JLabel("Enter email for checking:");
-        emailInputText.setFont(Asset.getNameFont("Plain"));
-        emailInputText.setSize(accountText.getWidth(), accountText.getHeight());
-
         confirmButton = new Asset().generateButtonWithoutImage("Confirm", 150, accountText.getHeight());
         confirmButton.setFocusable(true);
         confirmButton.addMouseListener(this);
@@ -75,7 +72,6 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
         backgroundPanel.add(logoutButton);
         backgroundPanel.add(title);
         backgroundPanel.add(accountText);
-        backgroundPanel.add(emailInputText);
         backgroundPanel.add(selectAccount);
         backgroundPanel.add(confirmButton);
         backgroundPanel.add(cancelButton);
@@ -96,7 +92,6 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
         logoutButton.setLocation(backgroundPanel.getWidth() - logoutButton.getWidth() - 50, backgroundPanel.getY() - 5);
         title.setBounds(backArrow.getX() + backArrow.getWidth() + 20, logoutButton.getY(), logoutButton.getX() - backArrow.getWidth() - backArrow.getX(), logoutButton.getHeight());
         accountText.setLocation(title.getX(), title.getY() + title.getHeight() + 20);
-        emailInputText.setLocation(accountText.getX(), accountText.getY() + accountText.getHeight() + 20);
         selectAccount.setLocation(accountText.getX() + accountText.getWidth(), accountText.getY());
         confirmButton.setLocation(selectAccount.getX() + selectAccount.getWidth() + 20, selectAccount.getY() - 3);
         saveButton.setLocation(backgroundPanel.getWidth() - saveButton.getWidth() - 40, backgroundPanel.getHeight() - saveButton.getHeight() - 40);
@@ -122,10 +117,17 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == confirmButton) {
             if (Objects.equals(selectAccount.getSelectedItem(), "Manager")) {
-                InformationPane.positionChoice.clear();
-                InformationPane.positionChoice.addAll(Arrays.asList(Manager.getManagerPosition()));
 
+                if (backgroundPanel.getComponentZOrder(checkInputText) > -1) {
+                    backgroundPanel.remove(checkInputText);
+                }
 
+                if (backgroundPanel.getComponentZOrder(checkPrompt) > -1) {
+                    backgroundPanel.remove(checkPrompt);
+                }
+                if (backgroundPanel.getComponentZOrder(searchButton) > -1) {
+                    backgroundPanel.remove(searchButton);
+                }
                 if (backgroundPanel.getComponentZOrder(displayManagerPanel) > -1) {
                     backgroundPanel.remove(displayManagerPanel);
                 }
@@ -137,17 +139,31 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
                     backgroundPanel.remove(displayCustomerPanel);
                 }
 
-                displayManagerPanel = new JScrollPane(infoPane1.modifyManagerAndTechnicianAccount());
-                displayManagerPanel.setBounds(title.getX(), emailInputText.getY() + emailInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - emailInputText.getY() - emailInputText.getHeight()) * 9 / 10 - 100);
-                backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-                backgroundPanel.add(displayManagerPanel);
-                displayManagerPanel.setVisible(true);
-                displayManagerPanel.revalidate();
+                checkInputText = new JLabel("Enter email for checking:");
+                checkInputText.setFont(Asset.getNameFont("Plain"));
+                checkInputText.setSize(accountText.getWidth(), accountText.getHeight());
+                checkInputText.setLocation(accountText.getX(), accountText.getY() + accountText.getHeight() + 20);
+
+                checkPrompt = new Asset().generateTextField();
+                checkPrompt.setBounds(selectAccount.getX(), selectAccount.getY() + selectAccount.getHeight() + 20, selectAccount.getWidth(), selectAccount.getHeight());
+
+                searchButton = new Asset().generateButtonWithoutImage("Search", confirmButton.getWidth() - 3, confirmButton.getHeight() - 3);
+                searchButton.setLocation(confirmButton.getX(), checkPrompt.getY() - 3);
+
+                backgroundPanel.add(checkInputText);
+                backgroundPanel.add(checkPrompt);
+                backgroundPanel.add(searchButton);
+
+                backgroundPanel.revalidate();
+                backgroundPanel.repaint();
+
                 backgroundPanel.addComponentListener(new ComponentListener() {
                     @Override
                     public void componentResized(ComponentEvent e) {
-                        displayManagerPanel.setBounds(title.getX(), emailInputText.getY() + emailInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - emailInputText.getY() - emailInputText.getHeight()) * 9 / 10 - 100);
-                        displayManagerPanel.revalidate();
+                        checkInputText.setLocation(accountText.getX(), accountText.getY() + accountText.getHeight() + 20);
+                        checkPrompt.setBounds(selectAccount.getX(), selectAccount.getY() + selectAccount.getHeight() + 20, selectAccount.getWidth(), selectAccount.getHeight());
+                        searchButton.setLocation(confirmButton.getX(), checkPrompt.getY() - 3);
+
                     }
 
                     @Override
@@ -166,16 +182,98 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
                     }
                 });
 
+                searchButton.addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        InformationPane.positionChoice.clear();
+                        InformationPane.positionChoice.addAll(Arrays.asList(Manager.getManagerPosition()));
+
+                        if (backgroundPanel.getComponentZOrder(displayManagerPanel) > -1) {
+                            backgroundPanel.remove(displayManagerPanel);
+                        }
+
+                        if (backgroundPanel.getComponentZOrder(displayTechnicianPanel) > -1) {
+                            backgroundPanel.remove(displayTechnicianPanel);
+                        }
+                        if (backgroundPanel.getComponentZOrder(displayCustomerPanel) > -1) {
+                            backgroundPanel.remove(displayCustomerPanel);
+                        }
+
+                        if (checkPrompt.getText().equals("123")) {
+                            displayManagerPanel = new JScrollPane(infoPane1.modifyManagerAndTechnicianAccountOwn());
+                        } else {
+                            displayManagerPanel = new JScrollPane(infoPane1.modifyManagerAndTechnicianAccountNotOwn());
+                        }
+
+                        displayManagerPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
+                        displayManagerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+                        backgroundPanel.add(displayManagerPanel);
+                        displayManagerPanel.setVisible(true);
+                        displayManagerPanel.revalidate();
+                        displayManagerPanel.repaint();
+                        backgroundPanel.addComponentListener(new ComponentListener() {
+                            @Override
+                            public void componentResized(ComponentEvent e) {
+                                displayManagerPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
+                                displayManagerPanel.revalidate();
+                            }
+
+                            @Override
+                            public void componentMoved(ComponentEvent e) {
+
+                            }
+
+                            @Override
+                            public void componentShown(ComponentEvent e) {
+
+                            }
+
+                            @Override
+                            public void componentHidden(ComponentEvent e) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+
+                    }
+                });
 
 
 
             } else if (Objects.equals(selectAccount.getSelectedItem(), "Technician")) {
-                InformationPane.positionChoice.clear();
-                InformationPane.positionChoice.addAll(Arrays.asList(Technician.getTechnicianPosition()));
+
+                if (backgroundPanel.getComponentZOrder(checkInputText) > -1) {
+                    backgroundPanel.remove(checkInputText);
+                }
+
+                if (backgroundPanel.getComponentZOrder(checkPrompt) > -1) {
+                    backgroundPanel.remove(checkPrompt);
+                }
+                if (backgroundPanel.getComponentZOrder(searchButton) > -1) {
+                    backgroundPanel.remove(searchButton);
+                }
 
                 if (backgroundPanel.getComponentZOrder(displayTechnicianPanel) > -1) {
                     backgroundPanel.remove(displayTechnicianPanel);
-               }
+                }
                 if (backgroundPanel.getComponentZOrder(displayManagerPanel) > -1) {
                     backgroundPanel.remove(displayManagerPanel);
                 }
@@ -183,17 +281,30 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
                     backgroundPanel.remove(displayCustomerPanel);
                 }
 
-                displayTechnicianPanel = new JScrollPane(new InformationPane().modifyManagerAndTechnicianAccount());
-                displayTechnicianPanel.setBounds(title.getX(), emailInputText.getY() + emailInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - emailInputText.getY() - emailInputText.getHeight()) * 9 / 10 - 100);
-                backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-                backgroundPanel.add(displayTechnicianPanel);
-                displayTechnicianPanel.setVisible(true);
-                displayTechnicianPanel.revalidate();
-                backgroundPanel.addComponentListener(new ComponentListener() {
+                checkInputText = new JLabel("Enter email for checking:");
+                checkInputText.setFont(Asset.getNameFont("Plain"));
+                checkInputText.setSize(accountText.getWidth(), accountText.getHeight());
+                checkInputText.setLocation(accountText.getX(), accountText.getY() + accountText.getHeight() + 20);
+
+                checkPrompt = new Asset().generateTextField();
+                checkPrompt.setBounds(selectAccount.getX(), selectAccount.getY() + selectAccount.getHeight() + 20, selectAccount.getWidth(), selectAccount.getHeight());
+
+                searchButton = new Asset().generateButtonWithoutImage("Search", confirmButton.getWidth() - 3, confirmButton.getHeight() - 3);
+                searchButton.setLocation(confirmButton.getX(), checkPrompt.getY() - 3);
+
+                backgroundPanel.add(checkInputText);
+                backgroundPanel.add(checkPrompt);
+                backgroundPanel.add(searchButton);
+
+                backgroundPanel.revalidate();
+                backgroundPanel.repaint();
+
+                searchButton.addComponentListener(new ComponentListener() {
                     @Override
                     public void componentResized(ComponentEvent e) {
-                        displayTechnicianPanel.setBounds(title.getX(), emailInputText.getY() + emailInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - emailInputText.getY() - emailInputText.getHeight()) * 9 / 10 - 100);
-                        displayTechnicianPanel.revalidate();
+                        checkInputText.setLocation(accountText.getX(), accountText.getY() + accountText.getHeight() + 20);
+                        checkPrompt.setBounds(selectAccount.getX(), selectAccount.getY() + selectAccount.getHeight() + 20, selectAccount.getWidth(), selectAccount.getHeight());
+                        searchButton.setLocation(confirmButton.getX(), checkPrompt.getY() - 3);
                     }
 
                     @Override
@@ -211,9 +322,94 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
 
                     }
                 });
+
+                searchButton.addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        InformationPane.positionChoice.clear();
+                        InformationPane.positionChoice.addAll(Arrays.asList(Technician.getTechnicianPosition()));
+
+                        if (backgroundPanel.getComponentZOrder(displayManagerPanel) > -1) {
+                            backgroundPanel.remove(displayManagerPanel);
+                        }
+
+                        if (backgroundPanel.getComponentZOrder(displayTechnicianPanel) > -1) {
+                            backgroundPanel.remove(displayTechnicianPanel);
+                        }
+                        if (backgroundPanel.getComponentZOrder(displayCustomerPanel) > -1) {
+                            backgroundPanel.remove(displayCustomerPanel);
+                        }
+
+                        if (checkPrompt.getText().equals("456")) {
+                            displayTechnicianPanel = new JScrollPane(new InformationPane().modifyManagerAndTechnicianAccountOwn());
+                        } else {
+                            displayTechnicianPanel = new JScrollPane(new InformationPane().modifyManagerAndTechnicianAccountNotOwn());
+                        }
+                        displayTechnicianPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
+                        backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+                        backgroundPanel.add(displayTechnicianPanel);
+                        displayTechnicianPanel.setVisible(true);
+                        displayTechnicianPanel.revalidate();
+                        backgroundPanel.addComponentListener(new ComponentListener() {
+                            @Override
+                            public void componentResized(ComponentEvent e) {
+                                displayTechnicianPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
+                                displayTechnicianPanel.revalidate();
+                            }
+
+                            @Override
+                            public void componentMoved(ComponentEvent e) {
+
+                            }
+
+                            @Override
+                            public void componentShown(ComponentEvent e) {
+
+                            }
+
+                            @Override
+                            public void componentHidden(ComponentEvent e) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+
+                    }
+                });
+
+
+
 
             } else if (Objects.equals(selectAccount.getSelectedItem(), "Customer")) {
 
+                if (backgroundPanel.getComponentZOrder(checkInputText) > -1) {
+                    backgroundPanel.remove(checkInputText);
+                }
+                if (backgroundPanel.getComponentZOrder(checkPrompt) > -1) {
+                    backgroundPanel.remove(checkPrompt);
+                }
+                if (backgroundPanel.getComponentZOrder(searchButton) > -1) {
+                    backgroundPanel.remove(searchButton);
+                }
+
                 if (backgroundPanel.getComponentZOrder(displayCustomerPanel) > -1) {
                     backgroundPanel.remove(displayCustomerPanel);
                 }
@@ -224,17 +420,30 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
                     backgroundPanel.remove(displayManagerPanel);
                 }
 
-                displayCustomerPanel = new JScrollPane(new InformationPane().customerModifyPersonalInformation());
-                displayCustomerPanel.setBounds(title.getX(), emailInputText.getY() + emailInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - emailInputText.getY() - emailInputText.getHeight()) * 9 / 10 - 100);
-                backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-                backgroundPanel.add(displayCustomerPanel);
-                displayCustomerPanel.setVisible(true);
-                displayCustomerPanel.revalidate();
+                checkInputText = new JLabel("Enter TP number:");
+                checkInputText.setFont(Asset.getNameFont("Plain"));
+                checkInputText.setSize(accountText.getWidth(), accountText.getHeight());
+                checkInputText.setLocation(accountText.getX(), accountText.getY() + accountText.getHeight() + 20);
+
+                checkPrompt = new Asset().generateTextField();
+                checkPrompt.setBounds(selectAccount.getX(), selectAccount.getY() + selectAccount.getHeight() + 20, selectAccount.getWidth(), selectAccount.getHeight());
+
+                searchButton = new Asset().generateButtonWithoutImage("Search", confirmButton.getWidth() - 3, confirmButton.getHeight() - 3);
+                searchButton.setLocation(confirmButton.getX(), checkPrompt.getY() - 3);
+
+                backgroundPanel.add(checkInputText);
+                backgroundPanel.add(checkPrompt);
+                backgroundPanel.add(searchButton)
+;
+                backgroundPanel.repaint();
+                backgroundPanel.revalidate();
+
                 backgroundPanel.addComponentListener(new ComponentListener() {
                     @Override
                     public void componentResized(ComponentEvent e) {
-                        displayCustomerPanel.setBounds(title.getX(), emailInputText.getY() + emailInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - emailInputText.getY() - emailInputText.getHeight()) * 9 / 10 - 100);
-                        displayCustomerPanel.revalidate();
+                        checkInputText.setLocation(accountText.getX(), accountText.getY() + accountText.getHeight() + 20);
+                        checkPrompt.setBounds(selectAccount.getX(), selectAccount.getY() + selectAccount.getHeight() + 20, selectAccount.getWidth(), selectAccount.getHeight());
+                        searchButton.setLocation(confirmButton.getX(), checkPrompt.getY() - 3);
                     }
 
                     @Override
@@ -253,7 +462,73 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
                     }
                 });
 
+                searchButton.addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
 
+                        if (backgroundPanel.getComponentZOrder(displayManagerPanel) > -1) {
+                            backgroundPanel.remove(displayManagerPanel);
+                        }
+
+                        if (backgroundPanel.getComponentZOrder(displayTechnicianPanel) > -1) {
+                            backgroundPanel.remove(displayTechnicianPanel);
+                        }
+                        if (backgroundPanel.getComponentZOrder(displayCustomerPanel) > -1) {
+                            backgroundPanel.remove(displayCustomerPanel);
+                        }
+
+                        displayCustomerPanel = new JScrollPane(new InformationPane().customerModifyPersonalInformation());
+                        displayCustomerPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
+                        backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+
+                        backgroundPanel.add(displayCustomerPanel);
+                        displayCustomerPanel.setVisible(true);
+                        displayCustomerPanel.revalidate();
+
+                        backgroundPanel.addComponentListener(new ComponentListener() {
+                            @Override
+                            public void componentResized(ComponentEvent e) {
+                                displayCustomerPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
+                                displayCustomerPanel.revalidate();
+                            }
+
+                            @Override
+                            public void componentMoved(ComponentEvent e) {
+
+                            }
+
+                            @Override
+                            public void componentShown(ComponentEvent e) {
+
+                            }
+
+                            @Override
+                            public void componentHidden(ComponentEvent e) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+
+                    }
+                });
             } else {
                 System.out.println("Error with selecting accounts.");
             }

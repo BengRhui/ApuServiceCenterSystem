@@ -5,16 +5,20 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Objects;
 import java.util.Properties;
 
 public class InformationPane extends JPanel {
 
     private final static int scrollPaneWidth = 900;
-
+    JPanel panel;
     // Overall pane - book appointment
     public JScrollPane bookAppointmentPane() {
-        JPanel panel = new JPanel(null);
+        panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
         JPanel panel1 = new InformationPane().customerInformation();
@@ -72,16 +76,16 @@ public class InformationPane extends JPanel {
         return panel;
     }
 
-    public JPanel modifyManagerAndTechnicianAccount() {
+    public JPanel modifyManagerAndTechnicianAccountNotOwn() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
         infoPane = new InformationPane();
-        panel1 = infoPane.accountDetails();
+        panel1 = infoPane.managerAndTechnicianPersonalInformation();
         JPanel panel2 = new InformationPane().divider();
-        JPanel panel3 = new InformationPane().jobDetails();
+        JPanel panel3 = new InformationPane().accountDetails();
         JPanel panel4 = new InformationPane().divider();
-        JPanel panel5 = new InformationPane().loginDetails();
+        JPanel panel5 = new InformationPane().jobDetails();
 
         panel1.setLocation(0, 0);
         panel2.setLocation(0, panel1.getHeight());
@@ -96,6 +100,67 @@ public class InformationPane extends JPanel {
         panel.add(panel5);
 
         int sumOfHeight = panel1.getHeight() + panel2.getHeight() + panel3.getHeight() + panel4.getHeight() + panel5.getHeight();
+
+        panel.setPreferredSize(new Dimension(panel1.getWidth(), sumOfHeight));
+
+        return panel;
+    }
+
+    public JPanel modifyManagerAndTechnicianAccountOwn() {
+        JPanel panel = new JPanel(null);
+        panel.setBackground(Color.WHITE);
+
+        infoPane = new InformationPane();
+        panel1 = infoPane.managerAndTechnicianPersonalInformation();
+        JPanel panel2 = new InformationPane().divider();
+        JPanel panel3 = new InformationPane().accountDetails();
+        JPanel panel4 = new InformationPane().divider();
+        JPanel panel5 = new InformationPane().jobDetails();
+        JPanel panel6 = new InformationPane().divider();
+        JPanel panel7 = new InformationPane().loginDetails();
+
+        panel1.setLocation(0, 0);
+        panel2.setLocation(0, panel1.getHeight());
+        panel3.setLocation(0, panel2.getY() + panel2.getHeight());
+        panel4.setLocation(0, panel3.getY() + panel3.getHeight());
+        panel5.setLocation(0, panel4.getY() + panel4.getHeight());
+        panel6.setLocation(0, panel5.getY() + panel5.getHeight());
+        panel7.setLocation(0, panel6.getY() + panel6.getHeight());
+
+        panel.add(panel1);
+        panel.add(panel2);
+        panel.add(panel3);
+        panel.add(panel4);
+        panel.add(panel5);
+        panel.add(panel6);
+        panel.add(panel7);
+
+        int sumOfHeight = panel1.getHeight() + panel2.getHeight() + panel3.getHeight() + panel4.getHeight() + panel5.getHeight() + panel6.getHeight() + panel7.getHeight();
+
+        panel.setPreferredSize(new Dimension(panel1.getWidth(), sumOfHeight));
+
+        return panel;
+    }
+
+    public JPanel modifyAccountTechnician() {
+        JPanel panel = new JPanel(null);
+        panel.setBackground(Color.WHITE);
+
+        infoPane = new InformationPane();
+        panel1 = infoPane.managerAndTechnicianPersonalInformation();
+        JPanel panel2 = new InformationPane().divider();
+        JPanel panel3 = new InformationPane().loginDetails();
+
+        panel1.setLocation(0, 0);
+        panel2.setLocation(0, panel1.getHeight());
+        panel3.setLocation(0, panel2.getY() + panel2.getHeight());
+
+        panel.add(panel1);
+        panel.add(panel2);
+        panel.add(panel3);
+
+
+        int sumOfHeight = panel1.getHeight() + panel2.getHeight() + panel3.getHeight();
 
         panel.setPreferredSize(new Dimension(panel1.getWidth(), sumOfHeight));
 
@@ -203,6 +268,39 @@ public class InformationPane extends JPanel {
 
         JLayeredPane checkAppointment = new Asset().generateButtonWithoutImage("Click to View Schedule", serviceItemList.getWidth(), serviceItemList.getHeight());
         checkAppointment.setLocation(serviceItemList.getX(), datePicker.getY() - 3);
+        checkAppointment.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                try {
+                    String day = String.format("%02d", datePicker.getModel().getDay());
+                    String month = String.format("%02d", datePicker.getModel().getMonth() + 1);
+                    JFrame popUp = new ViewSchedulePopUp(Objects.requireNonNull(appointmentChoice.getSelectedItem()).toString(), day + "/" + month + "/" + datePicker.getModel().getYear());
+                    popUp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                } catch (NullPointerException ex) {
+                    JOptionPane.showMessageDialog(panel, "Please select both technician and the date to view available time.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         JLabel appointmentStartTimeText = new JLabel("Appointment Start Time");
         appointmentStartTimeText.setFont(Asset.getBodyFont("Plain"));
