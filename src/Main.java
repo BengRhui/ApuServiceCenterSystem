@@ -104,11 +104,6 @@ public class Main implements ActionListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(!userPasswordText.getText().isEmpty()) {
-            userPasswordText.setVisible(false);
-        } else if (userPasswordText.getText().isEmpty()) {
-            userPasswordText.setVisible(true);
-        }
 
     }
 

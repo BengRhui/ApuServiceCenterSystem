@@ -13,7 +13,7 @@ public class User {
     }
 
     public static String[] getMaritalStatus() {
-        return genderTypes;
+        return maritalStatus;
     }
 
 }
