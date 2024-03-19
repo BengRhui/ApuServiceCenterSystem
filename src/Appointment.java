@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -69,4 +70,18 @@ public class Appointment {
         return appointmentID;
     }
 
+    public LocalDateTime getAppointmentDateAndTime() {
+        return LocalDateTime.of(date, startingTime);
+    }
+
+    public static ArrayList<Appointment> getFilteredCustomerList(String tpNumber) {
+        TextFileOperations.readAppointment();
+        ArrayList<Appointment> filter = new ArrayList<>();
+        for (Appointment appointment: overallAppointmentList) {
+            if (appointment.studentTP.equals(tpNumber)) {
+                filter.add(appointment);
+            }
+        }
+        return filter;
+    }
 }

@@ -7,13 +7,8 @@ public class Student extends User {
     private static final ArrayList<Student> overallStudentList = new ArrayList<>();
 
     public Student(String tpNumber, String name, String gender, String email, String contactNumber) {
+        super(name, gender, email, contactNumber);
         this.tpNumber = tpNumber;
-        this.name = name;
-        this.gender = gender;
-        this.email = email;
-        this.contactNumber = Integer.parseInt(contactNumber);
-
-        overallStudentList.add(this);
     }
 
     public static ArrayList<Student> getOverallStudentList() {

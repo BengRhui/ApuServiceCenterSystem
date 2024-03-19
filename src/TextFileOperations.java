@@ -67,10 +67,43 @@ public class TextFileOperations {
                     student[i] = element.strip();
                     i ++;
                 }
-                new Student(student[0], student[1], student[2], student[3], student[4]);
+                Student.getOverallStudentList().add(new Student(student[0], student[1], student[2], student[3], student[4]));
             }
         } catch (IOException ex) {
             System.out.println("Error with readStudent() method. Please inspect code.");
+        }
+    }
+
+    public static void readTechnicianFromFile() {
+        Technician.getOverallTechnicianList().clear();
+        try {
+            String fileName = "technicianDetails.txt";
+            File file = new File(filePath + fileName);
+            Scanner read = new Scanner(file);
+            while (read.hasNext()) {
+                String[] info = read.nextLine().split(";");
+                for (int i = 0; i < info.length; i ++) {
+                    info[i] = info[i].strip();
+                }
+                Technician.getOverallTechnicianList().add(new Technician(
+                        info[0],
+                        info[1],
+                        info[2],
+                        info[3],
+                        info[4],
+                        info[5],
+                        info[6],
+                        info[7],
+                        info[8],
+                        info[9],
+                        info[10],
+                        info[11],
+                        info[12],
+                        info[13])
+                );
+            }
+        } catch (IOException ex) {
+            System.out.println("Error with readTechnicianFromFile() method. Please inspect code.");
         }
     }
 

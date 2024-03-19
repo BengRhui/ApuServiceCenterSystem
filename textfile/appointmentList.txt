@@ -3,3 +3,6 @@ A0002;T003 ;TP068495  ;Kettle                        ;08/03/2024     ;1300      
 A0003;T001 ;TP067299  ;Iron / steamer                ;09/03/2024     ;0900      ;1100      ;100  ;Unpaid
 A0004;T002 ;TP068495  ;Hair dryer                    ;09/03/2024     ;1400      ;1600      ;70   ;Paid
 A0005;T001 ;TP067299  ;Electronic shaver             ;09/03/2024     ;1600      ;1700      ;150  ;Unpaid
+A0006;T003 ;TP067299  ;Kettle                        ;22/03/2024     ;1500      ;1700      ;80   ;Unpaid
+A0007;T001 ;TP067299  ;Iron / steamer                ;22/03/2024     ;1300      ;1400      ;100  ;Unpaid
+A0008;T002 ;TP067299  ;Hair dryer                    ;24/03/2024     ;1000      ;1200      ;70   ;Unpaid
