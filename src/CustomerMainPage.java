@@ -5,7 +5,9 @@ import java.awt.event.KeyEvent;
 
 public class CustomerMainPage {
     JFrame frame;
-    JLabel label, mainTitle, mainContent, subContent, subContent1, userTextField, repairImage, providerImage, callImage, personnelImage, personnelText;
+    JLabel label, mainTitle, mainContent, subContent, subContent1, userTextField, repairImage, providerImage, providerText, callImage, callText,
+            personnelImage, personnelText, locationImage, locationText, locationText1;
+
     JPanel panel, backgroundPanel;
     JTextField textField;
 
@@ -62,12 +64,31 @@ public class CustomerMainPage {
         providerImage = new Asset().generateImage("providedService_icon123.jpg");
         providerImage.setBounds(135,525,55,55);
 
+        providerText = new JLabel("<html><u>We can fix:</u><html>");
+        providerText.setFont(new Font("Arial", Font.PLAIN,18));
+        providerText.setBounds(200,470,100,100);
+
         callImage = new Asset().generateImage("call_icon.png");
         callImage.setBounds(390,520,60,60);
 
+        callText = new JLabel("<html><u>Person-in-charge</u><br>Ms I Wee (012-345 6789)<br>Mr Teong (018-765 4321)</html>");
+        callText.setFont(new Font("Arial", Font.PLAIN, 18));
+        callText.setBounds(460, 340, 500, 400);
+
+        locationImage = new Asset ().generateImage("location_icon.png");
+        locationImage.setBounds(390,630,55,55);
+
+        locationText = new JLabel("<html><u>Location</u><html>");
+        locationText.setFont(new Font("Arial",Font.PLAIN,18));
+        locationText.setBounds(460,400,500,500);
+
+        locationText1 = new JLabel("Accommodation Office,");
+        locationText1.setFont(new Font("Arial",Font.PLAIN,18));
+        locationText1.setBounds(460,430,500,500);
+
         personnelText = new JLabel("Personnel of AHHASC? Click here to login to the system.");
-        personnelText.setFont(new Font("Arial", Font.ITALIC,20));
-        personnelText.setBounds(135,750,400,400);
+        personnelText.setFont(new Font("Arial", Font.ITALIC,12));
+        personnelText.setBounds(170,580,500,400);
 
         personnelImage = new Asset().generateImage("personnel_icon.png");
         personnelImage.setBounds(115,750,40,40);
@@ -88,13 +109,18 @@ public class CustomerMainPage {
         panel.add(mainContent);
         panel.add(subContent);
         panel.add(subContent1);
-        panel.add(personnelText);
         panel.add(userTextField);
         panel.add(textField);
         panel.add(repairImage);
         panel.add(providerImage);
+        panel.add(providerText);
         panel.add(callImage);
+        panel.add(callText);
+        panel.add(locationImage);
+        panel.add(locationText);
+        panel.add(locationText1);
         panel.add(personnelImage);
+        panel.add(personnelText);
         panel.add(backgroundPanel);
 
 
