@@ -64,7 +64,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
 
         cancelButton = new Asset().generateButtonWithoutImage("Cancel", confirmButton.getWidth(), confirmButton.getHeight());
 
-        saveButton = new Asset().generateButtonWithoutImage("Place appointment", cancelButton.getWidth() + 100, confirmButton.getHeight());
+        saveButton = new Asset().generateButtonWithoutImage("Save details", cancelButton.getWidth() + 100, confirmButton.getHeight());
         saveButton.addMouseListener(this);
 
         backgroundPanel.add(backArrow);
@@ -120,18 +120,14 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
                 InformationPane.positionChoice.addAll(Arrays.asList(Manager.getManagerPosition()));
 
 
-                if (backgroundPanel.getComponentZOrder(displayManagerPanel) == -1) {
-                    displayManagerPanel = new JScrollPane(infoPane1.createManagerAndTechnicianAccount());
-                    displayManagerPanel.setBounds(title.getX(), accountText.getY() + accountText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - accountText.getY() - accountText.getHeight()) * 9 / 10 - 100);
+                if (backgroundPanel.getComponentZOrder(displayManagerPanel) > -1) {
+                    backgroundPanel.remove(displayManagerPanel);
                 }
-
                 if (backgroundPanel.getComponentZOrder(displayTechnicianPanel) > -1) {
                     backgroundPanel.remove(displayTechnicianPanel);
                 }
                 if (backgroundPanel.getComponentZOrder(displayCustomerPanel) > -1) {
                     backgroundPanel.remove(displayCustomerPanel);
-                } else {
-                    backgroundPanel.remove(displayManagerPanel);
                 }
 
                 displayManagerPanel = new JScrollPane(infoPane1.createManagerAndTechnicianAccount());
@@ -141,6 +137,29 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
                 displayManagerPanel.setVisible(true);
                 displayManagerPanel.revalidate();
 
+                backgroundPanel.addComponentListener(new ComponentListener() {
+                    @Override
+                    public void componentResized(ComponentEvent e) {
+                        displayManagerPanel.setBounds(title.getX(), accountText.getY() + accountText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - accountText.getY() - accountText.getHeight()) * 9 / 10 - 100);
+                        displayManagerPanel.revalidate();
+                    }
+
+                    @Override
+                    public void componentMoved(ComponentEvent e) {
+
+                    }
+
+                    @Override
+                    public void componentShown(ComponentEvent e) {
+
+                    }
+
+                    @Override
+                    public void componentHidden(ComponentEvent e) {
+
+                    }
+                });
+
 
 
 
@@ -148,9 +167,8 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
                 InformationPane.positionChoice.clear();
                 InformationPane.positionChoice.addAll(Arrays.asList(Technician.getTechnicianPosition()));
 
-                if (backgroundPanel.getComponentZOrder(displayTechnicianPanel) == -1) {
-                    displayTechnicianPanel = new JScrollPane(new InformationPane().createManagerAndTechnicianAccount());
-                    displayTechnicianPanel.setBounds(title.getX(), accountText.getY() + accountText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - accountText.getY() - accountText.getHeight()) * 9 / 10 - 100);
+                if (backgroundPanel.getComponentZOrder(displayTechnicianPanel) > -1) {
+                    backgroundPanel.remove(displayTechnicianPanel);
                 }
                 if (backgroundPanel.getComponentZOrder(displayManagerPanel) > -1) {
                     backgroundPanel.remove(displayManagerPanel);
@@ -165,13 +183,33 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
                 backgroundPanel.add(displayTechnicianPanel);
                 displayTechnicianPanel.setVisible(true);
                 displayTechnicianPanel.revalidate();
+                backgroundPanel.addComponentListener(new ComponentListener() {
+                    @Override
+                    public void componentResized(ComponentEvent e) {
+                        displayTechnicianPanel.setBounds(title.getX(), accountText.getY() + accountText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - accountText.getY() - accountText.getHeight()) * 9 / 10 - 100);
+                        displayTechnicianPanel.revalidate();
+                    }
+
+                    @Override
+                    public void componentMoved(ComponentEvent e) {
+
+                    }
+
+                    @Override
+                    public void componentShown(ComponentEvent e) {
+                    }
+
+                    @Override
+                    public void componentHidden(ComponentEvent e) {
+
+                    }
+                });
 
 
             } else if (Objects.equals(selectAccount.getSelectedItem(), "Customer")) {
 
-                if (backgroundPanel.getComponentZOrder(displayTechnicianPanel) == -1) {
-                    displayCustomerPanel = new JScrollPane(new InformationPane().customerPersonalInformation());
-                    displayCustomerPanel.setBounds(title.getX(), accountText.getY() + accountText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - accountText.getY() - accountText.getHeight()) * 9 / 10 - 100);
+                if (backgroundPanel.getComponentZOrder(displayCustomerPanel) > -1) {
+                    backgroundPanel.remove(displayCustomerPanel);
                 }
                 if (backgroundPanel.getComponentZOrder(displayTechnicianPanel) > -1) {
                     backgroundPanel.remove(displayTechnicianPanel);
@@ -180,12 +218,34 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
                     backgroundPanel.remove(displayManagerPanel);
                 }
 
-                displayCustomerPanel = new JScrollPane(new InformationPane().customerPersonalInformation());
+                displayCustomerPanel = new JScrollPane(new InformationPane().customerCreatePersonalInformation());
                 displayCustomerPanel.setBounds(title.getX(), accountText.getY() + accountText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - accountText.getY() - accountText.getHeight()) * 9 / 10 - 100);
                 backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
                 backgroundPanel.add(displayCustomerPanel);
                 displayCustomerPanel.setVisible(true);
                 displayCustomerPanel.revalidate();
+                backgroundPanel.addComponentListener(new ComponentListener() {
+                    @Override
+                    public void componentResized(ComponentEvent e) {
+                        displayCustomerPanel.setBounds(title.getX(), accountText.getY() + accountText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - accountText.getY() - accountText.getHeight()) * 9 / 10 - 100);
+                        displayCustomerPanel.revalidate();
+                    }
+
+                    @Override
+                    public void componentMoved(ComponentEvent e) {
+
+                    }
+
+                    @Override
+                    public void componentShown(ComponentEvent e) {
+
+                    }
+
+                    @Override
+                    public void componentHidden(ComponentEvent e) {
+
+                    }
+                });
 
             } else {
                 System.out.println("Error with selecting accounts.");

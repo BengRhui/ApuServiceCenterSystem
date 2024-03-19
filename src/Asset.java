@@ -314,7 +314,7 @@ class DrawRoundedRectangle extends JPanel {
         // Using Graphics2D for better picture quality
         Graphics2D g2d = (Graphics2D) g;
 
-        // Set the colour of the text, but how?
+        // Set the colour of the rounded rectangle
         g2d.setColor(Color.WHITE);
         g2d.fillRoundRect(5, 5, width - 10, height - 10, roundedCorner, roundedCorner);
         g2d.setColor(Color.BLACK);

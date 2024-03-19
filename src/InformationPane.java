@@ -5,16 +5,20 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Objects;
 import java.util.Properties;
 
 public class InformationPane extends JPanel {
 
     private final static int scrollPaneWidth = 900;
-
+    JPanel panel;
     // Overall pane - book appointment
     public JScrollPane bookAppointmentPane() {
-        JPanel panel = new JPanel(null);
+        panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
         JPanel panel1 = new InformationPane().customerInformation();
@@ -69,8 +73,97 @@ public class InformationPane extends JPanel {
 
         panel.setPreferredSize(new Dimension(panel1.getWidth(), sumOfHeight));
 
-        //JScrollPane finalPane = new JScrollPane(panel);
-        //finalPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        return panel;
+    }
+
+    public JPanel modifyManagerAndTechnicianAccountNotOwn() {
+        JPanel panel = new JPanel(null);
+        panel.setBackground(Color.WHITE);
+
+        infoPane = new InformationPane();
+        panel1 = infoPane.managerAndTechnicianPersonalInformation();
+        JPanel panel2 = new InformationPane().divider();
+        JPanel panel3 = new InformationPane().accountDetails();
+        JPanel panel4 = new InformationPane().divider();
+        JPanel panel5 = new InformationPane().jobDetails();
+
+        panel1.setLocation(0, 0);
+        panel2.setLocation(0, panel1.getHeight());
+        panel3.setLocation(0, panel1.getHeight() + panel2.getHeight());
+        panel4.setLocation(0, panel1.getHeight() + panel2.getHeight() + panel3.getHeight());
+        panel5.setLocation(0, panel1.getHeight() + panel2.getHeight() + panel3.getHeight() + panel4.getHeight());
+
+        panel.add(panel1);
+        panel.add(panel2);
+        panel.add(panel3);
+        panel.add(panel4);
+        panel.add(panel5);
+
+        int sumOfHeight = panel1.getHeight() + panel2.getHeight() + panel3.getHeight() + panel4.getHeight() + panel5.getHeight();
+
+        panel.setPreferredSize(new Dimension(panel1.getWidth(), sumOfHeight));
+
+        return panel;
+    }
+
+    public JPanel modifyManagerAndTechnicianAccountOwn() {
+        JPanel panel = new JPanel(null);
+        panel.setBackground(Color.WHITE);
+
+        infoPane = new InformationPane();
+        panel1 = infoPane.managerAndTechnicianPersonalInformation();
+        JPanel panel2 = new InformationPane().divider();
+        JPanel panel3 = new InformationPane().accountDetails();
+        JPanel panel4 = new InformationPane().divider();
+        JPanel panel5 = new InformationPane().jobDetails();
+        JPanel panel6 = new InformationPane().divider();
+        JPanel panel7 = new InformationPane().loginDetails();
+
+        panel1.setLocation(0, 0);
+        panel2.setLocation(0, panel1.getHeight());
+        panel3.setLocation(0, panel2.getY() + panel2.getHeight());
+        panel4.setLocation(0, panel3.getY() + panel3.getHeight());
+        panel5.setLocation(0, panel4.getY() + panel4.getHeight());
+        panel6.setLocation(0, panel5.getY() + panel5.getHeight());
+        panel7.setLocation(0, panel6.getY() + panel6.getHeight());
+
+        panel.add(panel1);
+        panel.add(panel2);
+        panel.add(panel3);
+        panel.add(panel4);
+        panel.add(panel5);
+        panel.add(panel6);
+        panel.add(panel7);
+
+        int sumOfHeight = panel1.getHeight() + panel2.getHeight() + panel3.getHeight() + panel4.getHeight() + panel5.getHeight() + panel6.getHeight() + panel7.getHeight();
+
+        panel.setPreferredSize(new Dimension(panel1.getWidth(), sumOfHeight));
+
+        return panel;
+    }
+
+    public JPanel modifyAccountTechnician() {
+        JPanel panel = new JPanel(null);
+        panel.setBackground(Color.WHITE);
+
+        infoPane = new InformationPane();
+        panel1 = infoPane.managerAndTechnicianPersonalInformation();
+        JPanel panel2 = new InformationPane().divider();
+        JPanel panel3 = new InformationPane().loginDetails();
+
+        panel1.setLocation(0, 0);
+        panel2.setLocation(0, panel1.getHeight());
+        panel3.setLocation(0, panel2.getY() + panel2.getHeight());
+
+        panel.add(panel1);
+        panel.add(panel2);
+        panel.add(panel3);
+
+
+        int sumOfHeight = panel1.getHeight() + panel2.getHeight() + panel3.getHeight();
+
+        panel.setPreferredSize(new Dimension(panel1.getWidth(), sumOfHeight));
+
         return panel;
     }
 
@@ -175,6 +268,39 @@ public class InformationPane extends JPanel {
 
         JLayeredPane checkAppointment = new Asset().generateButtonWithoutImage("Click to View Schedule", serviceItemList.getWidth(), serviceItemList.getHeight());
         checkAppointment.setLocation(serviceItemList.getX(), datePicker.getY() - 3);
+        checkAppointment.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                try {
+                    String day = String.format("%02d", datePicker.getModel().getDay());
+                    String month = String.format("%02d", datePicker.getModel().getMonth() + 1);
+                    JFrame popUp = new ViewSchedulePopUp(Objects.requireNonNull(appointmentChoice.getSelectedItem()).toString(), day + "/" + month + "/" + datePicker.getModel().getYear());
+                    popUp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                } catch (NullPointerException ex) {
+                    JOptionPane.showMessageDialog(panel, "Please select both technician and the date to view available time.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         JLabel appointmentStartTimeText = new JLabel("Appointment Start Time");
         appointmentStartTimeText.setFont(Asset.getBodyFont("Plain"));
@@ -237,6 +363,7 @@ public class InformationPane extends JPanel {
         JComboBox<String> genderChoice = new JComboBox<>(User.getGenderTypes());
         genderChoice.setBounds(genderText.getX(), genderText.getY() + genderText.getHeight(), genderText.getWidth(), genderText.getHeight());
         genderChoice.setFont(Asset.getBodyFont("Plain"));
+        genderChoice.setBackground(Color.WHITE);
 
         JLabel maritalStatusText = new JLabel("Marital Status");
         maritalStatusText.setFont(Asset.getBodyFont("Plain"));
@@ -245,6 +372,7 @@ public class InformationPane extends JPanel {
         JComboBox<String> maritalStatusChoice = new JComboBox<>(User.getMaritalStatus());
         maritalStatusChoice.setFont(Asset.getBodyFont("Plain"));
         maritalStatusChoice.setBounds(maritalStatusText.getX(), maritalStatusText.getY() + maritalStatusText.getHeight(), maritalStatusText.getWidth(), maritalStatusText.getHeight());
+        maritalStatusChoice.setBackground(Color.WHITE);
 
         JLabel addressText = new JLabel("Address");
         addressText.setFont(Asset.getBodyFont("Plain"));
@@ -350,6 +478,7 @@ public class InformationPane extends JPanel {
 
         position.setFont(Asset.getBodyFont("Plain"));
         position.setBounds(positionText.getX(), positionText.getY() + positionText.getHeight(), positionText.getWidth(), positionText.getHeight());
+        position.setBackground(Color.WHITE);
 
         updatePositionCombo();
 
@@ -437,7 +566,7 @@ public class InformationPane extends JPanel {
         return panel;
     }
 
-    public JPanel customerPersonalInformation() {
+    public JPanel customerCreatePersonalInformation() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
         panel.setSize(scrollPaneWidth, 290);
@@ -470,8 +599,22 @@ public class InformationPane extends JPanel {
         JComboBox<String> gender = new JComboBox<>(genderChoice);
         gender.setFont(Asset.getBodyFont("Plain"));
         gender.setBounds(genderText.getX(), genderText.getY() + genderText.getHeight(), genderText.getWidth(), genderText.getHeight());
+        gender.setBackground(Color.WHITE);
 
+        JLabel emailText = new JLabel("Email");
+        emailText.setFont(Asset.getBodyFont("Plain"));
+        emailText.setBounds(tpNumberText.getX(), tpNumber.getY() + tpNumber.getHeight() + 20, tpNumberText.getWidth(), tpNumberText.getHeight());
 
+        JTextField email = new Asset().generateTextField();
+        email.setBounds(emailText.getX(), emailText.getY() + emailText.getHeight(), emailText.getWidth(), emailText.getHeight());
+
+        JLabel contactNoText = new JLabel("Contact No");
+        contactNoText.setFont(Asset.getBodyFont("Plain"));
+        contactNoText.setBounds(gender.getX(), gender.getY() + gender.getHeight() + 20, gender.getWidth(), gender.getHeight());
+
+        JTextField contactNo = new Asset().generateTextField();
+        contactNo.setFont(Asset.getBodyFont("Plain"));
+        contactNo.setBounds(contactNoText.getX(), contactNoText.getY() + contactNoText.getHeight(), contactNoText.getWidth(), contactNoText.getHeight());
 
         panel.add(title);
         panel.add(nameText);
@@ -480,6 +623,96 @@ public class InformationPane extends JPanel {
         panel.add(tpNumber);
         panel.add(genderText);
         panel.add(gender);
+        panel.add(emailText);
+        panel.add(email);
+        panel.add(contactNoText);
+        panel.add(contactNo);
+
+        return panel;
+    }
+
+    public JPanel customerModifyPersonalInformation() {
+        JPanel panel = new JPanel(null);
+        panel.setBackground(Color.WHITE);
+        panel.setSize(scrollPaneWidth, 290);
+
+        JLabel title = new JLabel("<html>Personal<br>Information</html>");
+        title.setFont(Asset.getNameFont("Bold"));
+        title.setBounds(30, 0, panel.getWidth() / 5, 100);
+
+        JLabel nameText = new JLabel("Name");
+        nameText.setFont(Asset.getBodyFont("Plain"));
+        nameText.setBounds(title.getWidth() + title.getX(), title.getY() + 10, (panel.getWidth() - title.getWidth() - title.getX()) * 2 / 3 - 10 , 50);
+
+        JTextField name = new Asset().generateTextField();
+        name.setFont(Asset.getBodyFont("Plain"));
+        name.setBounds(nameText.getX(), nameText.getY() + nameText.getHeight(), nameText.getWidth(), nameText.getHeight());
+
+        JLabel genderText = new JLabel("Gender");
+        genderText.setFont(Asset.getBodyFont("Plain"));
+        genderText.setBounds(nameText.getX() + nameText.getWidth() + 20, nameText.getY(), nameText.getWidth() / 2, nameText.getHeight());
+
+        String[] genderChoice = User.getGenderTypes();
+        JComboBox<String> gender = new JComboBox<>(genderChoice);
+        gender.setFont(Asset.getBodyFont("Plain"));
+        gender.setBounds(genderText.getX(), genderText.getY() + genderText.getHeight(), genderText.getWidth(), genderText.getHeight());
+        gender.setBackground(Color.WHITE);
+
+        JLabel emailText = new JLabel("Email");
+        emailText.setFont(Asset.getBodyFont("Plain"));
+        emailText.setBounds(nameText.getX(), name.getY() + name.getHeight() + 20, nameText.getWidth(), nameText.getHeight());
+
+        JTextField email = new Asset().generateTextField();
+        email.setBounds(emailText.getX(), emailText.getY() + emailText.getHeight(), emailText.getWidth(), emailText.getHeight());
+
+        JLabel contactNoText = new JLabel("Contact No");
+        contactNoText.setFont(Asset.getBodyFont("Plain"));
+        contactNoText.setBounds(gender.getX(), gender.getY() + gender.getHeight() + 20, gender.getWidth(), gender.getHeight());
+
+        JTextField contactNo = new Asset().generateTextField();
+        contactNo.setFont(Asset.getBodyFont("Plain"));
+        contactNo.setBounds(contactNoText.getX(), contactNoText.getY() + contactNoText.getHeight(), contactNoText.getWidth(), contactNoText.getHeight());
+
+        panel.add(title);
+        panel.add(nameText);
+        panel.add(name);
+        panel.add(genderText);
+        panel.add(gender);
+        panel.add(emailText);
+        panel.add(email);
+        panel.add(contactNoText);
+        panel.add(contactNo);
+
+        return panel;
+    }
+
+    public JPanel accountDetails() {
+        JPanel panel = new JPanel(null);
+        panel.setBackground(Color.WHITE);
+        panel.setSize(scrollPaneWidth, 150);
+
+        JLabel title = new JLabel("<html>Account<br>Details</html>");
+        title.setFont(Asset.getNameFont("Bold"));
+        title.setBounds(30, 0, panel.getWidth() / 5, 100);
+
+        JLabel accountText = new JLabel("Account type");
+        accountText.setFont(Asset.getBodyFont("Plain"));
+        accountText.setBounds(title.getWidth() + title.getX(), title.getY() + 10, (panel.getWidth() - title.getWidth() - title.getX()) / 2 - 20, 50);
+
+        String[] accountChoice = {"Manager", "Technician"};
+        JComboBox<String> accountType = new JComboBox<>(accountChoice);
+        accountType.setFont(Asset.getBodyFont("Plain"));
+        accountType.setBounds(accountText.getX(), accountText.getY() + accountText.getHeight(), accountText.getWidth(), accountText.getHeight());
+        accountType.setBackground(Color.WHITE);
+
+        JLayeredPane confirm = new Asset().generateButtonWithoutImage("Confirm", accountType.getWidth(), accountType.getHeight());
+        confirm.setLocation(accountType.getX() + accountType.getWidth() + 20, accountType.getY());
+
+        panel.add(title);
+        panel.add(accountText);
+        panel.add(accountType);
+        panel.add(confirm);
+
         return panel;
     }
 
