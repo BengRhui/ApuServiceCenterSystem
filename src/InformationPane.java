@@ -236,9 +236,9 @@ public class InformationPane extends JPanel {
         itemsText.setBounds(technicianText.getX() + technicianText.getWidth() + 20, technicianText.getY(), technicianText.getWidth(), technicianText.getHeight());
 
         TextFileOperations.readElectronicsData();
-        String[] itemsChoices = new String[ElectronicItems.fullItemList.size()];
+        String[] itemsChoices = new String[ElectronicItems.getFullItemList().size()];
         int i = 0;
-        for (ElectronicItems item: ElectronicItems.fullItemList) {
+        for (ElectronicItems item: ElectronicItems.getFullItemList()) {
             itemsChoices[i] = item.itemName;
             i ++;
         }

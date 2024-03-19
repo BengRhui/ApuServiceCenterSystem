@@ -7,9 +7,16 @@ import java.awt.event.KeyListener;
 
 public class Main implements ActionListener, KeyListener {
 
-    JPanel panel;
+    JPanel panel, backgroundPanel, linePanel;
     JFrame frame;
-    JLabel label, userLabel, userTextField, passwordLabel, success, userPasswordText, userTextlabel;
+    JLayeredPane leftpanel;
+    JLabel label;
+    JLabel userLabel;
+    JLabel userTextField;
+    JLabel passwordLabel;
+    JLabel success;
+    JLabel userPasswordText;
+    JLabel userTextlabel;
     JTextField textField;
     JPasswordField passwordText;
     JButton button;
@@ -22,12 +29,20 @@ public class Main implements ActionListener, KeyListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
 
+        backgroundPanel = new JPanel(null);
+        backgroundPanel.setBackground(Color.WHITE);
+        backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        backgroundPanel.setSize(frame.getWidth() * 9 / 10, frame.getHeight() * 9 / 10 - 30);
+        backgroundPanel.setLocation((frame.getWidth() - backgroundPanel.getWidth()) /2, (frame.getHeight() - backgroundPanel.getHeight()) / 2 - 15);
+
         label = new Asset().generateImage("background_1.jpg");
         label.setBounds(0,0,frame.getWidth(),frame.getHeight());
 
         panel.setLayout(null);
         panel.setBounds(0,0,frame.getWidth(),frame.getHeight());
         panel.setBackground(transparentColour);
+
+        linePanel = new Asset().drawLine(10,0,Asset.getFrameWidth(),Asset.getFrameHeight());
 
         userLabel = new JLabel("Email");
         userLabel.setBounds(650, 300, 80, 25);
@@ -36,24 +51,16 @@ public class Main implements ActionListener, KeyListener {
         textField.setBounds(650,325,250,40);
         textField.addKeyListener(this);
 
-
         userTextField = new JLabel("Enter your email here:");
         userTextField.setForeground(Color.GRAY);
         userTextField.setBounds(675, 325, 200, 40);
         userTextField.setVisible(true);
 
-
         userTextlabel = new Asset().generateImage("email_icon.png");
-        userTextlabel.setBounds(660,325,200,40);
+        userTextlabel.setBounds(660,325,10,40);
         userTextlabel.setVisible(true);
 
         passwordLabel = new JLabel("Password");
-        passwordLabel = new JLabel("Password");
-
-        JLabel passwordLabel = new JLabel("Password");
-
-        passwordLabel = new JLabel("Password");
-
         passwordLabel.setBounds(650, 370, 80, 25);
 
         passwordText = new JPasswordField();
@@ -74,10 +81,13 @@ public class Main implements ActionListener, KeyListener {
         panel.add(userTextField);
         panel.add(userLabel);
         panel.add(textField);
+        panel.add(userPasswordText);
         panel.add(passwordLabel);
         panel.add(passwordText);
         panel.add(button);
         panel.add(success);
+        panel.add(backgroundPanel);
+        panel.add(linePanel);
 
         frame.add(panel);
         frame.add(label);
@@ -117,6 +127,11 @@ public class Main implements ActionListener, KeyListener {
             userTextField.setVisible(true);
         }
 
+        if(!userPasswordText.getText().isEmpty()) {
+            userPasswordText.setVisible(false);
+        } else if (userPasswordText.getText().isEmpty()) {
+            userPasswordText.setVisible(true);
+        }
 
     }
 }
