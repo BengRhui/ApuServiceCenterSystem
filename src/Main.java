@@ -9,8 +9,7 @@ public class Main implements ActionListener, KeyListener {
 
     JPanel panel, backgroundPanel, linePanel;
     JFrame frame;
-    JLayeredPane leftpanel;
-    JLabel label;
+    JLabel label, technicianLabel;
     JLabel userLabel;
     JLabel userTextField;
     JLabel passwordLabel;
@@ -38,11 +37,16 @@ public class Main implements ActionListener, KeyListener {
         label = new Asset().generateImage("background_1.jpg");
         label.setBounds(0,0,frame.getWidth(),frame.getHeight());
 
+
+
         panel.setLayout(null);
         panel.setBounds(0,0,frame.getWidth(),frame.getHeight());
         panel.setBackground(transparentColour);
 
-        linePanel = new Asset().drawLine(10,0,Asset.getFrameWidth(),Asset.getFrameHeight());
+        linePanel = new Asset().drawLine(backgroundPanel.getWidth()/5*2,0,backgroundPanel.getWidth()/5*2,backgroundPanel.getHeight(),3);
+
+        technicianLabel = new Asset().generateImage("technician_Picture.jpg");
+        technicianLabel.setBounds(0,0,linePanel.getX(),linePanel.getHeight());
 
         userLabel = new JLabel("Email");
         userLabel.setBounds(650, 300, 80, 25);
@@ -73,11 +77,14 @@ public class Main implements ActionListener, KeyListener {
 
         button = new JButton("Login");
         button.setBounds(650, 465, 250, 40);
+        button.setBackground(Color.black);
+        button.setFont()
         button.addActionListener(this);
 
         success = new JLabel("");
         success.setBounds(10, 110, 300, 25);
 
+        panel.add(userTextlabel);
         panel.add(userTextField);
         panel.add(userLabel);
         panel.add(textField);
@@ -86,17 +93,23 @@ public class Main implements ActionListener, KeyListener {
         panel.add(passwordText);
         panel.add(button);
         panel.add(success);
+        backgroundPanel.add(technicianLabel);
+        backgroundPanel.add(linePanel);
         panel.add(backgroundPanel);
-        panel.add(linePanel);
+
+
+
 
         frame.add(panel);
         frame.add(label);
         frame.setVisible(true);
     }
 
+
+
     public static void main(String[] args){
 
-        new Main();
+        Main main = new Main();
 
 
     }
