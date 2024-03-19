@@ -43,7 +43,6 @@ public class Main implements ActionListener, KeyListener {
         userTextField.setVisible(true);
 
 
-
         userTextlabel = new Asset().generateImage("email_icon.png");
         userTextlabel.setBounds(660,325,200,40);
         userTextlabel.setVisible(true);
@@ -54,7 +53,6 @@ public class Main implements ActionListener, KeyListener {
         JLabel passwordLabel = new JLabel("Password");
 
         passwordLabel = new JLabel("Password");
-
 
         passwordLabel.setBounds(650, 370, 80, 25);
 
@@ -108,11 +106,6 @@ public class Main implements ActionListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(!userPasswordText.getText().isEmpty()) {
-            userPasswordText.setVisible(false);
-        } else if (userPasswordText.getText().isEmpty()) {
-            userPasswordText.setVisible(true);
-        }
 
     }
 

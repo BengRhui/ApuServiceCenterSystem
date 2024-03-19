@@ -159,6 +159,7 @@ public class Asset implements MouseListener {
 
         button = new JLayeredPane();
         button.setSize(width + 3, height + 3);
+        button.addMouseListener(this);
 
         buttonFront = new JPanel(null);
         buttonFront.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -171,7 +172,6 @@ public class Asset implements MouseListener {
         buttonText.setVerticalTextPosition(JLabel.CENTER);
 
         buttonFront.add(buttonText);
-        buttonFront.addMouseListener(this);
 
         JPanel background = new JPanel();
         background.setBounds(0, 3, width, height);
@@ -236,6 +236,7 @@ public class Asset implements MouseListener {
         buttonFront.setBackground(Color.WHITE);
         buttonFront.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
+
         JLabel imagePlaceholder = new Asset().generateImage(imagePath);
         imagePlaceholder.setBounds(15, 15, height - 30, height - 30);
 
@@ -254,6 +255,13 @@ public class Asset implements MouseListener {
         button.add(buttonFront, JLayeredPane.PALETTE_LAYER);
         button.add(background, JLayeredPane.DEFAULT_LAYER);
         return button;
+    }
+
+    public JTextField generateTextField() {
+        JTextField field = new JTextField();
+        field.setFont(Asset.getBodyFont("Plain"));
+        field.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(5, 15, 5, 5)));
+        return field;
     }
 
     @Override
@@ -275,6 +283,7 @@ public class Asset implements MouseListener {
     public void mouseEntered(MouseEvent e) {
         buttonFront.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         buttonFront.setLocation(buttonFront.getX() + 3, buttonFront.getY() - 3);
+
     }
 
     @Override
