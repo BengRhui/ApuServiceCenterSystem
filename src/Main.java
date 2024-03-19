@@ -10,7 +10,7 @@ public class Main implements ActionListener, KeyListener {
 
     JPanel panel, backgroundPanel, linePanel;
     JFrame frame;
-    JLabel label, technicianLabel,mainTitle;
+    JLabel label, technicianLabel,mainTitle, otherS, passwordImageLabel;
     JLabel userLabel;
     JLabel userTextField;
     JLabel passwordLabel;
@@ -38,7 +38,6 @@ public class Main implements ActionListener, KeyListener {
         label = new Asset().generateImage("background_1.jpg");
         label.setBounds(0,0,frame.getWidth(),frame.getHeight());
 
-
         panel.setLayout(null);
         panel.setBounds(0,0,frame.getWidth(),frame.getHeight());
         panel.setBackground(transparentColour);
@@ -50,7 +49,11 @@ public class Main implements ActionListener, KeyListener {
 
         mainTitle = new JLabel("<html>AHHASC<br>Login Page</html>");
         mainTitle.setFont(Asset.getTitleFont());
-        mainTitle.setBounds(600,50,400,300);
+        mainTitle.setBounds(650,35,400,300);
+
+        userTextlabel = new Asset().generateImage("email_icon123.png");
+        userTextlabel.setBounds(650,350,40,40);
+        userTextlabel.setVisible(true);
 
         userLabel = new JLabel("Email");
         userLabel.setBounds(650, 290, 450, 70);
@@ -66,9 +69,8 @@ public class Main implements ActionListener, KeyListener {
         userTextField.setVisible(true);
         userTextField.setFont(new Font("Arial",Font.PLAIN,20));
 
-        userTextlabel = new Asset().generateImage("email_icon.png");
-        userTextlabel.setBounds(660,350,10,40);
-        userTextlabel.setVisible(true);
+        passwordImageLabel = new Asset().generateImage("password_icon123.png");
+        passwordImageLabel.setBounds(650,460,40,40);
 
         passwordLabel = new JLabel("Password:");
         passwordLabel.setBounds(650, 430, 200, 25);
@@ -84,8 +86,15 @@ public class Main implements ActionListener, KeyListener {
         userPasswordText.setVisible(true);
         userPasswordText.setFont(new Font("Arial",Font.PLAIN,20));
 
+
+
+        otherS = new JLabel("<html>Not a personnel in AHHASC?<br> Click here to redirect to the home page<html>");
+        otherS.setBounds(650,630,400,150);
+        otherS.setFont(new Font("Arial",Font.PLAIN,20));
+
         button = new JButton("Login");
         button.setBounds(650, 600, 450, 70);
+        button.setFont(Asset.getNameFont("Bold"));
         button.setBackground(Color.black);
         button.setForeground(Color.WHITE);
         button.addActionListener(this);
@@ -98,11 +107,13 @@ public class Main implements ActionListener, KeyListener {
         panel.add(userTextField);
         panel.add(userLabel);
         panel.add(textField);
+        panel.add(passwordImageLabel);
         panel.add(userPasswordText);
         panel.add(passwordLabel);
         panel.add(passwordText);
         panel.add(button);
         panel.add(success);
+        panel.add(otherS);
         backgroundPanel.add(technicianLabel);
         backgroundPanel.add(linePanel);
         panel.add(backgroundPanel);
