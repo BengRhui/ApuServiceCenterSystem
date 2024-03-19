@@ -4,12 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.Font;
 
 public class Main implements ActionListener, KeyListener {
 
     JPanel panel, backgroundPanel, linePanel;
     JFrame frame;
-    JLabel label, technicianLabel;
+    JLabel label, technicianLabel,mainTitle;
     JLabel userLabel;
     JLabel userTextField;
     JLabel passwordLabel;
@@ -23,7 +24,7 @@ public class Main implements ActionListener, KeyListener {
 
     public Main(){
         panel = new JPanel();
-        frame = new JFrame();
+        frame = new JFrame("Login Page");
         frame.setSize(1250, 900);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
@@ -38,7 +39,6 @@ public class Main implements ActionListener, KeyListener {
         label.setBounds(0,0,frame.getWidth(),frame.getHeight());
 
 
-
         panel.setLayout(null);
         panel.setBounds(0,0,frame.getWidth(),frame.getHeight());
         panel.setBackground(transparentColour);
@@ -48,35 +48,44 @@ public class Main implements ActionListener, KeyListener {
         technicianLabel = new Asset().generateImage("technician_Picture.jpg");
         technicianLabel.setBounds(3,3,linePanel.getX() - 3,linePanel.getHeight() - 6);
 
-        userLabel = new JLabel("Email");
-        userLabel.setBounds(650, 300, 80, 25);
+        mainTitle = new JLabel("<html>AHHASC<br>Login Page</html>");
+        mainTitle.setFont(Asset.getTitleFont());
+        mainTitle.setBounds(600,50,400,300);
 
-        textField = new JTextField();
-        textField.setBounds(650,325,250,40);
+        userLabel = new JLabel("Email");
+        userLabel.setBounds(650, 290, 450, 70);
+        userLabel.setFont(Asset.getNameFont("Bold"));
+
+        textField = new Asset().generateTextField();
+        textField.setBounds(650,350,450,60);
         textField.addKeyListener(this);
 
-        userTextField = new JLabel("Enter your email here:");
+        userTextField = new JLabel("Input email here:");
         userTextField.setForeground(Color.GRAY);
-        userTextField.setBounds(675, 325, 200, 40);
+        userTextField.setBounds(680, 360, 200, 40);
         userTextField.setVisible(true);
+        userTextField.setFont(new Font("Arial",Font.PLAIN,20));
 
         userTextlabel = new Asset().generateImage("email_icon.png");
-        userTextlabel.setBounds(660,325,10,40);
+        userTextlabel.setBounds(660,350,10,40);
         userTextlabel.setVisible(true);
 
-        passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(650, 370, 80, 25);
+        passwordLabel = new JLabel("Password:");
+        passwordLabel.setBounds(650, 430, 200, 25);
+        passwordLabel.setFont(Asset.getNameFont("Bold"));
 
         passwordText = new JPasswordField();
-        passwordText.setBounds(650, 395, 250, 40);
+        passwordText.setFont(new Font("Arial",Font.PLAIN,30));
+        passwordText.setBounds(650, 470, 450, 60);
 
         userPasswordText = new JLabel("Enter your password here:");
         userPasswordText.setForeground(Color.GRAY);
-        userPasswordText.setBounds(660, 395,200,40);
+        userPasswordText.setBounds(670, 470,200,40);
         userPasswordText.setVisible(true);
+        userPasswordText.setFont(new Font("Arial",Font.PLAIN,20));
 
         button = new JButton("Login");
-        button.setBounds(650, 465, 250, 40);
+        button.setBounds(650, 600, 450, 70);
         button.setBackground(Color.black);
         button.setForeground(Color.WHITE);
         button.addActionListener(this);
@@ -84,6 +93,7 @@ public class Main implements ActionListener, KeyListener {
         success = new JLabel("");
         success.setBounds(10, 110, 300, 25);
 
+        panel.add(mainTitle);
         panel.add(userTextlabel);
         panel.add(userTextField);
         panel.add(userLabel);
