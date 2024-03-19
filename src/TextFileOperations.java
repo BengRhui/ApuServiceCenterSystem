@@ -1,5 +1,11 @@
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Scanner;
 
 public class TextFileOperations {
@@ -65,6 +71,51 @@ public class TextFileOperations {
             }
         } catch (IOException ex) {
             System.out.println("Error with readStudent() method. Please inspect code.");
+        }
+    }
+
+    public static void writeAppointmentToFile() {
+        String fileName = "appointmentList.txt";
+        String[] writeList = new String[Appointment.getOverallAppointmentList().size()];
+        int i = 0;
+        for (Appointment appointment: Appointment.getOverallAppointmentList()) {
+
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String dateInString = appointment.date.format(format);
+
+            DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HHmm");
+            String startingTimeInString = appointment.startingTime.format(formatTime);
+            String endingTimeInString = appointment.endingTime.format(formatTime);
+
+            String line = appointment.appointmentID +
+                    ";" +
+                    String.format("%-5s", appointment.technicianID) +
+                    ";" +
+                    String.format("%-10s", appointment.studentTP) +
+                    ";" +
+                    String.format("%-30s", appointment.item) +
+                    ";" +
+                    String.format("%-15s", dateInString) +
+                    ";" +
+                    String.format("%-10s", startingTimeInString) +
+                    ";" +
+                    String.format("%-10s", endingTimeInString) +
+                    ";" +
+                    String.format("%-5s", appointment.price) +
+                    ";" +
+                    (appointment.paymentStatus ? "Paid" : "Unpaid");
+
+            writeList[i] = line;
+            i ++;
+        }
+        try {
+            PrintWriter write = new PrintWriter(filePath + fileName);
+            for (String line: writeList) {
+                write.println(line);
+            }
+            write.close();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error in writing to appointment list file.");
         }
     }
 }

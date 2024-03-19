@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Appointment {
 
@@ -43,21 +44,29 @@ public class Appointment {
         return overallAppointmentList;
     }
 
-    public static Object[][] createAppointmentTable() {
+    public static Object[][] createAppointmentTable(String name) {
 
-        Object[][] objectInTable = new Object[overallAppointmentList.size()][];
-        int i = 0;
-        String status;
-        for (Appointment appointment : overallAppointmentList) {
-            if (appointment.paymentStatus) {
-                status = "Pass";
-            } else {
-                status = "Close";
+        ArrayList<Appointment> filterList = new ArrayList<>();
+
+        for (Appointment appointment: overallAppointmentList) {
+            if (appointment.technicianID.equals(name)) {
+                filterList.add(appointment);
             }
-            String[] string = {appointment.appointmentID, appointment.technicianID, appointment.studentTP, appointment.item, appointment.date.toString(), appointment.startingTime.toString(), appointment.endingTime.toString(), status};
-            objectInTable[i] = string;
         }
+
+        Object[][] objectInTable = new Object[filterList.size()][];
+        int i = 0;
+        for (Appointment appointment : filterList) {
+            Object[] string = {appointment.appointmentID, appointment.technicianID, appointment.studentTP, appointment.item, appointment.date.toString(), appointment.startingTime.toString(), appointment.endingTime.toString(), appointment.price + "", appointment.paymentStatus};
+            objectInTable[i] = string;
+            i ++;
+        }
+
         return objectInTable;
+    }
+
+    public String getAppointmentID() {
+        return appointmentID;
     }
 
 }

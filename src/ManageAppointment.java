@@ -49,7 +49,6 @@ public class ManageAppointment implements ComponentListener, MouseListener {
         todayPanel = new ScheduleView(containerPane, "Lim", "09/03/2024");
 
         tablePanel = new AppointmentTable("T001");
-        tablePanel.setBackground(Color.BLUE);
 
         switchButton = new Asset().generateButtonWithoutImage("Switch View", 250, 50);
         switchButton.addMouseListener(this);
@@ -84,7 +83,7 @@ public class ManageAppointment implements ComponentListener, MouseListener {
         title.setBounds(backArrow.getX() + backArrow.getWidth() + 20, logoutButton.getY(), logoutButton.getX() - backArrow.getWidth() - backArrow.getX(), logoutButton.getHeight());
         containerPane.setBounds(title.getX(), title.getY() + title.getHeight() + 20, frame.getWidth() * 73 / 100, frame.getHeight() * 6 / 10);
         overallPanel.setBounds(0, 0, containerPane.getWidth(), containerPane.getHeight());
-        tablePanel.setBounds(0, 0, overallPanel.getWidth(), overallPanel.getHeight());
+        tablePanel.setSize(overallPanel.getWidth(), overallPanel.getHeight());
 
         todayPanel.revalidate();
         todayPanel.repaint();

@@ -21,7 +21,7 @@ public class ScheduleView extends JLayeredPane implements ComponentListener {
 
         title = new JLabel("Today's Appointment");
         title.setFont(Asset.getNameFont("Bold"));
-        title.setBounds(0, 0, this.getWidth() / 2, 50);
+        title.setBounds(0, 30, this.getWidth() / 2, 50);
 
         add(title, DEFAULT_LAYER);
 
