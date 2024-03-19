@@ -24,6 +24,8 @@ public class Asset implements MouseListener {
     private final static Font titleFont = new Font("Arial", Font.BOLD, 60);
 
     private final static Color transparentColour = new Color(255, 255, 255, 0);
+    private final static Color lightBlue = new Color(104, 208, 255);
+    private final static Color lighterBlue = new Color(208, 240, 255);
 
     // Getters to obtain the width and height of the frame
     public static int getFrameHeight() {
@@ -91,9 +93,17 @@ public class Asset implements MouseListener {
         return titleFont;
     }
 
-    // Getters to retrieve transparent colour
+    // Getters to retrieve different colours
     public static Color getTransparentColour() {
         return transparentColour;
+    }
+
+    public static Color getLightBlue() {
+        return lightBlue;
+    }
+
+    public static Color getLighterBlue() {
+        return lighterBlue;
     }
 
     // This method aims to generate a JLabel that consists of the image at the original size.
