@@ -46,7 +46,7 @@ public class Main implements ActionListener, KeyListener {
         linePanel = new Asset().drawLine(backgroundPanel.getWidth()/5*2,0,backgroundPanel.getWidth()/5*2,backgroundPanel.getHeight(),3);
 
         technicianLabel = new Asset().generateImage("technician_Picture.jpg");
-        technicianLabel.setBounds(0,0,linePanel.getX(),linePanel.getHeight());
+        technicianLabel.setBounds(3,3,linePanel.getX() - 3,linePanel.getHeight() - 6);
 
         userLabel = new JLabel("Email");
         userLabel.setBounds(650, 300, 80, 25);
@@ -78,7 +78,7 @@ public class Main implements ActionListener, KeyListener {
         button = new JButton("Login");
         button.setBounds(650, 465, 250, 40);
         button.setBackground(Color.black);
-        button.setFont()
+        button.setForeground(Color.WHITE);
         button.addActionListener(this);
 
         success = new JLabel("");
