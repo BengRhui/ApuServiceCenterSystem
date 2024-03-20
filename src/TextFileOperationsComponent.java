@@ -8,6 +8,16 @@ import java.util.Scanner;
 
 public class TextFileOperationsComponent {
     private final static String filePath = "textfile/";
+    private final static String picPath = "asset/";
+
+    public static String getTextFilePath() {
+        return filePath;
+    }
+
+    public static String getPictureFilePath() {
+        return picPath;
+    }
+
     public static void readElectronicsData() {
         ElectronicItems.getFullItemList().clear();
         try {

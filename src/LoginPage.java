@@ -17,6 +17,7 @@ public class LoginPage implements ActionListener, KeyListener, ComponentListener
     public LoginPage(){
         frame = new JFrame("Login Page");
         frame.setSize(1250, 900);
+        frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.addComponentListener(this);
