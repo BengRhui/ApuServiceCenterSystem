@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Feedback {
@@ -8,7 +9,7 @@ public class Feedback {
     int systemRating, technicianRating;
     String comment, appointmentID, technicianID, studentTP;
 
-    private static ArrayList<Feedback> overallFeedbackList = new ArrayList<>();
+    private final static ArrayList<Feedback> overallFeedbackList = new ArrayList<>();
     public Feedback(String appointmentID, String technicianID, String studentTP, int systemRating, int technicianRating, String comment) {
         this.appointmentID = appointmentID;
         this.technicianID = technicianID;
@@ -22,7 +23,7 @@ public class Feedback {
         return overallFeedbackList;
     }
 
-    public static ArrayList<Feedback> getFilteredFeedbackList(String tpNumber) {
+    public static ArrayList<Feedback> getStudentFilteredFeedbackList(String tpNumber) {
 
         TextFileOperationsComponent.readFeedbackFromList();
         ArrayList<Feedback> filter = new ArrayList<>();
@@ -32,6 +33,20 @@ public class Feedback {
             }
         }
         return filter;
+    }
+
+    public static ArrayList<Feedback> getTechnicianFilteredFeedbackLit(String technicianID) {
+        TextFileOperationsComponent.readTechnicianFromFile();
+        ArrayList<Feedback> filter = new ArrayList<>();
+        for (Feedback list: overallFeedbackList) {
+            if (list.technicianID.equals(technicianID)) {
+                filter.add(list);
+            }
+        }
+        return filter;
+    }
+    public LocalDateTime getDateAndTime() {
+        return LocalDateTime.of(Appointment.getAppointmentFromID(appointmentID).date, Appointment.getAppointmentFromID(appointmentID).startingTime);
     }
 
     public static JFrame provideFeedback(Appointment appointmentDetails, Feedback currentFeedback) {
@@ -123,7 +138,7 @@ public class Feedback {
         comment.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if (comment.getText().length() > 100) {
+                if (comment.getText().length() > 100 || e.getKeyChar() == ';') {
                     e.consume();
                 }
             }
@@ -230,6 +245,9 @@ public class Feedback {
                     }
 
                     String commentText = comment.getText().strip();
+                    if (commentText.isEmpty()) {
+                        throw new NullPointerException();
+                    }
 
                     currentFeedback.systemRating = systemRating;
                     currentFeedback.technicianRating = technicianRating;
