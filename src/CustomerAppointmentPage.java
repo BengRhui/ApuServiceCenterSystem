@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -11,7 +12,7 @@ public class CustomerAppointmentPage implements ComponentListener {
 
     static JFrame frame;
     JPanel titleTopPanel, contentPanel, marginPanel, leftEmptyPane, rightEmptyPane, topEmptyPane, bottomEmptyPane,
-            leftContent, rightContent, leftContextPane, rightContextPane, wholeContextPane, leftInfo;
+            leftContent, rightContent, leftContextPane, rightContextPane, wholeContextPane, leftInfo, rightInfo;
     JScrollPane leftScroll, rightScroll;
     JLabel title, logoutButton, titleBottomPanel, leftTitle, rightTitle, rightSubtitle;
     JLayeredPane titlePane;
@@ -100,10 +101,9 @@ public class CustomerAppointmentPage implements ComponentListener {
                 "We value your opinion and strive to provide a better service to you in the future.</html>");
         rightSubtitle.setFont(Asset.getBodyFont("Plain"));
 
-        JPanel test = new JPanel();
-        test.setPreferredSize(new Dimension(1000, 1000));
+        rightInfo = new ViewAppointmentComponent("TP067299").displayPreviousAppointment();
 
-        rightScroll = new JScrollPane(test);
+        rightScroll = new JScrollPane(rightInfo);
 
         rightContent = new JPanel(null);
         rightContent.add(rightScroll);
