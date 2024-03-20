@@ -1,10 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class CustomerMainPage implements KeyListener{
+public class InitialMainPage implements KeyListener, ComponentListener {
     JFrame frame;
     JLabel label, mainTitle, mainContent, subContent, subContent1, userTextField, repairImage, providerImage, providerText, callImage, callText, searchImage,
             personnelImage, personnelText, locationImage, locationText, locationText1;
@@ -14,17 +15,14 @@ public class CustomerMainPage implements KeyListener{
     JButton button;
     JLayeredPane LayeredPane;
 
-    Color transparentColour = new Color(255,255,255,0);
+    public InitialMainPage(){
 
-
-    public static void main(String[] args){new CustomerMainPage();}
-
-    public CustomerMainPage(){
-        panel = new JPanel();
-        frame = new JFrame("CustomerMainPage");
-        frame.setSize(1250, 900);
+        frame = new JFrame("AHHASC Main Page");
+        frame.setSize(Asset.getFrameWidth(), Asset.getFrameHeight());
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
+        frame.addComponentListener(this);
 
         backgroundPanel = new JPanel(null);
         backgroundPanel.setBackground(Color.WHITE);
@@ -32,9 +30,10 @@ public class CustomerMainPage implements KeyListener{
         backgroundPanel.setSize(frame.getWidth() * 9 / 10, frame.getHeight() * 9 / 10 - 30);
         backgroundPanel.setLocation((frame.getWidth() - backgroundPanel.getWidth()) /2, (frame.getHeight() - backgroundPanel.getHeight()) / 2 - 15);
 
+        panel = new JPanel();
         panel.setLayout(null);
         panel.setBounds(0,0,frame.getWidth(),frame.getHeight());
-        panel.setBackground(transparentColour);
+        panel.setBackground(Asset.getTransparentColour());
 
         mainTitle = new JLabel("APU Hostel Home Appliances Service Center");
         mainTitle.setFont(new Font("Arial",Font.BOLD,40));
@@ -154,6 +153,26 @@ public class CustomerMainPage implements KeyListener{
 
     @Override
     public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void componentResized(ComponentEvent e) {
+        
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
 
     }
 }
