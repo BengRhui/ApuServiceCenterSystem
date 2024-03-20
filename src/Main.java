@@ -1,12 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.awt.Font;
 
-public class Main implements ActionListener, KeyListener {
+public class Main implements ActionListener, KeyListener, ComponentListener {
 
     JPanel panel, backgroundPanel, linePanel, user;
     JFrame frame;
@@ -29,6 +26,7 @@ public class Main implements ActionListener, KeyListener {
         frame.setSize(1250, 900);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
+        frame.addComponentListener(this);
 
         backgroundPanel = new JPanel(null);
         backgroundPanel.setBackground(Color.WHITE);
@@ -184,6 +182,26 @@ public class Main implements ActionListener, KeyListener {
         } else if (userPasswordText.getText().isEmpty()) {
             userPasswordText.setVisible(true);
         }
+
+    }
+
+    @Override
+    public void componentResized(ComponentEvent e) {
+        
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
 
     }
 }

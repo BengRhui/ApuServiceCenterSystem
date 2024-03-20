@@ -16,7 +16,7 @@ public class ViewAppointmentComponent {
     private static ArrayList<Feedback> feedbackList;
     public ViewAppointmentComponent(String tpNumber) {
         appointmentList = Appointment.getFilteredCustomerList(tpNumber);
-        feedbackList = Feedback.getFilteredFeedbackList(tpNumber);
+        feedbackList = Feedback.getStudentFilteredFeedbackList(tpNumber);
     }
 
     public JPanel generateUpcomingAppointment() {
@@ -162,6 +162,7 @@ public class ViewAppointmentComponent {
 
                                 @Override
                                 public void windowClosed(WindowEvent e) {
+                                    CustomerAppointmentPage.frame.setEnabled(true);
                                     for (Feedback feedback: feedbackList) {
                                         if (feedback.appointmentID.equals(appointmentDetails.appointmentID)) {
                                             if (feedback.comment != null) {
@@ -170,7 +171,6 @@ public class ViewAppointmentComponent {
                                                 newFeedbackIcon.setBounds(290, 25, 35, 30);
                                                 textPanel.add(newFeedbackIcon);
                                                 textPanel.repaint();
-                                                CustomerAppointmentPage.frame.setEnabled(true);
                                             }
 
                                         }

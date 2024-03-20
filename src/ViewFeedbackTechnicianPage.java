@@ -3,9 +3,9 @@ import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-public class ViewFeedbackManagerPage implements ComponentListener {
+public class ViewFeedbackTechnicianPage implements ComponentListener {
     public static void main(String[] args) {
-        new ViewFeedbackManagerPage();
+        new ViewFeedbackTechnicianPage();
     }
 
     static JFrame frame;
@@ -13,7 +13,7 @@ public class ViewFeedbackManagerPage implements ComponentListener {
     JPanel backgroundPanel, leftPanel, rightPanel;
     JScrollPane rightScrollPanel;
 
-    public ViewFeedbackManagerPage() {
+    public ViewFeedbackTechnicianPage() {
 
         frame = new JFrame("View Feedback Page");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,11 +41,11 @@ public class ViewFeedbackManagerPage implements ComponentListener {
         rightSubtitle = new JLabel("Individual Feedback");
         rightSubtitle.setFont(Asset.getNameFont("Bold"));
 
-        leftPanel = new ViewFeedbackComponent().managerOverallReview();
+        leftPanel = new ViewFeedbackComponent().technicianOverallView("T001");
         leftPanel.setBackground(Color.WHITE);
         leftPanel.setBorder(null);
 
-        rightPanel = new ViewFeedbackComponent().individualReview(null);
+        rightPanel = new ViewFeedbackComponent().individualReview("T001");
         rightPanel.setBackground(Color.WHITE);
 
         rightScrollPanel = new JScrollPane(rightPanel);
