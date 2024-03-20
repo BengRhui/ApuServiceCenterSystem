@@ -2,14 +2,11 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 
-public class TextFileOperations {
+public class TextFileOperationsComponent {
     private final static String filePath = "textfile/";
     public static void readElectronicsData() {
         ElectronicItems.getFullItemList().clear();

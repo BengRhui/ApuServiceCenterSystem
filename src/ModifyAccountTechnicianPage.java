@@ -3,20 +3,20 @@ import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-public class ModifyAccountTechnician implements ComponentListener {
+public class ModifyAccountTechnicianPage implements ComponentListener {
     public static void main(String[] args) {
-        currentPage = new ModifyAccountTechnician();
+        currentPage = new ModifyAccountTechnicianPage();
     }
 
-    static ModifyAccountTechnician currentPage;
+    static ModifyAccountTechnicianPage currentPage;
     static JFrame frame;
     JLabel backgroundPicture, backArrow, logoutButton, title;
     JPanel backgroundPanel;
     JScrollPane editPanel;
     JLayeredPane cancelButton, saveButton;
-    InformationPane infoPane1;
+    InformationPaneComponent infoPane1;
 
-    public ModifyAccountTechnician() {
+    public ModifyAccountTechnicianPage() {
 
         frame = new JFrame("Modify Technician Page");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,7 +25,7 @@ public class ModifyAccountTechnician implements ComponentListener {
         frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
         frame.addComponentListener(this);
 
-        infoPane1 = new InformationPane();
+        infoPane1 = new InformationPaneComponent();
 
         backgroundPicture = new Asset().generateImage("background.jpg");
 

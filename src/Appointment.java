@@ -3,7 +3,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Appointment {
 
@@ -75,7 +74,7 @@ public class Appointment {
     }
 
     public static ArrayList<Appointment> getFilteredCustomerList(String tpNumber) {
-        TextFileOperations.readAppointment();
+        TextFileOperationsComponent.readAppointment();
         ArrayList<Appointment> filter = new ArrayList<>();
         for (Appointment appointment: overallAppointmentList) {
             if (appointment.studentTP.equals(tpNumber)) {

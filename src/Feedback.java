@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.security.Key;
 import java.util.ArrayList;
 
 public class Feedback {
@@ -25,7 +24,7 @@ public class Feedback {
 
     public static ArrayList<Feedback> getFilteredFeedbackList(String tpNumber) {
 
-        TextFileOperations.readFeedbackFromList();
+        TextFileOperationsComponent.readFeedbackFromList();
         ArrayList<Feedback> filter = new ArrayList<>();
         for (Feedback feedback: overallFeedbackList) {
             if (feedback.studentTP.equals(tpNumber)) {
@@ -235,7 +234,7 @@ public class Feedback {
                     currentFeedback.systemRating = systemRating;
                     currentFeedback.technicianRating = technicianRating;
                     currentFeedback.comment = commentText;
-                    TextFileOperations.writeFeedbackToFile();
+                    TextFileOperationsComponent.writeFeedbackToFile();
                     JOptionPane.showMessageDialog(frame, "Record has been successfully saved.");
                     frame.dispose();
 

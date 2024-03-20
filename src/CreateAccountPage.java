@@ -19,7 +19,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
     JScrollPane displayManagerPanel, displayTechnicianPanel, displayCustomerPanel;
     JLayeredPane confirmButton, cancelButton, saveButton;
     JComboBox<String> selectAccount;
-    InformationPane infoPane1;
+    InformationPaneComponent infoPane1;
 
     public CreateAccountPage() {
 
@@ -30,7 +30,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
         frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
         frame.addComponentListener(this);
 
-        infoPane1 = new InformationPane();
+        infoPane1 = new InformationPaneComponent();
 
         backgroundPicture = new Asset().generateImage("background.jpg");
 
@@ -59,8 +59,8 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
         confirmButton.setFocusable(true);
         confirmButton.addMouseListener(this);
 
-        displayTechnicianPanel = new InformationPane().bookAppointmentPane();
-        displayCustomerPanel = new JScrollPane(new InformationPane().customerInformation());
+        displayTechnicianPanel = new InformationPaneComponent().bookAppointmentPane();
+        displayCustomerPanel = new JScrollPane(new InformationPaneComponent().customerInformation());
 
         cancelButton = new Asset().generateButtonWithoutImage("Cancel", confirmButton.getWidth(), confirmButton.getHeight());
 
@@ -116,8 +116,8 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == confirmButton) {
             if (Objects.equals(selectAccount.getSelectedItem(), "Manager")) {
-                InformationPane.positionChoice.clear();
-                InformationPane.positionChoice.addAll(Arrays.asList(Manager.getManagerPosition()));
+                InformationPaneComponent.positionChoice.clear();
+                InformationPaneComponent.positionChoice.addAll(Arrays.asList(Manager.getManagerPosition()));
 
 
                 if (backgroundPanel.getComponentZOrder(displayManagerPanel) > -1) {
@@ -164,8 +164,8 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
 
 
             } else if (Objects.equals(selectAccount.getSelectedItem(), "Technician")) {
-                InformationPane.positionChoice.clear();
-                InformationPane.positionChoice.addAll(Arrays.asList(Technician.getTechnicianPosition()));
+                InformationPaneComponent.positionChoice.clear();
+                InformationPaneComponent.positionChoice.addAll(Arrays.asList(Technician.getTechnicianPosition()));
 
                 if (backgroundPanel.getComponentZOrder(displayTechnicianPanel) > -1) {
                     backgroundPanel.remove(displayTechnicianPanel);
@@ -177,7 +177,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
                     backgroundPanel.remove(displayCustomerPanel);
                 }
 
-                displayTechnicianPanel = new JScrollPane(new InformationPane().createManagerAndTechnicianAccount());
+                displayTechnicianPanel = new JScrollPane(new InformationPaneComponent().createManagerAndTechnicianAccount());
                 displayTechnicianPanel.setBounds(title.getX(), accountText.getY() + accountText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - accountText.getY() - accountText.getHeight()) * 9 / 10 - 100);
                 backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
                 backgroundPanel.add(displayTechnicianPanel);
@@ -218,7 +218,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
                     backgroundPanel.remove(displayManagerPanel);
                 }
 
-                displayCustomerPanel = new JScrollPane(new InformationPane().customerCreatePersonalInformation());
+                displayCustomerPanel = new JScrollPane(new InformationPaneComponent().customerCreatePersonalInformation());
                 displayCustomerPanel.setBounds(title.getX(), accountText.getY() + accountText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - accountText.getY() - accountText.getHeight()) * 9 / 10 - 100);
                 backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
                 backgroundPanel.add(displayCustomerPanel);

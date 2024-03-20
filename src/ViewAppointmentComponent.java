@@ -4,9 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.lang.reflect.Array;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -53,7 +51,7 @@ public class ViewAppointmentComponent {
             time.setFont(Asset.getBodyFont("Plain"));
             time.setBounds(30, 60, 250, 30);
 
-            TextFileOperations.readTechnicianFromFile();
+            TextFileOperationsComponent.readTechnicianFromFile();
             JLabel technician = new JLabel("(" + Technician.getNameFromID(appointmentDetails.technicianID) + ")");
             technician.setFont(Asset.getBodyFont("Plain"));
             technician.setBounds(30, 100, 250, 30);

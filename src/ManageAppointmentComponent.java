@@ -5,10 +5,10 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class ManageAppointment implements ComponentListener, MouseListener {
+public class ManageAppointmentComponent implements ComponentListener, MouseListener {
 
     public static void main(String[] args) {
-        new ManageAppointment();
+        new ManageAppointmentComponent();
     }
 
     static JFrame frame;
@@ -16,9 +16,9 @@ public class ManageAppointment implements ComponentListener, MouseListener {
     JPanel backgroundPanel, overallPanel, tablePanel;
     JLayeredPane switchButton, containerPane;
     CardLayout cardLayout = new CardLayout();
-    ScheduleView todayPanel;
+    ViewScheduleComponent todayPanel;
 
-    public ManageAppointment() {
+    public ManageAppointmentComponent() {
         frame = new JFrame("Modify Technician Page");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
@@ -46,9 +46,9 @@ public class ManageAppointment implements ComponentListener, MouseListener {
         containerPane.setSize(frame.getWidth() * 73 / 100, frame.getHeight() * 6 / 10);
 
 
-        todayPanel = new ScheduleView(containerPane, "Lim", "09/03/2024");
+        todayPanel = new ViewScheduleComponent(containerPane, "Lim", "09/03/2024");
 
-        tablePanel = new AppointmentTable("T001");
+        tablePanel = new AppointmentTableComponent("T001");
 
         switchButton = new Asset().generateButtonWithoutImage("Switch View", 250, 50);
         switchButton.addMouseListener(this);

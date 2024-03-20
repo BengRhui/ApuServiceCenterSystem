@@ -55,7 +55,7 @@ public class BookAppointmentPage implements ComponentListener, MouseListener {
         searchButton.setFocusable(true);
         searchButton.addMouseListener(this);
 
-        fillInfoPane = new InformationPane().bookAppointmentPane();
+        fillInfoPane = new InformationPaneComponent().bookAppointmentPane();
         fillInfoPane.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         fillInfoPane.setVisible(false);
 
