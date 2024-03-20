@@ -5,23 +5,16 @@ import java.awt.Font;
 
 public class Main implements ActionListener, KeyListener, ComponentListener {
 
-    JPanel panel, backgroundPanel, linePanel, user;
+    JPanel backgroundPanel, linePanel;
     JFrame frame;
-    JLabel label, technicianLabel,mainTitle, otherS, passwordImageLabel;
-    JLabel userLabel;
-    JLabel userTextField;
-    JLabel passwordLabel;
-    JLabel success;
-    JLabel userPasswordText;
-    JLabel userTextlabel;
+    JLabel backgroundImage, technicianLabel,mainTitle, otherS, passwordImageLabel;
+    JLabel emailLabel, userTextField, passwordLabel, success, userPasswordText, userTextLabel;
     JTextField textField;
     JPasswordField passwordText;
     JButton button;
     JLayeredPane passwordLayered, userLayered;
-    Color transparentColour = new Color(255,255,255,0);
 
     public Main(){
-        panel = new JPanel();
         frame = new JFrame("Login Page");
         frame.setSize(1250, 900);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,31 +25,24 @@ public class Main implements ActionListener, KeyListener, ComponentListener {
         backgroundPanel.setBackground(Color.WHITE);
         backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
         backgroundPanel.setSize(frame.getWidth() * 9 / 10, frame.getHeight() * 9 / 10 - 30);
-        backgroundPanel.setLocation((frame.getWidth() - backgroundPanel.getWidth()) /2, (frame.getHeight() - backgroundPanel.getHeight()) / 2 - 15);
 
-        label = new Asset().generateImage("background_1.jpg");
-        label.setBounds(0,0,frame.getWidth(),frame.getHeight());
+        backgroundImage = new Asset().generateImage("background_1.jpg");
 
-        panel.setLayout(null);
-        panel.setBounds(0,0,frame.getWidth(),frame.getHeight());
-        panel.setBackground(transparentColour);
-
-        linePanel = new Asset().drawLine(backgroundPanel.getWidth()/5*2,0,backgroundPanel.getWidth()/5*2,backgroundPanel.getHeight(),3);
+        linePanel = new Asset().drawLine(backgroundPanel.getWidth() / 5 * 2,0,backgroundPanel.getWidth() / 5 * 2, 2000,3);
 
         technicianLabel = new Asset().generateImage("technician_Picture.jpg");
-        technicianLabel.setBounds(3,3,linePanel.getX() - 3,linePanel.getHeight() - 6);
 
         mainTitle = new JLabel("<html>AHHASC<br>Login Page</html>");
         mainTitle.setFont(Asset.getTitleFont());
-        mainTitle.setBounds(650,35,400,300);
 
-        userTextlabel = new Asset().generateImage("email_icon123.png");
-        userTextlabel.setBounds(10,15,40,40);
-        userTextlabel.setVisible(true);
+        emailLabel = new JLabel("Email");
+        emailLabel.setFont(Asset.getNameFont("Bold"));
 
-        userLabel = new JLabel("Email");
-        userLabel.setBounds(660, 295, 450, 70);
-        userLabel.setFont(Asset.getNameFont("Bold"));
+        userTextLabel = new Asset().generateImage("email_icon123.png");
+        userTextLabel.setBounds(10,15,60,60);
+        userTextLabel.setVisible(true);
+
+
 
         textField = new JTextField();
         textField.setBounds(0,0,450,60);
@@ -77,7 +63,7 @@ public class Main implements ActionListener, KeyListener, ComponentListener {
         userLayered = new JLayeredPane();
         userLayered.setBounds(650,350,450,450);
         userLayered.add(textField,JLayeredPane.DEFAULT_LAYER);
-        userLayered.add(userTextlabel,JLayeredPane.PALETTE_LAYER);
+        userLayered.add(userTextLabel,JLayeredPane.PALETTE_LAYER);
         userLayered.add(userTextField,JLayeredPane.PALETTE_LAYER);
 //        userLayered.add(user,JLayeredPane.DEFAULT_LAYER);
 
@@ -122,33 +108,26 @@ public class Main implements ActionListener, KeyListener, ComponentListener {
         success = new JLabel("");
         success.setBounds(10, 110, 300, 25);
 
-        panel.add(mainTitle);
-        panel.add(userLabel);
-        panel.add(userLayered);
-        panel.add(passwordLabel);
-        panel.add(passwordLayered);
-        panel.add(button);
-        panel.add(success);
-        panel.add(otherS);
+        backgroundPanel.add(mainTitle);
+        backgroundPanel.add(emailLabel);
+        backgroundPanel.add(userLayered);
+        backgroundPanel.add(passwordLabel);
+        backgroundPanel.add(passwordLayered);
+        backgroundPanel.add(button);
+        backgroundPanel.add(success);
+        backgroundPanel.add(otherS);
         backgroundPanel.add(technicianLabel);
         backgroundPanel.add(linePanel);
-        panel.add(backgroundPanel);
 
-
-
-
-        frame.add(panel);
-        frame.add(label);
+        frame.add(backgroundPanel);
+        frame.add(backgroundImage);
         frame.setVisible(true);
     }
 
 
 
     public static void main(String[] args){
-
-        Main main = new Main();
-
-
+        new Main();
     }
 
 
@@ -187,7 +166,12 @@ public class Main implements ActionListener, KeyListener, ComponentListener {
 
     @Override
     public void componentResized(ComponentEvent e) {
-        
+        backgroundPanel.setSize(frame.getWidth() * 9 / 10, frame.getHeight() * 9 / 10 - 30);
+        backgroundPanel.setLocation((frame.getWidth() - backgroundPanel.getWidth()) /2, (frame.getHeight() - backgroundPanel.getHeight()) / 2 - 15);
+        backgroundImage.setBounds(0,0,frame.getWidth(),frame.getHeight());
+        technicianLabel.setBounds(3,3,linePanel.getX() - 3,backgroundPanel.getHeight() - 6);
+        mainTitle.setBounds(linePanel.getX() + 70,backgroundPanel.getHeight() / 20,400,200);
+        emailLabel.setBounds(mainTitle.getX(), mainTitle.getY() + mainTitle.getHeight() + 20, mainTitle.getWidth(), 70);
     }
 
     @Override
