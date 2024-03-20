@@ -84,4 +84,15 @@ public class Appointment {
         }
         return filter;
     }
+
+    public static Appointment getAppointmentFromID(String appointmentID) {
+        Appointment item = null;
+        for (Appointment appointment: overallAppointmentList) {
+            if (appointment.appointmentID.equals(appointmentID)) {
+                item = appointment;
+                break;
+            }
+        }
+        return item;
+    }
 }

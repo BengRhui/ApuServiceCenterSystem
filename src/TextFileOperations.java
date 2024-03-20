@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -27,6 +28,7 @@ public class TextFileOperations {
                     }
                     new ElectronicItems(line[0], line[1], Integer.parseInt(line[2]));
                 }
+                input.close();
             }
         } catch (IOException ex) {
             System.out.println("electronicItems.txt is not found. Please inspect readElectronicsData() method.");
@@ -47,6 +49,7 @@ public class TextFileOperations {
                 Appointment newAppointment = new Appointment(line[0], line[1], line[2], line[3], line[4], line[5], line[6], Integer.parseInt(line[7]), line[8]);
                 Appointment.setOverallAppointmentList(newAppointment);
             }
+            read.close();
         } catch (IOException ex) {
             System.out.println("appointmentList.txt is not found. Please inspect readAppointmentData() method.");
         } catch (NumberFormatException ex) {
@@ -69,6 +72,7 @@ public class TextFileOperations {
                 }
                 Student.getOverallStudentList().add(new Student(student[0], student[1], student[2], student[3], student[4]));
             }
+            read.close();
         } catch (IOException ex) {
             System.out.println("Error with readStudent() method. Please inspect code.");
         }
@@ -102,8 +106,33 @@ public class TextFileOperations {
                         info[13])
                 );
             }
+            read.close();
         } catch (IOException ex) {
             System.out.println("Error with readTechnicianFromFile() method. Please inspect code.");
+        }
+    }
+
+    public static void readFeedbackFromList() {
+        Feedback.getOverallFeedbackList().clear();
+        String fileName = "feedbackList.txt";
+        try {
+            File file = new File(filePath + fileName);
+            Scanner read = new Scanner(file);
+            readAppointment();
+            while (read.hasNext()) {
+                String[] line = read.nextLine().split(";");
+                for (int i = 0; i < line.length; i ++) {
+                    line[i] = line[i].strip();
+                }
+                String comment = line[5];
+                if (line[5].equals("null")) {
+                    comment = null;
+                }
+                Feedback feedback = new Feedback(line[0], line[1], line[2], Integer.parseInt(line[3]), Integer.parseInt(line[4]), comment);
+                Feedback.getOverallFeedbackList().add(feedback);
+            }
+        } catch (IOException ex) {
+            System.out.println("Error with reading from feedback list file. Please inspect code");
         }
     }
 
@@ -149,6 +178,29 @@ public class TextFileOperations {
             write.close();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Error in writing to appointment list file.");
+        }
+    }
+
+    public static void writeFeedbackToFile() {
+        try {
+            String fileName = "feedbackList.txt";
+            PrintWriter write = new PrintWriter(filePath + fileName);
+
+            ArrayList<Feedback> list = Feedback.getOverallFeedbackList();
+
+            for (Feedback feedback: list) {
+                String lineToWrite = String.format("%-5s", feedback.appointmentID) + ";"
+                        + String.format("%-5s", feedback.technicianID) + ";"
+                        + String.format("%-10s", feedback.studentTP) + ";"
+                        + String.format("%-5s", feedback.systemRating) + ";"
+                        + String.format("%-5s", feedback.technicianRating) + ";"
+                        + feedback.comment;
+                write.println(lineToWrite);
+            }
+
+            write.close();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error in writing to feedback list file.");
         }
     }
 }

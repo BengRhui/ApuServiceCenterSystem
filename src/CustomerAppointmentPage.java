@@ -102,12 +102,13 @@ public class CustomerAppointmentPage implements ComponentListener {
         rightSubtitle.setFont(Asset.getBodyFont("Plain"));
 
         rightInfo = new ViewAppointmentComponent("TP067299").displayPreviousAppointment();
+        rightInfo.setBackground(Color.WHITE);
 
         rightScroll = new JScrollPane(rightInfo);
+        rightScroll.setBorder(null);
 
         rightContent = new JPanel(null);
         rightContent.add(rightScroll);
-        rightContent.setBackground(Color.MAGENTA);
 
         rightContextPane.add(rightTitle);
         rightContextPane.add(rightSubtitle);
