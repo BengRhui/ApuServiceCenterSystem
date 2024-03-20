@@ -8,7 +8,7 @@ import java.awt.Font;
 
 public class Main implements ActionListener, KeyListener {
 
-    JPanel panel, backgroundPanel, linePanel;
+    JPanel panel, backgroundPanel, linePanel, user;
     JFrame frame;
     JLabel label, technicianLabel,mainTitle, otherS, passwordImageLabel;
     JLabel userLabel;
@@ -20,6 +20,7 @@ public class Main implements ActionListener, KeyListener {
     JTextField textField;
     JPasswordField passwordText;
     JButton button;
+    JLayeredPane passwordLayered, userLayered;
     Color transparentColour = new Color(255,255,255,0);
 
     public Main(){
@@ -52,25 +53,38 @@ public class Main implements ActionListener, KeyListener {
         mainTitle.setBounds(650,35,400,300);
 
         userTextlabel = new Asset().generateImage("email_icon123.png");
-        userTextlabel.setBounds(650,350,40,40);
+        userTextlabel.setBounds(10,15,40,40);
         userTextlabel.setVisible(true);
 
         userLabel = new JLabel("Email");
-        userLabel.setBounds(650, 290, 450, 70);
+        userLabel.setBounds(660, 295, 450, 70);
         userLabel.setFont(Asset.getNameFont("Bold"));
 
-        textField = new Asset().generateTextField();
-        textField.setBounds(650,350,450,60);
+        textField = new JTextField();
+        textField.setBounds(0,0,450,60);
+//        textField.setBorder(null);
+//        textField.setBackground(Asset.getTransparentColour());
         textField.addKeyListener(this);
 
         userTextField = new JLabel("Input email here:");
         userTextField.setForeground(Color.GRAY);
-        userTextField.setBounds(680, 360, 200, 40);
+        userTextField.setBounds(55, 15, 200, 40);
         userTextField.setVisible(true);
         userTextField.setFont(new Font("Arial",Font.PLAIN,20));
 
+//        user = new Asset().generateRoundedRectangle(450,70,15,1);
+//        user.setLocation(0,0);
+
+
+        userLayered = new JLayeredPane();
+        userLayered.setBounds(650,350,450,450);
+        userLayered.add(textField,JLayeredPane.DEFAULT_LAYER);
+        userLayered.add(userTextlabel,JLayeredPane.PALETTE_LAYER);
+        userLayered.add(userTextField,JLayeredPane.PALETTE_LAYER);
+//        userLayered.add(user,JLayeredPane.DEFAULT_LAYER);
+
         passwordImageLabel = new Asset().generateImage("password_icon123.png");
-        passwordImageLabel.setBounds(650,460,40,40);
+        passwordImageLabel.setBounds(10,5,40,40);
 
         passwordLabel = new JLabel("Password:");
         passwordLabel.setBounds(650, 430, 200, 25);
@@ -78,14 +92,22 @@ public class Main implements ActionListener, KeyListener {
 
         passwordText = new JPasswordField();
         passwordText.setFont(new Font("Arial",Font.PLAIN,30));
-        passwordText.setBounds(650, 470, 450, 60);
+        passwordText.setBounds(0, 0, 450, 60);
+        passwordText.addKeyListener(this);
 
         userPasswordText = new JLabel("Enter your password here:");
         userPasswordText.setForeground(Color.GRAY);
-        userPasswordText.setBounds(670, 470,200,40);
+        userPasswordText.setBounds(55, 9,400,45);
         userPasswordText.setVisible(true);
         userPasswordText.setFont(new Font("Arial",Font.PLAIN,20));
 
+
+
+        passwordLayered = new JLayeredPane();
+        passwordLayered.setBounds(650,470,450,450);
+        passwordLayered.add(passwordText, JLayeredPane.DEFAULT_LAYER);
+        passwordLayered.add(passwordImageLabel, JLayeredPane.PALETTE_LAYER);
+        passwordLayered.add(userPasswordText, JLayeredPane.PALETTE_LAYER);
 
 
         otherS = new JLabel("<html>Not a personnel in AHHASC?<br> Click here to redirect to the home page<html>");
@@ -103,14 +125,10 @@ public class Main implements ActionListener, KeyListener {
         success.setBounds(10, 110, 300, 25);
 
         panel.add(mainTitle);
-        panel.add(userTextlabel);
-        panel.add(userTextField);
         panel.add(userLabel);
-        panel.add(textField);
-        panel.add(passwordImageLabel);
-        panel.add(userPasswordText);
+        panel.add(userLayered);
         panel.add(passwordLabel);
-        panel.add(passwordText);
+        panel.add(passwordLayered);
         panel.add(button);
         panel.add(success);
         panel.add(otherS);
@@ -155,13 +173,13 @@ public class Main implements ActionListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if(!textField.getText().isEmpty()) {
+        if(!textField.getText().isEmpty()){
             userTextField.setVisible(false);
         } else if (textField.getText().isEmpty()) {
             userTextField.setVisible(true);
         }
 
-        if(!userPasswordText.getText().isEmpty()) {
+        if(!passwordText.getText().isEmpty()) {
             userPasswordText.setVisible(false);
         } else if (userPasswordText.getText().isEmpty()) {
             userPasswordText.setVisible(true);
