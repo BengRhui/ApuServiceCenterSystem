@@ -2,14 +2,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class CustomerMainPage {
+public class CustomerMainPage implements KeyListener{
     JFrame frame;
-    JLabel label, mainTitle, mainContent, subContent, subContent1, userTextField, repairImage, providerImage, providerText, callImage, callText,
+    JLabel label, mainTitle, mainContent, subContent, subContent1, userTextField, repairImage, providerImage, providerText, callImage, callText, searchImage,
             personnelImage, personnelText, locationImage, locationText, locationText1;
 
     JPanel panel, backgroundPanel;
     JTextField textField;
+    JButton button;
+    JLayeredPane LayeredPane;
 
     Color transparentColour = new Color(255,255,255,0);
 
@@ -57,6 +60,8 @@ public class CustomerMainPage {
 
         textField = new Asset().generateTextField();
         textField.setBounds(600,280,350,60);
+        textField.addKeyListener(this);
+
 
         repairImage = new Asset().generateImage("repair_vector123.png");
         repairImage.setBounds(720,430,400,400);
@@ -64,9 +69,10 @@ public class CustomerMainPage {
         providerImage = new Asset().generateImage("providedService_icon123.jpg");
         providerImage.setBounds(135,525,55,55);
 
-        providerText = new JLabel("<html><u>We can fix:</u><html>");
+        providerText = new JLabel("<html><u>We can fix:</u><br><ul><li>Electric kettle</li><li>Iron/ Steamer</li><li>Bedside lamp</li><li>Hair Dryer</li></ul>and many more!<html>");
         providerText.setFont(new Font("Arial", Font.PLAIN,18));
-        providerText.setBounds(200,470,100,100);
+        providerText.setBounds(200,480,200,200);
+
 
         callImage = new Asset().generateImage("call_icon.png");
         callImage.setBounds(390,520,60,60);
@@ -93,17 +99,20 @@ public class CustomerMainPage {
         personnelImage = new Asset().generateImage("personnel_icon.png");
         personnelImage.setBounds(115,750,40,40);
 
+        button = new JButton("");
+        button.setBounds(0,0,70,70);
+        button.setBackground(Color.black);
+        searchImage = new Asset().generateImage("search_icon.png");
+        searchImage.setBounds(0,0,60,60);
 
-
-//        textField.addKeyListener(this);
-
-
-
+        LayeredPane = new JLayeredPane();
+        LayeredPane.setBounds(970,275,70,70);
+        LayeredPane.add(button, JLayeredPane.DEFAULT_LAYER);
+        LayeredPane.add(searchImage, JLayeredPane.PALETTE_LAYER);
+        LayeredPane.addKeyListener(this);
 
         label = new Asset().generateImage("background_1.jpg");
         label.setBounds(0,0,frame.getWidth(),frame.getHeight());
-
-
 
         panel.add(mainTitle);
         panel.add(mainContent);
@@ -122,6 +131,7 @@ public class CustomerMainPage {
         panel.add(personnelImage);
         panel.add(personnelText);
         panel.add(backgroundPanel);
+        panel.add(LayeredPane);
 
 
         frame.add(panel);
@@ -129,6 +139,21 @@ public class CustomerMainPage {
         frame.setVisible(true);
 
 
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
 
     }
 }
