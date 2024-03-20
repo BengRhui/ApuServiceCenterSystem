@@ -1,5 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -123,28 +127,99 @@ public class ViewAppointmentComponent {
             JLabel viewDetails = new Asset().generateImage("viewDetails_icon.png");
             viewDetails.setBounds(240, 25, 30, 30);
 
-            boolean feedbackProvide = false;
+            JLabel giveFeedback;
             for (Feedback feedback: feedbackList) {
                 if (feedback.appointmentID.equals(appointmentDetails.appointmentID)) {
-                    feedbackProvide = true;
-                    break;
+                    if (feedback.comment != null) {
+                        giveFeedback = new Asset().generateImage("provideFeedbackHalf_icon.jpg");
+                        giveFeedback.setBounds(290, 25, 35, 30);
+                        textPanel.add(giveFeedback);
+                        break;
+                    } else {
+                        giveFeedback = new Asset().generateImage("provideFeedbackFull_icon.jpg");
+                        giveFeedback.setBounds(290, 25, 35, 30);
+                        textPanel.add(giveFeedback);
+                        JLabel finalGiveFeedback = giveFeedback;
+                        giveFeedback.addMouseListener(new MouseListener() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                            }
+
+                            @Override
+                            public void mousePressed(MouseEvent e) {
+                            }
+
+                            @Override
+                            public void mouseReleased(MouseEvent e) {
+                                JFrame frame = Feedback.provideFeedback(appointmentDetails, feedback);
+                                frame.addWindowListener(new WindowListener() {
+                                @Override
+                                public void windowOpened(WindowEvent e) {
+                                    CustomerAppointmentPage.frame.setEnabled(false);
+                                }
+
+                                @Override
+                                public void windowClosing(WindowEvent e) {
+                                }
+
+                                @Override
+                                public void windowClosed(WindowEvent e) {
+                                    for (Feedback feedback: feedbackList) {
+                                        if (feedback.appointmentID.equals(appointmentDetails.appointmentID)) {
+                                            if (feedback.comment != null) {
+                                                textPanel.remove(finalGiveFeedback);
+                                                JLabel newFeedbackIcon = new Asset().generateImage("provideFeedbackHalf_icon.jpg");
+                                                newFeedbackIcon.setBounds(290, 25, 35, 30);
+                                                textPanel.add(newFeedbackIcon);
+                                                textPanel.repaint();
+                                                CustomerAppointmentPage.frame.setEnabled(true);
+                                            }
+
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void windowIconified(WindowEvent e) {
+
+                                }
+
+                                @Override
+                                public void windowDeiconified(WindowEvent e) {
+
+                                }
+
+                                @Override
+                                public void windowActivated(WindowEvent e) {
+
+                                }
+
+                                @Override
+                                public void windowDeactivated(WindowEvent e) {
+
+                                }
+                            });
+                            }
+
+                            @Override
+                            public void mouseEntered(MouseEvent e) {
+                                finalGiveFeedback.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                            }
+
+                            @Override
+                            public void mouseExited(MouseEvent e) {
+                                finalGiveFeedback.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                            }
+                        });
+                    }
                 }
             }
-
-            JLabel giveFeedback;
-            if (feedbackProvide) {
-                giveFeedback = new Asset().generateImage("provideFeedbackHalf_icon.jpg");
-            } else {
-                giveFeedback = new Asset().generateImage("provideFeedbackFull_icon.jpg");
-            }
-
-            giveFeedback.setBounds(290, 25, 30, 30);
 
             textPanel.add(date);
             textPanel.add(startingAndEnding);
             textPanel.add(viewDetails);
-            textPanel.add(giveFeedback);
-            textPanel.setBackground(Color.GRAY);
+            textPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+            textPanel.setBackground(Color.WHITE);
 
             basePanel.add(textPanel);
             overallPane.add(basePanel);
@@ -154,7 +229,7 @@ public class ViewAppointmentComponent {
         if (remainingBox != 0) {
             for (int i = 0; i < remainingBox; i ++) {
                 JPanel empty = new JPanel(new BorderLayout());
-                empty.setBackground(Color.BLUE);
+                empty.setBackground(Color.WHITE);
                 overallPane.add(empty);
             }
         }

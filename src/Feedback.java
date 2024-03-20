@@ -110,10 +110,9 @@ public class Feedback {
 
         JTextArea comment = new JTextArea(5, 20);
         comment.setFont(Asset.getBodyFont("Plain"));
-        comment.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         comment.setLineWrap(true);
         comment.setWrapStyleWord(true);
-        comment.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        comment.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 2), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
         JLayeredPane saveButton = new Asset().generateButtonWithoutImage("Save", 250, 50);
 
@@ -200,18 +199,49 @@ public class Feedback {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                JRadioButton selectedButton1 = (JRadioButton) group1.getSelection();
-                String systemRating = selectedButton1.getText();
+                try {
+                    int systemRating;
+                    if (button1.isSelected()) {
+                        systemRating = 1;
+                    } else if (button2.isSelected()) {
+                        systemRating = 2;
+                    } else if (button3.isSelected()) {
+                        systemRating = 3;
+                    } else if (button4.isSelected()) {
+                        systemRating = 4;
+                    } else if (button5.isSelected()) {
+                        systemRating = 5;
+                    } else {
+                        throw new NullPointerException();
+                    }
 
-                JRadioButton selectedButton2 = (JRadioButton) group2.getSelection();
-                String technicianRating = selectedButton2.getText();
+                    int technicianRating;
+                    if (button6.isSelected()) {
+                        technicianRating = 1;
+                    } else if (button7.isSelected()) {
+                        technicianRating = 2;
+                    } else if (button8.isSelected()) {
+                        technicianRating = 3;
+                    } else if (button9.isSelected()) {
+                        technicianRating = 4;
+                    } else if (button10.isSelected()) {
+                        technicianRating = 5;
+                    } else {
+                        throw new NullPointerException();
+                    }
 
-                String commentText = comment.getText().strip();
+                    String commentText = comment.getText().strip();
 
-                currentFeedback.systemRating = Integer.parseInt(systemRating);
-                currentFeedback.technicianRating = Integer.parseInt(technicianRating);
-                currentFeedback.comment = commentText;
+                    currentFeedback.systemRating = systemRating;
+                    currentFeedback.technicianRating = technicianRating;
+                    currentFeedback.comment = commentText;
+                    TextFileOperations.writeFeedbackToFile();
+                    JOptionPane.showMessageDialog(frame, "Record has been successfully saved.");
+                    frame.dispose();
 
+                } catch (NullPointerException ex) {
+                    JOptionPane.showMessageDialog(frame, "Please fill in all the fields before submitting.");
+                }
 
 
             }
