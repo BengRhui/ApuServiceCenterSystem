@@ -14,10 +14,10 @@ public class ManagerMainPage implements ComponentListener {
     int profileRadius = 125, lineStroke = 5;
 
     public static void main(String[] args) {
-        new ManagerMainPage();
+        new ManagerMainPage(null);
     }
 
-    public ManagerMainPage() {
+    public ManagerMainPage(Manager manager) {
         frame = new JFrame("Manager Main Page");
         frame.setSize(Asset.getFrameWidth(), Asset.getFrameHeight());
         frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());

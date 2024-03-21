@@ -171,6 +171,7 @@ public class CustomerAppointmentPage implements ComponentListener, MouseListener
         if (e.getSource() == logoutButton) {
             int choice = JOptionPane.showConfirmDialog(frame, "Do you wish to return to the main menu?", "Return to Main Menu", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "return_icon.png"));
             if (choice == 0) {
+                InitialMainPage.resetInputText();
                 InitialMainPage.setFrameVisible(true);
                 frame.dispose();
             }

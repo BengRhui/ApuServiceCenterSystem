@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.nio.channels.AsynchronousServerSocketChannel;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -154,6 +155,7 @@ public class ViewAppointmentComponent {
 
             JLabel viewDetails = new Asset().generateImage("viewDetails_icon.png");
             viewDetails.setBounds(240, 25, 30, 30);
+
             viewDetails.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -168,7 +170,7 @@ public class ViewAppointmentComponent {
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     Asset.setFramePosition(CustomerAppointmentPage.frame.getX(), CustomerAppointmentPage.frame.getY());
-                    new CustomerServiceDetailsPopUp(appointmentDetails);
+                    new PastAppointmentDetailsPage(appointmentDetails);
                     CustomerAppointmentPage.setFrameEnable(false);
                 }
 
@@ -207,7 +209,9 @@ public class ViewAppointmentComponent {
 
                             @Override
                             public void mouseReleased(MouseEvent e) {
-                                JFrame frame = Feedback.provideFeedback(appointmentDetails, feedback);
+                                Asset.setFramePosition(CustomerAppointmentPage.frame.getX(), CustomerAppointmentPage.frame.getY());
+                                System.out.println(CustomerAppointmentPage.frame.getX() + "\t" + CustomerAppointmentPage.frame.getY());
+                                JFrame frame = Feedback.provideFeedback(feedback);
                                 frame.addWindowListener(new WindowListener() {
                                 @Override
                                 public void windowOpened(WindowEvent e) {
@@ -271,9 +275,9 @@ public class ViewAppointmentComponent {
                 }
             }
 
+            textPanel.add(viewDetails);
             textPanel.add(date);
             textPanel.add(startingAndEnding);
-            textPanel.add(viewDetails);
             textPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
             textPanel.setBackground(Color.WHITE);
 

@@ -2,8 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.Font;
+import java.security.Key;
 
-public class LoginPage implements ActionListener, KeyListener, ComponentListener {
+public class LoginPage implements ActionListener, KeyListener, ComponentListener, MouseListener {
 
     JPanel backgroundPanel, linePanel, emailTextFrame, passwordTextFrame;
     JFrame frame;
@@ -29,7 +30,7 @@ public class LoginPage implements ActionListener, KeyListener, ComponentListener
 
         backgroundImage = new Asset().generateImage("background_1.jpg");
 
-        linePanel = new Asset().drawLine(backgroundPanel.getWidth() / 5 * 2,0,backgroundPanel.getWidth() / 5 * 2, 2000,3);
+        linePanel = new Asset().drawLine(backgroundPanel.getWidth() / 5 * 2,0,backgroundPanel.getWidth() / 5 * 2, 2000, 3);
 
         technicianLabel = new Asset().generateImage("technician_Picture.jpg");
 
@@ -98,15 +99,16 @@ public class LoginPage implements ActionListener, KeyListener, ComponentListener
         loginButton.setBackground(Color.BLACK);
         loginButton.setForeground(Color.WHITE);
         loginButton.setOpaque(true);
-
-
         loginButton.addActionListener(this);
+        loginButton.addMouseListener(this);
 
         returnTextTop = new JLabel("Not a personnel of AHHASC?");
         returnTextTop.setFont(Asset.getBodyFont("Plain"));
+        returnTextTop.addMouseListener(this);
 
         returnTextBottom = new JLabel("Click here to redirect to the home page.");
         returnTextBottom.setFont(Asset.getBodyFont("Plain"));
+        returnTextBottom.addMouseListener(this);
 
         backgroundPanel.add(mainTitle);
         backgroundPanel.add(emailLabel);
@@ -140,11 +142,39 @@ public class LoginPage implements ActionListener, KeyListener, ComponentListener
             String inputEmail = emailTextField.getText();
 
             StringBuilder password = new StringBuilder();
-            for (char character: passwordText.getPassword()) {
+            for (char character : passwordText.getPassword()) {
                 password.append(character);
             }
             String userPassword = password.toString();
 
+            Manager currentManager = null;
+            Technician currentTechnician = null;
+
+            for (Manager manager : Manager.getOverallManagerList()) {
+                if (manager.email.equals(inputEmail) && manager.password.equals(userPassword)) {
+                    currentManager = manager;
+                }
+            }
+
+            for (Technician technician : Technician.getOverallTechnicianList()) {
+                if (technician.email.equals(inputEmail) && technician.password.equals(userPassword)) {
+                    currentTechnician = technician;
+                }
+            }
+
+            if (currentManager == null && currentTechnician == null) {
+                JOptionPane.showMessageDialog(frame, "Invalid email and password. Please insert the correct credentials.", "Invalid Credentials", JOptionPane.ERROR_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "userNotFound_vector.png"));
+            } else if (currentManager != null && currentTechnician != null) {
+                JOptionPane.showMessageDialog(frame, "Error in registration. Please contact admin / manager to report this issue.", "Credential Error", JOptionPane.ERROR_MESSAGE);
+            } else if (currentManager != null) {
+                Asset.setFramePosition(frame.getX(), frame.getY());
+                new ManagerMainPage(currentManager);
+                frame.dispose();
+            } else {
+                Asset.setFramePosition(frame.getX(), frame.getY());
+                new TechnicianMainPage(currentTechnician);
+                frame.dispose();
+            }
         }
 
     }
@@ -157,7 +187,12 @@ public class LoginPage implements ActionListener, KeyListener, ComponentListener
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        if (e.getSource() == emailTextField && e.getKeyCode() == KeyEvent.VK_ENTER) {
+            passwordText.requestFocus();
+            passwordText.setCaretPosition(0);
+        } else if (e.getSource() == passwordText && e.getKeyCode() == KeyEvent.VK_ENTER) {
+             loginButton.doClick();
+        }
     }
 
     @Override
@@ -185,7 +220,7 @@ public class LoginPage implements ActionListener, KeyListener, ComponentListener
         backgroundImage.setBounds(0,0,frame.getWidth(),frame.getHeight());
         technicianLabel.setBounds(3,3,linePanel.getX() - 3,backgroundPanel.getHeight() - 6);
         mainTitle.setBounds(linePanel.getX() + 70,frame.getHeight() / 25,400,180);
-        emailLabel.setBounds(mainTitle.getX(), frame.getHeight() * 2 / 9, mainTitle.getWidth(), 70);
+        emailLabel.setBounds(mainTitle.getX(), frame.getHeight() * 2 / 9 + 10, mainTitle.getWidth(), 70);
         emailLayer.setLocation(emailLabel.getX(),emailLabel.getY() + emailLabel.getHeight());
         emailIcon.setLocation(30, (emailLayer.getHeight() - emailIcon.getHeight()) / 2);
         emailTextField.setLocation(emailIcon.getWidth() + emailIcon.getX() + 20, 0);
@@ -213,5 +248,38 @@ public class LoginPage implements ActionListener, KeyListener, ComponentListener
     @Override
     public void componentHidden(ComponentEvent e) {
 
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        if (e.getSource() == returnTextTop || e.getSource() == returnTextBottom) {
+            Asset.setFramePosition(frame.getX(), frame.getY());
+            InitialMainPage.setFrameVisible(true);
+            frame.dispose();
+        }
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        returnTextTop.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        returnTextBottom.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        returnTextTop.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        returnTextBottom.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 }

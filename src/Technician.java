@@ -28,6 +28,7 @@ public class Technician extends User {
     }
 
     public static String getNameFromID(String ID) {
+        TextFileOperationsComponent.readTechnicianFromFile();
         String name = null;
         for (Technician people: overallTechnicianList) {
             if (people.technicianID.equals(ID)) {

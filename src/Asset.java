@@ -135,6 +135,19 @@ public class Asset implements MouseListener {
         return panel;
     }
 
+    // This method aims to generate a JPanel that consists of a rounded rectangle filled with a colour.
+    public JPanel generateFillRoundedRectangle(int width, int height, int roundedCorner, int borderThickness, Color color) {
+
+        // Declaring a new JPanel that is created from the DrawRoundedRectangle class
+        JPanel panel = new DrawFillRoundedRectangle(width, height, roundedCorner, borderThickness, color);
+
+        // Set the position of the panel based on the inputted width and height
+        panel.setSize(width, height);
+
+        // Return result as a panel
+        return panel;
+    }
+
     // This method generates a round profile picture for technicians and managers
     public JPanel generateRoundProfile(String filePath, int radius) {
         JPanel profilePic = new CircleProfilePicture(filePath, radius);
@@ -328,6 +341,37 @@ class DrawRoundedRectangle extends JPanel {
         g2d.setColor(Color.WHITE);
         g2d.fillRoundRect(5, 5, width - 10, height - 10, roundedCorner, roundedCorner);
         g2d.setColor(Color.BLACK);
+        g2d.setStroke(new BasicStroke(borderThickness));
+        g2d.drawRoundRect(5, 5, width - 10, height - 10, roundedCorner, roundedCorner);
+    }
+}
+
+// This class is used to draw the rounded rectangle filled with a colour
+class DrawFillRoundedRectangle extends JPanel {
+
+    // Initializes the data of the DrawRoundedRectangle.class
+    int width, height, roundedCorner, borderThickness;
+    Color color;
+
+    // Constructor to include the inputted strings as one of the data from the objects.
+    DrawFillRoundedRectangle(int width, int height, int roundedCorner, int borderThickness, Color color) {
+        this.width = width;
+        this.height = height;
+        this.roundedCorner = roundedCorner;
+        this.borderThickness = borderThickness;
+        this.color = color;
+    }
+
+    // A method used to draw all sorts of paintings
+    @Override
+    public void paintComponent(Graphics g) {
+
+        // Using Graphics2D for better picture quality
+        Graphics2D g2d = (Graphics2D) g;
+
+        // Set the colour of the rounded rectangle
+        g2d.setColor(color);
+        g2d.fillRoundRect(5, 5, width - 10, height - 10, roundedCorner, roundedCorner);
         g2d.setStroke(new BasicStroke(borderThickness));
         g2d.drawRoundRect(5, 5, width - 10, height - 10, roundedCorner, roundedCorner);
     }
