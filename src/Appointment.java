@@ -46,6 +46,7 @@ public class Appointment {
 
     public static Object[][] createAppointmentTable(String name) {
 
+        TextFileOperationsComponent.readAppointment();
         ArrayList<Appointment> filterList = new ArrayList<>();
 
         for (Appointment appointment: overallAppointmentList) {
@@ -66,10 +67,12 @@ public class Appointment {
     }
 
     public String getAppointmentID() {
+        TextFileOperationsComponent.readAppointment();
         return appointmentID;
     }
 
     public LocalDateTime getAppointmentDateAndTime() {
+        TextFileOperationsComponent.readAppointment();
         return LocalDateTime.of(date, startingTime);
     }
 
@@ -85,6 +88,7 @@ public class Appointment {
     }
 
     public static Appointment getAppointmentFromID(String appointmentID) {
+        TextFileOperationsComponent.readAppointment();
         Appointment item = null;
         for (Appointment appointment: overallAppointmentList) {
             if (appointment.appointmentID.equals(appointmentID)) {

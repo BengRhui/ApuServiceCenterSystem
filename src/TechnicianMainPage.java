@@ -14,10 +14,10 @@ public class TechnicianMainPage implements ComponentListener {
     int profileRadius = 125, lineStroke = 5;
 
     public static void main(String[] args) {
-        new TechnicianMainPage();
+        new TechnicianMainPage(null);
     }
 
-    public TechnicianMainPage() {
+    public TechnicianMainPage(Technician technician) {
         frame = new JFrame("Technician Main Page");
         frame.setSize(Asset.getFrameWidth(), Asset.getFrameHeight());
         frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());

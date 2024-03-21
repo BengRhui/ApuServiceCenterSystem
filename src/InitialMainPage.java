@@ -14,7 +14,7 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
             personnelImage, personnelText, locationImage, locationText, subHeading, tpImage, predefinedText, closeButton;
 
     JPanel backgroundPanel, textFrame, buttonBackground, frontBackground;
-    JTextField tpInputField;
+    static JTextField tpInputField;
     JLayeredPane buttonPane, inputPane;
     static Student currentStudent;
 
@@ -82,12 +82,11 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
         // Create a search button for customers to search for their appointments based on TP number
         buttonPane = new JLayeredPane();
 
-        buttonBackground = new JPanel();
-        buttonBackground.setBackground(Color.WHITE);
-        buttonBackground.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        buttonBackground = new Asset().generateRoundedRectangle(80, 80, 10, 1);
+        buttonBackground.setLocation(0, 3);
 
-        frontBackground = new JPanel();
-        frontBackground.setBackground(Color.BLACK);
+        frontBackground = new Asset().generateFillRoundedRectangle(80, 80, 10, 2, Color.BLACK);
+        frontBackground.setLocation(0, 3);
 
         searchImage = new Asset().generateImage("search_icon.png");
 
@@ -160,6 +159,11 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
     // Used to set the visibility of the current frame
     public static void setFrameVisible(boolean status) {
         frame.setVisible(status);
+        frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
+    }
+
+    public static void resetInputText(){
+        tpInputField.setText("");
     }
 
     // Used to adjust the position and size of the GUI elements when the frame is resized.
@@ -176,10 +180,7 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
         predefinedText.setBounds(tpImage.getX() + tpImage.getWidth() + 20, 0, 30, inputPane.getHeight());
         placeholderText.setSize(inputPane.getWidth() - placeholderText.getX(), inputPane.getHeight());
         tpInputField.setBounds(placeholderText.getX(), placeholderText.getY(), placeholderText.getWidth() - 20, placeholderText.getHeight());
-        buttonPane.setBounds(inputPane.getX() + inputPane.getWidth() + 30,inputPane.getY(),inputPane.getHeight(),inputPane.getHeight());
-        buttonPane.setBounds(buttonPane.getX(), buttonPane.getY(), buttonPane.getWidth(), buttonPane.getHeight());
-        buttonBackground.setBounds(3, 3, inputPane.getHeight() - 6, inputPane.getHeight() - 6);
-        frontBackground.setBounds(3, 3, buttonBackground.getWidth(), buttonBackground.getHeight());
+        buttonPane.setBounds(inputPane.getX() + inputPane.getWidth() + 30, inputPane.getY() - 3,inputPane.getHeight() + 3,inputPane.getHeight() + 3);
         searchImage.setLocation((buttonBackground.getWidth() - searchImage.getWidth()) / 2, (buttonPane.getHeight() - searchImage.getHeight()) / 2);
         subHeading.setBounds(mainTitle.getX(),backgroundPanel.getHeight() * 3 / 10,backgroundPanel.getWidth() - mainTitle.getX() - 50,200);
         providerImage.setLocation(mainTitle.getX(),backgroundPanel.getHeight() / 2);
@@ -192,6 +193,7 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
         personnelText.setBounds(personnelImage.getX() + personnelImage.getWidth(), personnelImage.getY() - 5, 300, 50);
         repairImage.setLocation(backgroundPanel.getWidth() * 5 / 8, backgroundPanel.getHeight() * 22 / 50);
         closeButton.setLocation(backgroundPanel.getWidth() - closeButton.getWidth() - 50, 50);
+
     }
 
     @Override
@@ -296,7 +298,7 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
 
         } else if (e.getSource() == buttonPane) {
             buttonPane.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            frontBackground.setLocation(6, 0);
+            frontBackground.setLocation(3, 0);
             searchImage.setLocation((frontBackground.getWidth() - searchImage.getWidth()) / 2 + 3, (frontBackground.getHeight() - searchImage.getHeight()) / 2 - 3);
 
         } else if (e.getSource() == personnelText || e.getSource() == personnelImage) {
@@ -309,7 +311,7 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
     public void mouseExited(MouseEvent e) {
         if (e.getSource() == buttonPane) {
             buttonPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            frontBackground.setLocation(3, 3);
+            frontBackground.setLocation(0, 3);
             searchImage.setLocation((frontBackground.getWidth() - searchImage.getWidth()) / 2, (frontBackground.getHeight() - searchImage.getHeight()) / 2);
 
         } else if (e.getSource() == personnelImage || e.getSource() == personnelText) {

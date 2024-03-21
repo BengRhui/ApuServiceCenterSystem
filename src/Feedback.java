@@ -36,6 +36,7 @@ public class Feedback {
     }
 
     public static ArrayList<Feedback> getTechnicianFilteredFeedbackLit(String technicianID) {
+        TextFileOperationsComponent.readFeedbackFromList();
         TextFileOperationsComponent.readTechnicianFromFile();
         ArrayList<Feedback> filter = new ArrayList<>();
         for (Feedback list: overallFeedbackList) {
@@ -49,11 +50,51 @@ public class Feedback {
         return LocalDateTime.of(Appointment.getAppointmentFromID(appointmentID).date, Appointment.getAppointmentFromID(appointmentID).startingTime);
     }
 
-    public static JFrame provideFeedback(Appointment appointmentDetails, Feedback currentFeedback) {
+    public static JFrame provideFeedback(Feedback currentFeedback) {
         JFrame frame = new JFrame("Provide feedback");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLayout(null);
         frame.setSize(1000, 700);
+        frame.setLocation(Asset.getFramePositionX() + (Asset.getFrameWidth() - frame.getWidth()) / 2, Asset.getFramePositionY() + (Asset.getFrameHeight() - frame.getHeight()) / 2);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setLayout(null);
+        frame.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int choice = JOptionPane.showConfirmDialog(frame, "<html>Your feedback will not be saved.<br>Do you wish to close this page?</html>", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "return_icon.png"));
+                if (choice == 0) {
+                    frame.dispose();
+                }
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+
+            }
+        });
 
         JLabel title = new JLabel("Provide Feedback");
         title.setFont(Asset.getNameFont("Bold"));
@@ -253,11 +294,11 @@ public class Feedback {
                     currentFeedback.technicianRating = technicianRating;
                     currentFeedback.comment = commentText;
                     TextFileOperationsComponent.writeFeedbackToFile();
-                    JOptionPane.showMessageDialog(frame, "Record has been successfully saved.");
+                    JOptionPane.showMessageDialog(frame, "Record has been successfully saved.", "Save Successful", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "saveButton_icon.png"));
                     frame.dispose();
 
                 } catch (NullPointerException ex) {
-                    JOptionPane.showMessageDialog(frame, "Please fill in all the fields before submitting.");
+                    JOptionPane.showMessageDialog(frame, "Please fill in all the fields before submitting.", "Invalid Feedback", JOptionPane.WARNING_MESSAGE);
                 }
 
 
@@ -287,7 +328,7 @@ public class Feedback {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                int choice = JOptionPane.showConfirmDialog(frame, "Your feedback will not be saved. Do you wish to exit now?", "Confirm exit", JOptionPane.YES_NO_OPTION);
+                int choice = JOptionPane.showConfirmDialog(frame, "<html>Your feedback will not be saved.<br>Do you wish to close this page?</html>", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "return_icon.png"));
                 if (choice == 0) {
                     frame.dispose();
                 }

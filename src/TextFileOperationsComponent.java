@@ -18,6 +18,24 @@ public class TextFileOperationsComponent {
         return picPath;
     }
 
+    public static void readManagerFromFile() {
+        Manager.getOverallManagerList().clear();
+        try {
+            File file = new File(filePath + "managerDetails.txt");
+            Scanner read = new Scanner(file);
+            while (read.hasNext()) {
+                String[] line = read.nextLine().split(";");
+                for (int i = 0; i < line.length; i ++) {
+                    line[i] = line[i].strip();
+                }
+                Manager manager = new Manager(line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13]);
+                Manager.getOverallManagerList().add(manager);
+            }
+        } catch (IOException ex) {
+            System.out.println("managerDetails.txt is not found. Please inspect readManagerFromFile() method.");
+        }
+    }
+
     public static void readElectronicsData() {
         ElectronicItems.getFullItemList().clear();
         try {
@@ -33,7 +51,8 @@ public class TextFileOperationsComponent {
                     for (int i = 0; i < line.length; i ++) {
                         line[i] = line[i].strip();
                     }
-                    new ElectronicItems(line[0], line[1], Integer.parseInt(line[2]));
+                    ElectronicItems item = new ElectronicItems(line[0], line[1], Integer.parseInt(line[2]));
+                    ElectronicItems.getFullItemList().add(item);
                 }
                 input.close();
             }
