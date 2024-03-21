@@ -6,10 +6,6 @@ import java.awt.event.ComponentListener;
 
 public class CustomerAppointmentPage implements ComponentListener {
 
-    public static void main(String[] args) {
-        new CustomerAppointmentPage();
-    }
-
     static JFrame frame;
     JPanel titleTopPanel, contentPanel, marginPanel, leftEmptyPane, rightEmptyPane, topEmptyPane, bottomEmptyPane,
             leftContent, rightContent, leftContextPane, rightContextPane, wholeContextPane, leftInfo, rightInfo;
@@ -17,7 +13,7 @@ public class CustomerAppointmentPage implements ComponentListener {
     JLabel title, logoutButton, titleBottomPanel, leftTitle, rightTitle, rightSubtitle;
     JLayeredPane titlePane;
 
-    public CustomerAppointmentPage() {
+    public CustomerAppointmentPage(Student currentStudent) {
         frame = new JFrame("View Customer Appointment");
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

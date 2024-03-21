@@ -49,9 +49,11 @@ public class Asset implements MouseListener {
     private JPanel buttonFront;
 
     // Setters to set the coordinates of the frame
-    public void setFramePosition(double coordinateX, double coordinateY){
+    public static void setFramePosition(double coordinateX, double coordinateY){
         framePositionX = (int) coordinateX;
+        System.out.println(framePositionX);
         framePositionY = (int) coordinateY;
+        System.out.println(framePositionY);
     }
 
     // Getters to retrieve the font
