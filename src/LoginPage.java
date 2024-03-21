@@ -22,6 +22,7 @@ public class LoginPage implements ActionListener, KeyListener, ComponentListener
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.addComponentListener(this);
+        frame.addWindowListener(this);
 
         backgroundPanel = new JPanel(null);
         backgroundPanel.setBackground(Color.WHITE);
