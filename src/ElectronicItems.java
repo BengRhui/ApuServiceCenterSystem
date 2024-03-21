@@ -14,6 +14,7 @@ public class ElectronicItems {
     }
 
     public static ArrayList<ElectronicItems> getFullItemList() {
+        TextFileOperationsComponent.readElectronicsData();
         return fullItemList;
     }
 

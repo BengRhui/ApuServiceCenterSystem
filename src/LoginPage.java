@@ -4,12 +4,12 @@ import java.awt.event.*;
 import java.awt.Font;
 import java.security.Key;
 
-public class LoginPage implements ActionListener, KeyListener, ComponentListener, MouseListener {
+public class LoginPage implements ActionListener, KeyListener, ComponentListener, MouseListener, WindowListener {
 
     JPanel backgroundPanel, linePanel, emailTextFrame, passwordTextFrame;
     JFrame frame;
-    JLabel backgroundImage, technicianLabel,mainTitle, otherS, passwordImageLabel;
-    JLabel emailLabel, emailPromptText, passwordLabel, passwordPrompt, emailIcon, returnTextTop, returnTextBottom;
+    JLabel backgroundImage, technicianLabel,mainTitle, passwordImageLabel, emailLabel, emailPromptText, passwordLabel,
+            passwordPrompt, emailIcon, returnTextTop, returnTextBottom, exitButton;
     JTextField emailTextField;
     JPasswordField passwordText;
     JButton loginButton;
@@ -111,6 +111,10 @@ public class LoginPage implements ActionListener, KeyListener, ComponentListener
         returnTextBottom.setFont(Asset.getBodyFont("Plain"));
         returnTextBottom.addMouseListener(this);
 
+        exitButton = new Asset().generateImage("close_icon.png");
+        exitButton.addMouseListener(this);
+
+        backgroundPanel.add(exitButton);
         backgroundPanel.add(mainTitle);
         backgroundPanel.add(emailLabel);
         backgroundPanel.add(emailLayer);
@@ -151,6 +155,8 @@ public class LoginPage implements ActionListener, KeyListener, ComponentListener
             Manager currentManager = null;
             Technician currentTechnician = null;
 
+
+
             for (Manager manager : Manager.getOverallManagerList()) {
                 if (manager.email.equals(inputEmail) && manager.password.equals(userPassword)) {
                     currentManager = manager;
@@ -162,6 +168,7 @@ public class LoginPage implements ActionListener, KeyListener, ComponentListener
                     currentTechnician = technician;
                 }
             }
+
 
             if (currentManager == null && currentTechnician == null) {
                 JOptionPane.showMessageDialog(frame, "Invalid email and password. Please insert the correct credentials.", "Invalid Credentials", JOptionPane.ERROR_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "userNotFound_vector.png"));
@@ -234,6 +241,7 @@ public class LoginPage implements ActionListener, KeyListener, ComponentListener
         loginButton.setBounds(passwordLayer.getX(), passwordLayer.getY() + passwordLabel.getHeight() + 50, passwordLayer.getWidth(), passwordLayer.getHeight());
         returnTextTop.setBounds(loginButton.getX(),loginButton.getY() + loginButton.getHeight() + 30,loginButton.getWidth(),30);
         returnTextBottom.setBounds(returnTextTop.getX(),returnTextTop.getY() + returnTextTop.getHeight(),returnTextTop.getWidth(),30);
+        exitButton.setLocation(backgroundPanel.getWidth() - exitButton.getWidth() - 50, 50);
     }
 
     @Override
@@ -267,6 +275,12 @@ public class LoginPage implements ActionListener, KeyListener, ComponentListener
             Asset.setFramePosition(frame.getX(), frame.getY());
             InitialMainPage.setFrameVisible(true);
             frame.dispose();
+        } else if (e.getSource() == exitButton) {
+            int choice = JOptionPane.showConfirmDialog(frame, "Are you sure that you would like to exit the system?", "System Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "exitConfirm_vector.png"));
+            if (choice == 0) {
+                frame.dispose();
+                System.exit(0);
+            }
         }
     }
 
@@ -275,6 +289,7 @@ public class LoginPage implements ActionListener, KeyListener, ComponentListener
         returnTextTop.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         returnTextBottom.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        exitButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
     @Override
@@ -282,5 +297,49 @@ public class LoginPage implements ActionListener, KeyListener, ComponentListener
         returnTextTop.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         returnTextBottom.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        exitButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        if (e.getSource() == frame) {
+
+            // Confirm that user wishes to exit, the end the overall system if the user intends to do so
+            int choice = JOptionPane.showConfirmDialog(frame, "Are you sure that you would like to exit the system?", "System Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "exitConfirm_vector.png"));
+            if (choice == 0) {
+                frame.dispose();
+                System.exit(0);
+            }
+        }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
     }
 }

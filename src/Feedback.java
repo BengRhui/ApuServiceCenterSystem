@@ -36,6 +36,7 @@ public class Feedback {
     }
 
     public static ArrayList<Feedback> getTechnicianFilteredFeedbackLit(String technicianID) {
+        TextFileOperationsComponent.readFeedbackFromList();
         TextFileOperationsComponent.readTechnicianFromFile();
         ArrayList<Feedback> filter = new ArrayList<>();
         for (Feedback list: overallFeedbackList) {
