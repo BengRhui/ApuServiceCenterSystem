@@ -9,7 +9,7 @@ public class Appointment {
     String appointmentID, technicianID, studentTP, item;
     LocalDate date;
     LocalTime startingTime, endingTime;
-    int price;
+    double price;
     boolean paymentStatus;
 
     private final static String[] appointmentTime = {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"};
@@ -19,12 +19,12 @@ public class Appointment {
         return appointmentTime;
     }
 
-    public Appointment(String appointmentID, String technicianID, String studentTP, String item, String date, String startingTime, String endingTime, int price, String status) {
+    public Appointment(String technicianID, String studentTP, String item, String date, String startingTime, String endingTime, double price, String status) {
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
 
-        this.appointmentID = appointmentID;
+        this.appointmentID = "A" + String.format("%04d", overallAppointmentList.size() + 1);
         this.technicianID = technicianID;
         this.studentTP = studentTP;
         this.item = item;
@@ -98,4 +98,33 @@ public class Appointment {
         }
         return item;
     }
+
+    public static boolean checkAppointmentAvailability(String technicianName, LocalDate date, LocalTime startingTime, LocalTime endingTime) {
+        TextFileOperationsComponent.readAppointment();
+        boolean available = true;
+        String technicianID = Technician.getIdFromName(technicianName);
+        for (Appointment appointment: Appointment.getOverallAppointmentList()) {
+            if (appointment.technicianID.equals(technicianID) && appointment.date.isEqual(date)) {
+                if (appointment.startingTime.isBefore(startingTime)) {
+                    if (endingTime.isAfter(appointment.startingTime)) {
+                        available = false;
+                        break;
+                    }
+                } else {
+                    if (startingTime.isBefore(appointment.endingTime)) {
+                        available = false;
+                        break;
+                    }
+                }
+            }
+        }
+        return available;
+    }
+
+    public static void addAppointmentToFile(Appointment appointment) {
+        TextFileOperationsComponent.readAppointment();
+        overallAppointmentList.add(appointment);
+        TextFileOperationsComponent.writeAppointmentToFile();
+    }
+
 }

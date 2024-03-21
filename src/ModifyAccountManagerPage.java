@@ -8,9 +8,6 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class ModifyAccountManagerPage implements ComponentListener, MouseListener {
-    public static void main(String[] args) {
-        currentPage = new ModifyAccountManagerPage();
-    }
 
     static ModifyAccountManagerPage currentPage;
     static JFrame frame;
@@ -22,7 +19,7 @@ public class ModifyAccountManagerPage implements ComponentListener, MouseListene
     InformationPaneComponent infoPane1;
     JTextField checkPrompt;
 
-    public ModifyAccountManagerPage() {
+    public ModifyAccountManagerPage(Manager manager) {
 
         frame = new JFrame("Modify Account Page");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,8 +57,8 @@ public class ModifyAccountManagerPage implements ComponentListener, MouseListene
         confirmButton.setFocusable(true);
         confirmButton.addMouseListener(this);
 
-        displayTechnicianPanel = new InformationPaneComponent().bookAppointmentPane();
-        displayCustomerPanel = new JScrollPane(new InformationPaneComponent().customerInformation());
+        displayTechnicianPanel = new InformationPaneComponent().bookAppointmentPane(null);
+        displayCustomerPanel = new JScrollPane(new InformationPaneComponent().customerInformation(null));
 
         cancelButton = new Asset().generateButtonWithoutImage("Cancel", confirmButton.getWidth(), confirmButton.getHeight());
 

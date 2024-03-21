@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 
 public class Student extends User {
-    String tpNumber, name, gender, email;
-    int contactNumber;
+    String tpNumber;
 
     private static final ArrayList<Student> overallStudentList = new ArrayList<>();
 

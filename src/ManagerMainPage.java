@@ -1,9 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.event.*;
+import java.time.format.DateTimeFormatter;
 
-public class ManagerMainPage implements ComponentListener {
+public class ManagerMainPage implements ComponentListener, MouseListener, WindowListener {
 
     static JFrame frame;
     JLayeredPane leftPanel, rightPanel, createAccountButton, modifyAccountButton, createAppointmentButton, viewFeedbackButton;
@@ -11,19 +11,17 @@ public class ManagerMainPage implements ComponentListener {
     JLabel backgroundLeft, name, accountType, position, gender, dateJoined, nationality, maritalStatus, address, email,
             contactNo, positionInfo, genderInfo, dateJoinedInfo, nationalityInfo, maritalStatusInfo, addressLine1,
             addressLine2, addressLine3, addressLine4, emailInfo, contactNoInfo, backgroundRight, mainTitle, exitButton;
+    static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy");
     int profileRadius = 125, lineStroke = 5;
-
-    public static void main(String[] args) {
-        new ManagerMainPage(null);
-    }
 
     public ManagerMainPage(Manager manager) {
         frame = new JFrame("Manager Main Page");
         frame.setSize(Asset.getFrameWidth(), Asset.getFrameHeight());
         frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setLayout(null);
         frame.addComponentListener(this);
+        frame.addWindowListener(this);
 
         leftPanel = new JLayeredPane();
         leftPanel.setLocation(0, 0);
@@ -36,7 +34,7 @@ public class ManagerMainPage implements ComponentListener {
 
         line = new Asset().drawLine(leftPanel.getX() + leftPanel.getWidth(), leftPanel.getY(), leftPanel.getX() + leftPanel.getWidth(), leftPanel.getHeight() * 2, lineStroke);
 
-        name = new JLabel("Muhammad Ali bin Abu Baker", JLabel.CENTER);
+        name = new JLabel(manager.name, JLabel.CENTER);
         name.setFont(Asset.getNameFont("Bold"));
 
         accountType = new JLabel("(Manager Account)", JLabel.CENTER);
@@ -49,58 +47,60 @@ public class ManagerMainPage implements ComponentListener {
         position = new JLabel("Position");
         position.setFont(Asset.getBodyFont("Plain"));
 
-        positionInfo = new JLabel(": Warden");
+        positionInfo = new JLabel(": " + manager.position);
         positionInfo.setFont(Asset.getBodyFont("Plain"));
 
         gender = new JLabel("Gender");
         gender.setFont(Asset.getBodyFont("Plain"));
 
-        genderInfo = new JLabel(": Male");
+        genderInfo = new JLabel(": " + manager.gender);
         genderInfo.setFont(Asset.getBodyFont("Plain"));
 
         dateJoined = new JLabel("Date Joined");
         dateJoined.setFont(Asset.getBodyFont("Plain"));
 
-        dateJoinedInfo = new JLabel(": 16 March 2024");
+        dateJoinedInfo = new JLabel(": " + manager.dateJoined.format(dateFormat));
         dateJoinedInfo.setFont(Asset.getBodyFont("Plain"));
 
         nationality = new JLabel("Nationality");
         nationality.setFont(Asset.getBodyFont("Plain"));
 
-        nationalityInfo = new JLabel(": Malaysian");
+        nationalityInfo = new JLabel(": " + manager.nationality);
         nationalityInfo.setFont(Asset.getBodyFont("Plain"));
 
         maritalStatus = new JLabel("Marital Status");
         maritalStatus.setFont(Asset.getBodyFont("Plain"));
 
-        maritalStatusInfo = new JLabel(": Single");
+        maritalStatusInfo = new JLabel(": " + manager.maritalStatus);
         maritalStatusInfo.setFont(Asset.getBodyFont("Plain"));
 
         address = new JLabel("Address");
         address.setFont(Asset.getBodyFont("Plain"));
 
-        addressLine1 = new JLabel(": No. 12A");
+        addressLine1 = new JLabel(": " + manager.addressLine1);
         addressLine1.setFont(Asset.getBodyFont("Plain"));
 
-        addressLine2 = new JLabel("  Jalan Ipoh Timur Baru 5");
+        addressLine2 = new JLabel("  " + manager.addressLine2);
         addressLine2.setFont(Asset.getBodyFont("Plain"));
 
-        addressLine3 = new JLabel("  Taman Ipoh Timur Baru");
+        addressLine3 = new JLabel("  " + manager.addressLine3);
         addressLine3.setFont(Asset.getBodyFont("Plain"));
 
-        addressLine4 = new JLabel("  31400 Ipoh, Perak");
+        name = new JLabel(manager.name, JLabel.CENTER);
+
+        addressLine4 = new JLabel("  " + manager.postcode + " " + manager.city + ", " + manager.state);
         addressLine4.setFont(Asset.getBodyFont("Plain"));
 
         email = new JLabel("Email");
         email.setFont(Asset.getBodyFont("Plain"));
 
-        emailInfo = new JLabel(": limbengrhui3@gmail.com");
+        emailInfo = new JLabel(": " + manager.email);
         emailInfo.setFont(Asset.getBodyFont("Plain"));
 
         contactNo = new JLabel("Contact No");
         contactNo.setFont(Asset.getBodyFont("Plain"));
 
-        contactNoInfo = new JLabel(": 011-10663136");
+        contactNoInfo = new JLabel(": " + manager.contactNumber);
         contactNoInfo.setFont(Asset.getBodyFont("Plain"));
 
         informationPanel.add(position);
@@ -140,11 +140,46 @@ public class ManagerMainPage implements ComponentListener {
         mainTitle.setFont(Asset.getTitleFont());
 
         exitButton = new Asset().generateImage("logout_icon.png");
+        exitButton.addMouseListener(this);
 
         createAccountButton = new Asset().generateButtonWithImageTop("Create Account", "registerAccount_vector.png", 300, 300);
+        createAccountButton.addMouseListener(this);
+
         modifyAccountButton = new Asset().generateButtonWithImageTop("Modify Account", "edit_vector.png", 300, 300);
-        createAppointmentButton = new Asset().generateButtonWithImageTop("Modify Account", "checkAppointment_vector.png", 300, 300);
-        viewFeedbackButton = new Asset().generateButtonWithImageTop("Modify Account", "feedback_vector.png", 300, 300);
+        modifyAccountButton.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                Asset.setFramePosition(frame.getX(), frame.getY());
+                new ModifyAccountManagerPage(manager);
+                frame.dispose();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        createAppointmentButton = new Asset().generateButtonWithImageTop("Create Appointment", "checkAppointment_vector.png", 300, 300);
+        createAppointmentButton.addMouseListener(this);
+
+        viewFeedbackButton = new Asset().generateButtonWithImageTop("View Feedback", "feedback_vector.png", 300, 300);
+        viewFeedbackButton.addMouseListener(this);
 
         rightPanel.add(backgroundRight, JLayeredPane.DEFAULT_LAYER);
         rightPanel.add(mainTitle, JLayeredPane.PALETTE_LAYER);
@@ -159,6 +194,10 @@ public class ManagerMainPage implements ComponentListener {
         frame.add(rightPanel);
         frame.add(leftPanel);
         frame.setVisible(true);
+    }
+
+    public static void setFrameVisibility(boolean status) {
+        frame.setVisible(status);
     }
 
     @Override
@@ -214,6 +253,20 @@ public class ManagerMainPage implements ComponentListener {
         createAppointmentButton.setLocation(mainTitle.getX(), createAccountButton.getY() + createAccountButton.getHeight() + 20);
         viewFeedbackButton.setLocation(modifyAccountButton.getX(), modifyAccountButton.getY() + modifyAccountButton.getWidth() + 20);
     }
+//
+//    public void refreshData(Manager manager) {
+//        positionInfo.setText(": " + manager.position);
+//        genderInfo.setText(": " + manager.gender);
+//        dateJoinedInfo.setText(": " + manager.dateJoined.format(dateFormat));
+//        nationalityInfo.setText(": " + manager.nationality);
+//        maritalStatusInfo.setText(": " + manager.maritalStatus);
+//        addressLine1.setText(": " + manager.addressLine1);
+//        addressLine2.setText("  " + manager.addressLine2);
+//        addressLine3.setText("  " + manager.addressLine3);
+//        addressLine4.setText("  " + manager.postcode + " " + manager.city + ", " + manager.state);
+//        emailInfo.setText(": " + manager.email);
+//        contactNoInfo.setText(": " + manager.contactNo);
+//    }
 
     @Override
     public void componentMoved(ComponentEvent e) {
@@ -227,6 +280,105 @@ public class ManagerMainPage implements ComponentListener {
 
     @Override
     public void componentHidden(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        if (e.getSource() == exitButton) {
+            int choice = JOptionPane.showConfirmDialog(frame, "Are you sure that you would like to logout from the system?", "System Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "logout_icon.png"));
+            if (choice == 0) {
+                Asset.setFramePosition(frame.getX(), frame.getY());
+                new LoginPage();
+                frame.dispose();
+            }
+        } else if (e.getSource() == createAccountButton) {
+            Asset.setFramePosition(frame.getX(), frame.getY());
+            new CreateAccountPage();
+            frame.setVisible(false);
+            frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
+
+        } else if (e.getSource() == createAppointmentButton) {
+            Asset.setFramePosition(frame.getX(), frame.getY());
+            new BookAppointmentPage();
+            frame.setVisible(false);
+            frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
+
+        } else if (e.getSource() == viewFeedbackButton) {
+            Asset.setFramePosition(frame.getX(), frame.getY());
+            new ViewFeedbackManagerPage();
+            frame.setVisible(false);
+            frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
+        }
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        exitButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        createAccountButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        modifyAccountButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        createAppointmentButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        viewFeedbackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        exitButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        createAccountButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        modifyAccountButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        createAppointmentButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        viewFeedbackButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        if (e.getSource() == frame) {
+            int choice = JOptionPane.showConfirmDialog(frame, "Are you sure that you would like to logout from the system?", "System Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "logout_icon.png"));
+            if (choice == 0) {
+                Asset.setFramePosition(frame.getX(), frame.getY());
+                new LoginPage();
+                frame.dispose();
+            }
+        }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
 
     }
 }

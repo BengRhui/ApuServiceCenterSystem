@@ -28,7 +28,7 @@ public class TextFileOperationsComponent {
                 for (int i = 0; i < line.length; i ++) {
                     line[i] = line[i].strip();
                 }
-                Manager manager = new Manager(line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13]);
+                Manager manager = new Manager(line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14], line[15]);
                 Manager.getOverallManagerList().add(manager);
             }
         } catch (IOException ex) {
@@ -51,7 +51,7 @@ public class TextFileOperationsComponent {
                     for (int i = 0; i < line.length; i ++) {
                         line[i] = line[i].strip();
                     }
-                    ElectronicItems item = new ElectronicItems(line[0], line[1], Integer.parseInt(line[2]));
+                    ElectronicItems item = new ElectronicItems(line[1], Integer.parseInt(line[2]));
                     ElectronicItems.getFullItemList().add(item);
                 }
                 input.close();
@@ -72,7 +72,7 @@ public class TextFileOperationsComponent {
                 for (int i = 0; i < line.length; i ++) {
                     line[i] = line[i].strip();
                 }
-                Appointment newAppointment = new Appointment(line[0], line[1], line[2], line[3], line[4], line[5], line[6], Integer.parseInt(line[7]), line[8]);
+                Appointment newAppointment = new Appointment(line[1], line[2], line[3], line[4], line[5], line[6], Double.parseDouble(line[7]), line[8]);
                 Appointment.setOverallAppointmentList(newAppointment);
             }
             read.close();
@@ -116,7 +116,6 @@ public class TextFileOperationsComponent {
                     info[i] = info[i].strip();
                 }
                 Technician.getOverallTechnicianList().add(new Technician(
-                        info[0],
                         info[1],
                         info[2],
                         info[3],
@@ -129,7 +128,9 @@ public class TextFileOperationsComponent {
                         info[10],
                         info[11],
                         info[12],
-                        info[13])
+                        info[13],
+                        info[14],
+                        info[15])
                 );
             }
             read.close();
@@ -189,7 +190,7 @@ public class TextFileOperationsComponent {
                     ";" +
                     String.format("%-10s", endingTimeInString) +
                     ";" +
-                    String.format("%-5s", appointment.price) +
+                    String.format("%-10.2f", appointment.price) +
                     ";" +
                     (appointment.paymentStatus ? "Paid" : "Unpaid");
 
@@ -229,4 +230,5 @@ public class TextFileOperationsComponent {
             JOptionPane.showMessageDialog(null, "Error in writing to feedback list file.");
         }
     }
+
 }

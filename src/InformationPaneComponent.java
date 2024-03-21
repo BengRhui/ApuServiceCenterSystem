@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Properties;
@@ -14,43 +17,47 @@ import java.util.Properties;
 public class InformationPaneComponent extends JPanel {
 
     private final static int scrollPaneWidth = 900;
-    JPanel panel;
+    JPanel panelBA, panel1BA, panel2BA, panel3BA;
     // Overall pane - book appointment
-    public JScrollPane bookAppointmentPane() {
-        panel = new JPanel(null);
-        panel.setBackground(Color.WHITE);
+    InformationPaneComponent bookPane;
+    public JScrollPane bookAppointmentPane(Student student) {
 
-        JPanel panel1 = new InformationPaneComponent().customerInformation();
-        JPanel panel2 = new InformationPaneComponent().divider();
-        JPanel panel3 = new InformationPaneComponent().appointmentDetails();
+        bookPane = new InformationPaneComponent();
 
-        panel1.setLocation(0, 0);
-        panel2.setLocation(0, panel1.getHeight());
-        panel3.setLocation(0, panel1.getHeight() + panel2.getHeight());
+        panelBA = new JPanel(null);
+        panelBA.setBackground(Color.WHITE);
 
-        panel.add(panel1);
-        panel.add(panel2);
-        panel.add(panel3);
+        panel1BA = bookPane.customerInformation(student);
+        panel2BA = bookPane.divider();
+        panel3BA = bookPane.appointmentDetails();
 
-        int sumOfHeight = panel1.getHeight() + panel2.getHeight() + panel3.getHeight();
+        panel1BA.setLocation(0, 0);
+        panel2BA.setLocation(0, panel1BA.getHeight());
+        panel3BA.setLocation(0, panel1BA.getHeight() + panel2BA.getHeight());
 
-        panel.setPreferredSize(new Dimension(panel1.getWidth(), sumOfHeight));
+        panelBA.add(panel1BA);
+        panelBA.add(panel2BA);
+        panelBA.add(panel3BA);
 
-        JScrollPane finalPane = new JScrollPane(panel);
+        int sumOfHeight = panel1BA.getHeight() + panel2BA.getHeight() + panel3BA.getHeight();
+
+        panelBA.setPreferredSize(new Dimension(panel1BA.getWidth(), sumOfHeight));
+
+        JScrollPane finalPane = new JScrollPane(panelBA);
         finalPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         return finalPane;
     }
 
     JPanel panel1;
-    InformationPaneComponent infoPane;
+    InformationPaneComponent createAdminAccount;
     static ArrayList<String> positionChoice = new ArrayList<>();
 
     public JPanel createManagerAndTechnicianAccount() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
-        infoPane = new InformationPaneComponent();
-        panel1 = infoPane.managerAndTechnicianPersonalInformation();
+        createAdminAccount = new InformationPaneComponent();
+        panel1 = createAdminAccount.managerAndTechnicianPersonalInformation();
         JPanel panel2 = new InformationPaneComponent().divider();
         JPanel panel3 = new InformationPaneComponent().jobDetails();
         JPanel panel4 = new InformationPaneComponent().divider();
@@ -75,12 +82,13 @@ public class InformationPaneComponent extends JPanel {
         return panel;
     }
 
+    InformationPaneComponent modifyOtherAdminAccount;
     public JPanel modifyManagerAndTechnicianAccountNotOwn() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
-        infoPane = new InformationPaneComponent();
-        panel1 = infoPane.managerAndTechnicianPersonalInformation();
+        modifyOtherAdminAccount = new InformationPaneComponent();
+        panel1 = modifyOtherAdminAccount.managerAndTechnicianPersonalInformation();
         JPanel panel2 = new InformationPaneComponent().divider();
         JPanel panel3 = new InformationPaneComponent().accountDetails();
         JPanel panel4 = new InformationPaneComponent().divider();
@@ -105,12 +113,13 @@ public class InformationPaneComponent extends JPanel {
         return panel;
     }
 
+    InformationPaneComponent modifyOwnAccount;
     public JPanel modifyManagerAndTechnicianAccountOwn() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
-        infoPane = new InformationPaneComponent();
-        panel1 = infoPane.managerAndTechnicianPersonalInformation();
+        modifyOwnAccount = new InformationPaneComponent();
+        panel1 = modifyOwnAccount.managerAndTechnicianPersonalInformation();
         JPanel panel2 = new InformationPaneComponent().divider();
         JPanel panel3 = new InformationPaneComponent().accountDetails();
         JPanel panel4 = new InformationPaneComponent().divider();
@@ -141,12 +150,13 @@ public class InformationPaneComponent extends JPanel {
         return panel;
     }
 
+    InformationPaneComponent adminModifyTechnician;
     public JPanel modifyAccountTechnician() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
-        infoPane = new InformationPaneComponent();
-        panel1 = infoPane.managerAndTechnicianPersonalInformation();
+        adminModifyTechnician = new InformationPaneComponent();
+        panel1 = adminModifyTechnician.managerAndTechnicianPersonalInformation();
         JPanel panel2 = new InformationPaneComponent().divider();
         JPanel panel3 = new InformationPaneComponent().loginDetails();
 
@@ -167,7 +177,7 @@ public class InformationPaneComponent extends JPanel {
     }
 
     // Sub-pane
-    public JPanel customerInformation() {
+    public JPanel customerInformation(Student student) {
 
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
@@ -182,6 +192,8 @@ public class InformationPaneComponent extends JPanel {
         namePlaceholder.setBounds(title.getWidth() + title.getX(), title.getY() + 10, panel.getWidth() - title.getWidth() - title.getX(), 50);
 
         JTextField name = new Asset().generateTextField();
+        name.setText(student.name);
+        name.setEditable(false);
         name.setBounds(namePlaceholder.getX(), namePlaceholder.getY() + namePlaceholder.getHeight(), namePlaceholder.getWidth() - 20, namePlaceholder.getHeight());
 
         JLabel emailText = new JLabel("Email");
@@ -189,6 +201,8 @@ public class InformationPaneComponent extends JPanel {
         emailText.setBounds(namePlaceholder.getX(), name.getY() + name.getHeight() + 20, namePlaceholder.getWidth() / 2 - 20, name.getHeight());
 
         JTextField email = new Asset().generateTextField();
+        email.setText(student.email);
+        email.setEditable(false);
         email.setBounds(emailText.getX(), emailText.getY() + emailText.getHeight(), emailText.getWidth(), emailText.getHeight());
 
         JLabel contactText = new JLabel("Contact Number");
@@ -196,6 +210,8 @@ public class InformationPaneComponent extends JPanel {
         contactText.setBounds(emailText.getX() + emailText.getWidth() + 20, emailText.getY(), emailText.getWidth(), emailText.getHeight());
 
         JTextField contact = new Asset().generateTextField();
+        contact.setText(student.contactNumber);
+        contact.setEditable(false);
         contact.setBounds(contactText.getX(), contactText.getY() + contactText.getHeight(), contactText.getWidth(), contactText.getHeight());
 
         panel.add(title);
@@ -210,6 +226,8 @@ public class InformationPaneComponent extends JPanel {
 
     }
 
+    JComboBox<String> appointmentChoiceAD, serviceItemListAD, appointmentStartAD, appointmentEndAD;
+    JDatePickerImpl datePickerAD;
     public JPanel appointmentDetails() {
 
         JPanel panel = new JPanel(null);
@@ -224,11 +242,11 @@ public class InformationPaneComponent extends JPanel {
         technicianText.setFont(Asset.getBodyFont("Plain"));
         technicianText.setBounds(title.getWidth() + title.getX(), title.getY() + 10, (panel.getWidth() - title.getWidth() - title.getX()) / 2 - 20, 50);
 
-        String[] technicianChoices = {"Adam", "Ali", "Muthu"};
-        JComboBox<String> appointmentChoice = new JComboBox<>(technicianChoices);
-        appointmentChoice.setFont(Asset.getBodyFont("Plain"));
-        appointmentChoice.setBounds(technicianText.getX(), technicianText.getY() + technicianText.getHeight(), technicianText.getWidth(), technicianText.getHeight());
-        appointmentChoice.setBackground(Color.WHITE);
+        String[] technicianChoices = Technician.generateTechnicianNames();
+        appointmentChoiceAD = new JComboBox<>(technicianChoices);
+        appointmentChoiceAD.setFont(Asset.getBodyFont("Plain"));
+        appointmentChoiceAD.setBounds(technicianText.getX(), technicianText.getY() + technicianText.getHeight(), technicianText.getWidth(), technicianText.getHeight());
+        appointmentChoiceAD.setBackground(Color.WHITE);
 
         JLabel itemsText = new JLabel("Items to be Serviced");
         itemsText.setFont(Asset.getBodyFont("Plain"));
@@ -242,31 +260,31 @@ public class InformationPaneComponent extends JPanel {
             i ++;
         }
 
-        JComboBox<String> serviceItemList = new JComboBox<>(itemsChoices);
-        serviceItemList.setFont(Asset.getBodyFont("Plain"));
-        serviceItemList.setBounds(itemsText.getX(), itemsText.getY() + itemsText.getHeight(), itemsText.getWidth(), itemsText.getHeight());
-        serviceItemList.setBackground(Color.WHITE);
+        serviceItemListAD = new JComboBox<>(itemsChoices);
+        serviceItemListAD.setFont(Asset.getBodyFont("Plain"));
+        serviceItemListAD.setBounds(itemsText.getX(), itemsText.getY() + itemsText.getHeight(), itemsText.getWidth(), itemsText.getHeight());
+        serviceItemListAD.setBackground(Color.WHITE);
 
         JLabel appointmentDateText = new JLabel("Appointment Date");
         appointmentDateText.setFont(Asset.getBodyFont("Plain"));
-        appointmentDateText.setBounds(technicianText.getX(), appointmentChoice.getY() + appointmentChoice.getHeight() + 20, technicianText.getWidth(), technicianText.getHeight());
+        appointmentDateText.setBounds(technicianText.getX(), appointmentChoiceAD.getY() + appointmentChoiceAD.getHeight() + 20, technicianText.getWidth(), technicianText.getHeight());
 
         UtilDateModel model = new UtilDateModel();
         JDatePanelImpl datePanel = new JDatePanelImpl(model, new Properties());
-        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateComponentFormatter());
+        datePickerAD = new JDatePickerImpl(datePanel, new DateComponentFormatter());
 
         datePanel.setFont(Asset.getBodyFont("Plain"));
-        datePicker.setBackground(Color.WHITE);
-        datePicker.setLocation(appointmentDateText.getX(), appointmentDateText.getY() + appointmentDateText.getHeight());
-        datePicker.setSize(new Dimension(appointmentDateText.getWidth(), appointmentDateText.getHeight()));
-        datePicker.getComponent(0).setPreferredSize(new Dimension(appointmentDateText.getWidth() - appointmentDateText.getHeight(),appointmentDateText.getHeight()));
-        datePicker.getComponent(1).setPreferredSize(new Dimension(appointmentDateText.getHeight(),appointmentDateText.getHeight()));
-        datePicker.getJFormattedTextField().setFont(Asset.getBodyFont("Plain"));
-        datePicker.getJFormattedTextField().setBackground(Color.WHITE);
-        datePicker.getComponent(1).setBackground(Color.WHITE);
+        datePickerAD.setBackground(Color.WHITE);
+        datePickerAD.setLocation(appointmentDateText.getX(), appointmentDateText.getY() + appointmentDateText.getHeight());
+        datePickerAD.setSize(new Dimension(appointmentDateText.getWidth(), appointmentDateText.getHeight()));
+        datePickerAD.getComponent(0).setPreferredSize(new Dimension(appointmentDateText.getWidth() - appointmentDateText.getHeight(),appointmentDateText.getHeight()));
+        datePickerAD.getComponent(1).setPreferredSize(new Dimension(appointmentDateText.getHeight(),appointmentDateText.getHeight()));
+        datePickerAD.getJFormattedTextField().setFont(Asset.getBodyFont("Plain"));
+        datePickerAD.getJFormattedTextField().setBackground(Color.WHITE);
+        datePickerAD.getComponent(1).setBackground(Color.WHITE);
 
-        JLayeredPane checkAppointment = new Asset().generateButtonWithoutImage("Click to View Schedule", serviceItemList.getWidth(), serviceItemList.getHeight());
-        checkAppointment.setLocation(serviceItemList.getX(), datePicker.getY() - 3);
+        JLayeredPane checkAppointment = new Asset().generateButtonWithoutImage("Click to View Schedule", serviceItemListAD.getWidth(), serviceItemListAD.getHeight());
+        checkAppointment.setLocation(serviceItemListAD.getX(), datePickerAD.getY() - 3);
         checkAppointment.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -281,9 +299,9 @@ public class InformationPaneComponent extends JPanel {
             @Override
             public void mouseReleased(MouseEvent e) {
                 try {
-                    String day = String.format("%02d", datePicker.getModel().getDay());
-                    String month = String.format("%02d", datePicker.getModel().getMonth() + 1);
-                    JFrame popUp = new ViewSchedulePopUp(Objects.requireNonNull(appointmentChoice.getSelectedItem()).toString(), day + "/" + month + "/" + datePicker.getModel().getYear());
+                    String day = String.format("%02d", datePickerAD.getModel().getDay());
+                    String month = String.format("%02d", datePickerAD.getModel().getMonth() + 1);
+                    JFrame popUp = new ViewSchedulePopUp(Objects.requireNonNull(appointmentChoiceAD.getSelectedItem()).toString(), day + "/" + month + "/" + datePickerAD.getModel().getYear());
                     popUp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 } catch (NullPointerException ex) {
                     JOptionPane.showMessageDialog(panel, "Please select both technician and the date to view available time.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -303,38 +321,60 @@ public class InformationPaneComponent extends JPanel {
 
         JLabel appointmentStartTimeText = new JLabel("Appointment Start Time");
         appointmentStartTimeText.setFont(Asset.getBodyFont("Plain"));
-        appointmentStartTimeText.setBounds(datePicker.getX(), datePicker.getY() + datePicker.getHeight() + 20, datePicker.getWidth(), datePicker.getHeight());
+        appointmentStartTimeText.setBounds(datePickerAD.getX(), datePickerAD.getY() + datePickerAD.getHeight() + 20, datePickerAD.getWidth(), datePickerAD.getHeight());
 
         String[] appointmentTimeSlot = Appointment.getAppointmentTime();
 
-        JComboBox<String> appointmentStart = new JComboBox<>(appointmentTimeSlot);
-        appointmentStart.setFont(Asset.getBodyFont("Plain"));
-        appointmentStart.setBounds(appointmentStartTimeText.getX(), appointmentStartTimeText.getY() + appointmentStartTimeText.getHeight(), appointmentStartTimeText.getWidth(), appointmentStartTimeText.getHeight());
-        appointmentStart.setBackground(Color.WHITE);
+        appointmentStartAD = new JComboBox<>(appointmentTimeSlot);
+        appointmentStartAD.setFont(Asset.getBodyFont("Plain"));
+        appointmentStartAD.setBounds(appointmentStartTimeText.getX(), appointmentStartTimeText.getY() + appointmentStartTimeText.getHeight(), appointmentStartTimeText.getWidth(), appointmentStartTimeText.getHeight());
+        appointmentStartAD.setBackground(Color.WHITE);
 
         JLabel appointmentEndTimeText = new JLabel("Appointment End Time");
         appointmentEndTimeText.setFont(Asset.getBodyFont("Plain"));
         appointmentEndTimeText.setBounds(itemsText.getX(), checkAppointment.getY() + 3 + checkAppointment.getHeight() + 20, itemsText.getWidth(), itemsText.getHeight());
 
-        JComboBox<String> appointmentEnd = new JComboBox<>(appointmentTimeSlot);
-        appointmentEnd.setBackground(Color.WHITE);
-        appointmentEnd.setFont(Asset.getBodyFont("Plain"));
-        appointmentEnd.setBounds(appointmentEndTimeText.getX(), appointmentStart.getY(), appointmentStart.getWidth(), appointmentStart.getHeight());
+        appointmentEndAD = new JComboBox<>(appointmentTimeSlot);
+        appointmentEndAD.setBackground(Color.WHITE);
+        appointmentEndAD.setFont(Asset.getBodyFont("Plain"));
+        appointmentEndAD.setBounds(appointmentEndTimeText.getX(), appointmentStartAD.getY(), appointmentStartAD.getWidth(), appointmentStartAD.getHeight());
 
         panel.add(title);
         panel.add(technicianText);
-        panel.add(appointmentChoice);
+        panel.add(appointmentChoiceAD);
         panel.add(itemsText);
-        panel.add(serviceItemList);
+        panel.add(serviceItemListAD);
         panel.add(appointmentDateText);
-        panel.add(datePicker);
+        panel.add(datePickerAD);
         panel.add(checkAppointment);
         panel.add(appointmentStartTimeText);
-        panel.add(appointmentStart);
+        panel.add(appointmentStartAD);
         panel.add(appointmentEndTimeText);
-        panel.add(appointmentEnd);
+        panel.add(appointmentEndAD);
 
         return panel;
+    }
+
+    public String getAppointmentChoiceAD() {
+        return Objects.requireNonNull(bookPane.appointmentChoiceAD.getSelectedItem()).toString();
+    }
+
+    public String getServiceItemListAD() {
+        return Objects.requireNonNull(bookPane.serviceItemListAD.getSelectedItem()).toString();
+    }
+
+    public LocalTime getAppointmentStartAD() {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm");
+        return LocalTime.parse(Objects.requireNonNull(bookPane.appointmentStartAD.getSelectedItem()).toString(), format);
+    }
+
+    public LocalTime getAppointmentEndAD() {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm");
+        return LocalTime.parse(Objects.requireNonNull(bookPane.appointmentEndAD.getSelectedItem()).toString(), format);
+    }
+
+    public LocalDate getDatePickerAD() {
+        return LocalDate.of(bookPane.datePickerAD.getModel().getYear(), bookPane.datePickerAD.getModel().getMonth() + 1, bookPane.datePickerAD.getModel().getDay());
     }
 
     private JTextField addressLine1;
@@ -716,7 +756,7 @@ public class InformationPaneComponent extends JPanel {
     }
 
     public String getAddressLine1() {
-        return infoPane.addressLine1.getText();
+        return createAdminAccount.addressLine1.getText();
     }
 
     // Line pane

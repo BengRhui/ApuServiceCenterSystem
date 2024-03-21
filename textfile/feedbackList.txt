@@ -3,4 +3,8 @@ A0002;T003 ;TP068495  ;3    ;5    ;Feedback from 2
 A0003;T001 ;TP067299  ;0    ;0    ;null
 A0004;T002 ;TP068495  ;5    ;5    ;Feedback from 4
 A0005;T001 ;TP067299  ;3    ;4    ;Feedback from 5
-A0008;T002 ;TP067299  ;0    ;0    ;null
+A0006;T001 ;TP067299  ;0    ;0    ;null
+A0007;T001 ;TP067299  ;3    ;4    ;Feedback from 7
+A0008;T003 ;TP067299  ;4    ;3    ;Feedback from 8
+A0009;T001 ;TP067299  ;2    ;1    ;Feedback from 9
+A0010;T002 ;TP067299  ;4    ;5    ;Feedback from 10

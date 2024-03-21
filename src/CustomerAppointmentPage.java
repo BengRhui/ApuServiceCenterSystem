@@ -1,11 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
-public class CustomerAppointmentPage implements ComponentListener, MouseListener {
+public class CustomerAppointmentPage implements ComponentListener, MouseListener, WindowListener {
 
     static JFrame frame;
     JPanel titleTopPanel, contentPanel, marginPanel, leftEmptyPane, rightEmptyPane, topEmptyPane, bottomEmptyPane,
@@ -17,10 +14,11 @@ public class CustomerAppointmentPage implements ComponentListener, MouseListener
     public CustomerAppointmentPage(Student currentStudent) {
         frame = new JFrame("View Customer Appointment");
         frame.setLayout(new BorderLayout());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setSize(Asset.getFrameWidth(), Asset.getFrameHeight());
         frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
         frame.addComponentListener(this);
+        frame.addWindowListener(this);
 
         titleTopPanel = new JPanel(new BorderLayout());
         titleTopPanel.setPreferredSize(new Dimension(frame.getWidth(), frame.getHeight() / 6));
@@ -196,5 +194,47 @@ public class CustomerAppointmentPage implements ComponentListener, MouseListener
     @Override
     public void mouseExited(MouseEvent e) {
         logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        if (e.getSource() == frame) {
+            int choice = JOptionPane.showConfirmDialog(frame, "Do you wish to return to the main menu?", "Return to Main Menu", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "return_icon.png"));
+            if (choice == 0) {
+                InitialMainPage.resetInputText();
+                InitialMainPage.setFrameVisible(true);
+                frame.dispose();
+            }
+        }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
     }
 }

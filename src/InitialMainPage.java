@@ -25,7 +25,7 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
         frame = new JFrame("AHHASC Main Page");
         frame.setSize(Asset.getFrameWidth(), Asset.getFrameHeight());
         frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setLayout(null);
         frame.addComponentListener(this);
         frame.addWindowListener(this);

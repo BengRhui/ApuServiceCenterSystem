@@ -50,6 +50,12 @@ public class Feedback {
         return LocalDateTime.of(Appointment.getAppointmentFromID(appointmentID).date, Appointment.getAppointmentFromID(appointmentID).startingTime);
     }
 
+    public static void addFeedbackToFile(Feedback feedback) {
+        TextFileOperationsComponent.readFeedbackFromList();
+        overallFeedbackList.add(feedback);
+        TextFileOperationsComponent.writeFeedbackToFile();
+    }
+
     public static JFrame provideFeedback(Feedback currentFeedback) {
         JFrame frame = new JFrame("Provide feedback");
         frame.setSize(1000, 700);

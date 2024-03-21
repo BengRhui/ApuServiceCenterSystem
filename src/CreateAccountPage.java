@@ -59,8 +59,8 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
         confirmButton.setFocusable(true);
         confirmButton.addMouseListener(this);
 
-        displayTechnicianPanel = new InformationPaneComponent().bookAppointmentPane();
-        displayCustomerPanel = new JScrollPane(new InformationPaneComponent().customerInformation());
+        displayTechnicianPanel = new JScrollPane(new InformationPaneComponent().createManagerAndTechnicianAccount());
+        displayCustomerPanel = new JScrollPane(new InformationPaneComponent().customerInformation(null));
 
         cancelButton = new Asset().generateButtonWithoutImage("Cancel", confirmButton.getWidth(), confirmButton.getHeight());
 

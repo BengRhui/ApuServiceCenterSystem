@@ -1,17 +1,21 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Technician extends User {
-    String technicianID, maritalStatus, addressLine1, addressLine2, addressLine3, postcode, city, state, nationality, password;
+    String technicianID, maritalStatus, addressLine1, addressLine2, addressLine3, postcode, city, state, nationality, password, position;
+    LocalDate dateJoined;
     private final static String[] technicianPosition = {"Electrician", "Computer technician", "Maintenance technician"};
-    private static ArrayList<Technician> overallTechnicianList = new ArrayList<>();
+    private final static ArrayList<Technician> overallTechnicianList = new ArrayList<>();
 
     public static String[] getTechnicianPosition() {
         return technicianPosition;
     }
 
-    public Technician(String technicianID, String name, String gender, String maritalStatus, String addressLine1, String addressLine2, String addressLine3, String postcode, String city, String state, String nationality, String contactNo, String email, String password) {
+    public Technician(String name, String gender, String maritalStatus, String addressLine1, String addressLine2, String addressLine3, String postcode, String city, String state, String nationality, String contactNo, String dateJoined, String position, String email, String password) {
         super(name, gender, contactNo, email);
-        this.technicianID = technicianID;
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.technicianID = "T" + String.format("%03d", Technician.getOverallTechnicianList().size() + 1);
         this.maritalStatus = maritalStatus;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
@@ -20,6 +24,8 @@ public class Technician extends User {
         this.city = city;
         this.state = state;
         this.nationality = nationality;
+        this.dateJoined = LocalDate.parse(dateJoined, dateFormatter);
+        this.position = position;
         this.password = password;
     }
 
@@ -47,4 +53,23 @@ public class Technician extends User {
         return name;
     }
 
+    public static String[] generateTechnicianNames() {
+        TextFileOperationsComponent.readTechnicianFromFile();
+        String[] names = new String[overallTechnicianList.size()];
+        for (int i = 0; i < names.length; i ++) {
+            names[i] = overallTechnicianList.get(i).name;
+        }
+        return names;
+    }
+
+    public static String getIdFromName(String technicianName) {
+        String technicianID = null;
+        TextFileOperationsComponent.readTechnicianFromFile();
+        for (Technician technician: overallTechnicianList) {
+            if (technician.name.equals(technicianName)) {
+                technicianID = technician.technicianID;
+            }
+        }
+        return technicianID;
+    }
 }

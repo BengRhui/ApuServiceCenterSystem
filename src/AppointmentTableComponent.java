@@ -109,7 +109,6 @@ public class AppointmentTableComponent extends JPanel implements MouseListener {
                 String endingTimeInString = LocalTime.parse(table.getValueAt(row, 6).toString()).format(formatTime);
 
                 Appointment.getOverallAppointmentList().add(new Appointment(
-                        table.getValueAt(row, 0).toString(),
                         table.getValueAt(row, 1).toString(),
                         table.getValueAt(row, 2).toString(),
                         table.getValueAt(row, 3).toString(),
