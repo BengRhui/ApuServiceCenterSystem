@@ -26,6 +26,7 @@ public class Manager extends User {
     }
 
     public static ArrayList<Manager> getOverallManagerList() {
+        TextFileOperationsComponent.readManagerFromFile();
         return overallManagerList;
     }
 

@@ -51,7 +51,8 @@ public class TextFileOperationsComponent {
                     for (int i = 0; i < line.length; i ++) {
                         line[i] = line[i].strip();
                     }
-                    new ElectronicItems(line[0], line[1], Integer.parseInt(line[2]));
+                    ElectronicItems item = new ElectronicItems(line[0], line[1], Integer.parseInt(line[2]));
+                    ElectronicItems.getFullItemList().add(item);
                 }
                 input.close();
             }

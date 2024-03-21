@@ -12,6 +12,7 @@ public class Student extends User {
     }
 
     public static ArrayList<Student> getOverallStudentList() {
+        TextFileOperationsComponent.readStudent();
         return overallStudentList;
     }
 

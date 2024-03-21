@@ -24,6 +24,7 @@ public class Technician extends User {
     }
 
     public static ArrayList<Technician> getOverallTechnicianList() {
+        TextFileOperationsComponent.readTechnicianFromFile();
         return overallTechnicianList;
     }
 
