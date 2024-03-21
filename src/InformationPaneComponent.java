@@ -7,7 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -192,8 +195,6 @@ public class InformationPaneComponent extends JPanel {
         namePlaceholder.setBounds(title.getWidth() + title.getX(), title.getY() + 10, panel.getWidth() - title.getWidth() - title.getX(), 50);
 
         JTextField name = new Asset().generateTextField();
-        name.setText(student.name);
-        name.setEditable(false);
         name.setBounds(namePlaceholder.getX(), namePlaceholder.getY() + namePlaceholder.getHeight(), namePlaceholder.getWidth() - 20, namePlaceholder.getHeight());
 
         JLabel emailText = new JLabel("Email");
@@ -201,8 +202,6 @@ public class InformationPaneComponent extends JPanel {
         emailText.setBounds(namePlaceholder.getX(), name.getY() + name.getHeight() + 20, namePlaceholder.getWidth() / 2 - 20, name.getHeight());
 
         JTextField email = new Asset().generateTextField();
-        email.setText(student.email);
-        email.setEditable(false);
         email.setBounds(emailText.getX(), emailText.getY() + emailText.getHeight(), emailText.getWidth(), emailText.getHeight());
 
         JLabel contactText = new JLabel("Contact Number");
@@ -210,10 +209,18 @@ public class InformationPaneComponent extends JPanel {
         contactText.setBounds(emailText.getX() + emailText.getWidth() + 20, emailText.getY(), emailText.getWidth(), emailText.getHeight());
 
         JTextField contact = new Asset().generateTextField();
-        contact.setText(student.contactNumber);
-        contact.setEditable(false);
+
         contact.setBounds(contactText.getX(), contactText.getY() + contactText.getHeight(), contactText.getWidth(), contactText.getHeight());
 
+        if (student != null) {
+            name.setText(student.name);
+            name.setEditable(false);
+            email.setText(student.email);
+            email.setEditable(false);
+            contact.setText(student.contactNumber);
+            contact.setEditable(false);
+        }
+        
         panel.add(title);
         panel.add(namePlaceholder);
         panel.add(name);
@@ -285,39 +292,6 @@ public class InformationPaneComponent extends JPanel {
 
         JLayeredPane checkAppointment = new Asset().generateButtonWithoutImage("Click to View Schedule", serviceItemListAD.getWidth(), serviceItemListAD.getHeight());
         checkAppointment.setLocation(serviceItemListAD.getX(), datePickerAD.getY() - 3);
-        checkAppointment.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                try {
-                    String day = String.format("%02d", datePickerAD.getModel().getDay());
-                    String month = String.format("%02d", datePickerAD.getModel().getMonth() + 1);
-                    JFrame popUp = new ViewSchedulePopUp(Objects.requireNonNull(appointmentChoiceAD.getSelectedItem()).toString(), day + "/" + month + "/" + datePickerAD.getModel().getYear());
-                    popUp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                } catch (NullPointerException ex) {
-                    JOptionPane.showMessageDialog(panel, "Please select both technician and the date to view available time.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
 
         JLabel appointmentStartTimeText = new JLabel("Appointment Start Time");
         appointmentStartTimeText.setFont(Asset.getBodyFont("Plain"));
@@ -338,6 +312,82 @@ public class InformationPaneComponent extends JPanel {
         appointmentEndAD.setBackground(Color.WHITE);
         appointmentEndAD.setFont(Asset.getBodyFont("Plain"));
         appointmentEndAD.setBounds(appointmentEndTimeText.getX(), appointmentStartAD.getY(), appointmentStartAD.getWidth(), appointmentStartAD.getHeight());
+        checkAppointment.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                try {
+                    if (LocalDate.of(datePickerAD.getModel().getYear(), datePickerAD.getModel().getMonth() + 1, datePickerAD.getModel().getDay()).isBefore(LocalDate.now())) {
+                        throw new NullPointerException();
+                    }
+
+                    String day = String.format("%02d", datePickerAD.getModel().getDay());
+                    String month = String.format("%02d", datePickerAD.getModel().getMonth() + 1);
+                    JFrame popUp = new ViewSchedulePopUp(Objects.requireNonNull(appointmentChoiceAD.getSelectedItem()).toString(), day + "/" + month + "/" + datePickerAD.getModel().getYear());
+                    popUp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    popUp.addWindowListener(new WindowListener() {
+                        @Override
+                        public void windowOpened(WindowEvent e) {
+                            if (e.getSource() == popUp) {
+                                checkAppointment.setEnabled(false);
+                            }
+                        }
+
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+
+                        }
+
+                        @Override
+                        public void windowClosed(WindowEvent e) {
+                            if (e.getSource() == popUp) {
+                                checkAppointment.setEnabled(true);
+                            }
+                        }
+
+                        @Override
+                        public void windowIconified(WindowEvent e) {
+
+                        }
+
+                        @Override
+                        public void windowDeiconified(WindowEvent e) {
+
+                        }
+
+                        @Override
+                        public void windowActivated(WindowEvent e) {
+
+                        }
+
+                        @Override
+                        public void windowDeactivated(WindowEvent e) {
+                        }
+                    });
+                } catch (NullPointerException ex) {
+                    JOptionPane.showMessageDialog(panel, "Please select a valid technician and date to view available time.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         panel.add(title);
         panel.add(technicianText);

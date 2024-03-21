@@ -25,6 +25,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
 
         frame = new JFrame("Create Account Page");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
         frame.setLayout(null);
         frame.setSize(Asset.getFrameWidth(), Asset.getFrameHeight());
         frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
@@ -39,8 +40,10 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
         backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 
         backArrow = new Asset().generateImage("backArrow_icon.png");
+        backArrow.addMouseListener(this);
 
         logoutButton = new Asset().generateImage("logout_icon.png");
+        logoutButton.addMouseListener(this);
 
         title = new JLabel("Create Account");
         title.setFont(Asset.getTitleFont());
@@ -63,6 +66,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
         displayCustomerPanel = new JScrollPane(new InformationPaneComponent().customerInformation(null));
 
         cancelButton = new Asset().generateButtonWithoutImage("Cancel", confirmButton.getWidth(), confirmButton.getHeight());
+        cancelButton.addMouseListener(this);
 
         saveButton = new Asset().generateButtonWithoutImage("Save details", cancelButton.getWidth() + 100, confirmButton.getHeight());
         saveButton.addMouseListener(this);
@@ -252,6 +256,20 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
             }
         } else if (e.getSource() == saveButton) {
             System.out.println(infoPane1.getAddressLine1());
+        } if (e.getSource() == backArrow || e.getSource() == cancelButton) {
+            int choice = JOptionPane.showConfirmDialog(frame, "<html>Do you wish to return to the main page?<br>The inputted data will not be saved.</html>", "System Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "return_icon.png"));
+            if (choice == 0) {
+                Asset.setFramePosition(frame.getX(), frame.getY());
+                ManagerMainPage.setFrameVisibility(true);
+                frame.dispose();
+            }
+        } else if (e.getSource() == logoutButton) {
+            int choice = JOptionPane.showConfirmDialog(frame, "<html>Are you sure that you would like to logout from the system?<br>The inputted data will not be saved.</html>", "System Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "logout_icon.png"));
+            if (choice == 0) {
+                Asset.setFramePosition(frame.getX(), frame.getY());
+                new LoginPage();
+                frame.dispose();
+            }
         }
     }
 
@@ -267,11 +285,17 @@ public class CreateAccountPage implements ComponentListener, MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        backArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        cancelButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        saveButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+        backArrow.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        cancelButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        saveButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 }

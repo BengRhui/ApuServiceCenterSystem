@@ -41,11 +41,9 @@ public class ViewScheduleComponent extends JLayeredPane implements ComponentList
         ArrayList<Appointment> filteredAppointment = new ArrayList<>();
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate filterDate = LocalDate.parse(date, dateFormat);
-        String technicianName = technician;
-        String technicianID = "T001";
 
         for (Appointment appointment: Appointment.getOverallAppointmentList()) {
-            if (appointment.date.isEqual(filterDate) && appointment.technicianID.equals(technicianID)) {
+            if (appointment.date.isEqual(filterDate) && appointment.technicianID.equals(technician)) {
                 filteredAppointment.add(appointment);
             }
         }

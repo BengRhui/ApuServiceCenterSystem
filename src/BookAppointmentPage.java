@@ -183,6 +183,7 @@ public class BookAppointmentPage implements ComponentListener, MouseListener, Wi
                         }
 
                         boolean availability = Appointment.checkAppointmentAvailability(appointmentChoice, appointmentDate, appointmentStart, appointmentEnd);
+
                         if (!availability) {
                             JOptionPane.showMessageDialog(frame, "<html>The technician is not available at this time.<br>Please try another time slot.</html>", "Slot Unavailable", JOptionPane.ERROR_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "warning_icon.png"));
                         } else {
@@ -199,7 +200,6 @@ public class BookAppointmentPage implements ComponentListener, MouseListener, Wi
                         }
                     } catch (NullPointerException ex) {
                         JOptionPane.showMessageDialog(frame, "<html>Please check all the fields before submitting the appointment.<br>Make sure all the fields are filled in.<br>Also, make sure that the time is valid.</html>", "Incomplete Input", JOptionPane.ERROR_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "warning_icon.png"));
-                        System.out.println(ex.getMessage());
                     }
                 }
             }

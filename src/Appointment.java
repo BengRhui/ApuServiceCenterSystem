@@ -105,7 +105,7 @@ public class Appointment {
         String technicianID = Technician.getIdFromName(technicianName);
         for (Appointment appointment: Appointment.getOverallAppointmentList()) {
             if (appointment.technicianID.equals(technicianID) && appointment.date.isEqual(date)) {
-                if (appointment.startingTime.isBefore(startingTime)) {
+                if (startingTime.isBefore(appointment.startingTime)) {
                     if (endingTime.isAfter(appointment.startingTime)) {
                         available = false;
                         break;
