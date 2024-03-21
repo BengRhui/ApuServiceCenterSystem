@@ -1,11 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
-public class CustomerServiceDetailsPopUp implements KeyListener, ComponentListener {
+public class CustomerServiceDetailsPopUp implements KeyListener, ComponentListener, WindowListener {
     JPanel panel, backgroundPanel;
     JFrame frame;
     JLabel mainTitle, mainContent1, mainContent2, mainContent3,mainContent4, mainContent5, mainContent6;
@@ -14,15 +11,17 @@ public class CustomerServiceDetailsPopUp implements KeyListener, ComponentListen
 
     Color transparentColour = new Color(255,255,255,0);
 
-    public static void main(String[] args){new CustomerServiceDetailsPopUp();}
+    public static void main(String[] args){new CustomerServiceDetailsPopUp(null);}
 
-    public CustomerServiceDetailsPopUp(){
+    public CustomerServiceDetailsPopUp(Appointment appointment){
         panel = new JPanel();
         frame = new JFrame("CustomerServiceDetailsPopUp");
         frame.setSize(1100, 800);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocation(Asset.getFramePositionX() + (Asset.getFrameWidth() - frame.getWidth()) / 2, Asset.getFramePositionY() + (Asset.getFrameHeight() - frame.getHeight()) / 2);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(null);
         frame.addComponentListener(this);
+        frame.addWindowListener(this);
 
         backgroundPanel = new JPanel(null);
         backgroundPanel.setBackground(Color.WHITE);
@@ -162,6 +161,42 @@ public class CustomerServiceDetailsPopUp implements KeyListener, ComponentListen
 
     @Override
     public void componentHidden(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        CustomerAppointmentPage.setFrameEnable(true);
+        frame.dispose();
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
 
     }
 }

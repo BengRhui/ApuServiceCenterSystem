@@ -34,13 +34,32 @@ public class ViewAppointmentComponent {
 
         futureAppointment.sort(Comparator.comparing(Appointment::getAppointmentDateAndTime));
 
-        int panelHeight = futureAppointment.size() * (200 + 40);
+        int panelHeight;
+
+        if (futureAppointment.isEmpty()) {
+            panelHeight = 200;
+            JPanel noAppointmentPanel = new JPanel(new BorderLayout());
+            noAppointmentPanel.setPreferredSize(new Dimension(300, 200));
+
+            JLabel noAppointment = new JLabel("No upcoming appointments.");
+            noAppointment.setFont(Asset.getBodyFont("Plain"));
+
+            noAppointmentPanel.add(noAppointment);
+            overallPanel.add(noAppointment);
+        } else {
+            panelHeight = futureAppointment.size() * (200 + 40);
+        }
 
         for (Appointment appointmentDetails: futureAppointment) {
 
             JPanel detail = new JPanel(new BorderLayout());
             detail.setPreferredSize(new Dimension(300, 200));
             detail.setBackground(Color.BLUE);
+
+            JPanel container = new JPanel(null);
+            container.setPreferredSize(new Dimension(300, 200));
+            container.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+            container.setBackground(Color.WHITE);
 
             DateTimeFormatter format = DateTimeFormatter.ofPattern("d MMMM yyyy");
             JLabel date = new JLabel(appointmentDetails.date.format(format));
@@ -60,10 +79,7 @@ public class ViewAppointmentComponent {
             item.setFont(Asset.getBodyFont("Plain"));
             item.setBounds(30, 140, 250, 30);
 
-            JPanel container = new JPanel(null);
-            container.setPreferredSize(new Dimension(300, 200));
-            container.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-            container.setBackground(Color.WHITE);
+
             container.add(date);
             container.add(time);
             container.add(technician);
@@ -107,6 +123,20 @@ public class ViewAppointmentComponent {
         layout.setVgap(20);
         overallPane.setLayout(layout);
 
+        if (previousAppointment.isEmpty()) {
+            JPanel basePanel = new JPanel(new BorderLayout());
+            basePanel.setBackground(Color.WHITE);
+
+            JLabel noAppointment = new JLabel("No previous appointment in record.");
+            noAppointment.setFont(Asset.getBodyFont("Plain"));
+
+            remainingBox -= 1;
+
+            basePanel.add(noAppointment);
+            overallPane.add(basePanel);
+
+        }
+
         for (Appointment appointmentDetails: previousAppointment) {
             JPanel basePanel = new JPanel(new BorderLayout());
 
@@ -124,6 +154,34 @@ public class ViewAppointmentComponent {
 
             JLabel viewDetails = new Asset().generateImage("viewDetails_icon.png");
             viewDetails.setBounds(240, 25, 30, 30);
+            viewDetails.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    Asset.setFramePosition(CustomerAppointmentPage.frame.getX(), CustomerAppointmentPage.frame.getY());
+                    new CustomerServiceDetailsPopUp(appointmentDetails);
+                    CustomerAppointmentPage.setFrameEnable(false);
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    viewDetails.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    viewDetails.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+            });
 
             JLabel giveFeedback;
             for (Feedback feedback: feedbackList) {

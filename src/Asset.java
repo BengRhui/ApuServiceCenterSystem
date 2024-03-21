@@ -51,9 +51,7 @@ public class Asset implements MouseListener {
     // Setters to set the coordinates of the frame
     public static void setFramePosition(double coordinateX, double coordinateY){
         framePositionX = (int) coordinateX;
-        System.out.println(framePositionX);
         framePositionY = (int) coordinateY;
-        System.out.println(framePositionY);
     }
 
     // Getters to retrieve the font

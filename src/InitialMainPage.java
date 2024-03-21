@@ -7,9 +7,9 @@ import java.awt.event.*;
 * Customers (students) will be able to enter their TP number to check for appointments.
 * Managers and technicians will click on the text to be redirected to the login page.
 * */
-public class InitialMainPage implements KeyListener, ComponentListener, MouseListener {
+public class InitialMainPage implements KeyListener, ComponentListener, MouseListener, WindowListener {
     // All data declared
-    JFrame frame;
+    static JFrame frame;
     JLabel backgroundImage, mainTitle, mainContent, subContent, placeholderText, repairImage, providerImage, providerText, callImage, callText, searchImage,
             personnelImage, personnelText, locationImage, locationText, subHeading, tpImage, predefinedText, closeButton;
 
@@ -25,9 +25,10 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
         frame = new JFrame("AHHASC Main Page");
         frame.setSize(Asset.getFrameWidth(), Asset.getFrameHeight());
         frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.addComponentListener(this);
+        frame.addWindowListener(this);
 
         // Generate a background image for the system
         backgroundImage = new Asset().generateImage("background_1.jpg");
@@ -156,6 +157,11 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
         frame.setVisible(true);
     }
 
+    // Used to set the visibility of the current frame
+    public static void setFrameVisible(boolean status) {
+        frame.setVisible(status);
+    }
+
     // Used to adjust the position and size of the GUI elements when the frame is resized.
     @Override
     public void componentResized(ComponentEvent e) {
@@ -182,7 +188,7 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
         callText.setBounds(callImage.getX() + callImage.getWidth() + 20, callImage.getY(), providerText.getWidth(), 75);
         locationImage.setLocation(callImage.getX(), callText.getY() + callText.getHeight() + 50);
         locationText.setBounds(callText.getX(), locationImage.getY(), callText.getWidth(), 75);
-        personnelImage.setLocation(providerImage.getX(), locationText.getY() + locationText.getHeight() + 110);
+        personnelImage.setLocation(providerImage.getX(), backgroundPanel.getHeight() - 100);
         personnelText.setBounds(personnelImage.getX() + personnelImage.getWidth(), personnelImage.getY() - 5, 300, 50);
         repairImage.setLocation(backgroundPanel.getWidth() * 5 / 8, backgroundPanel.getHeight() * 22 / 50);
         closeButton.setLocation(backgroundPanel.getWidth() - closeButton.getWidth() - 50, 50);
@@ -206,6 +212,10 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            MouseEvent clickEvent = new MouseEvent(buttonPane, MouseEvent.MOUSE_RELEASED, System.currentTimeMillis(), 0, buttonPane.getWidth() / 2, buttonPane.getHeight() / 2, 1, false);
+            buttonPane.dispatchEvent(clickEvent);
+        }
     }
 
     // Used to hide the text placeholder while typing password
@@ -228,6 +238,7 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
     public void mouseReleased(MouseEvent e) {
         // When the search button is clicked
         if (e.getSource() == buttonPane) {
+            currentStudent = null;
             try {
                 //Perform first validation: number of characters must be equals to 6
                 int length = tpInputField.getText().length();
@@ -248,7 +259,9 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
 
                 // Proceed if the TP number of the student is in the system, else tell user that the customer is not registered
                 if (currentStudent != null) {
+                    Asset.setFramePosition(frame.getX(), frame.getY());
                     new CustomerAppointmentPage(currentStudent);
+                    setFrameVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(frame, "<html>You have not been registered to the system.<br>Please contact the person-in-charge for appointment bookings.<html>", "Customer Unavailable", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "userNotFound_vector.png"));
                 }
@@ -262,7 +275,7 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
             // Link to the login page when the personnel image and text is clicked
             Asset.setFramePosition(frame.getX(), frame.getY());
             new LoginPage();
-            frame.setVisible(false);
+            setFrameVisible(false);
 
         } else if (e.getSource() == closeButton) {
 
@@ -306,6 +319,49 @@ public class InitialMainPage implements KeyListener, ComponentListener, MouseLis
         } else if (e.getSource() == closeButton) {
             closeButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        if (e.getSource() == frame) {
+
+            // Confirm that user wishes to exit, the end the overall system if the user intends to do so
+            int choice = JOptionPane.showConfirmDialog(frame, "Are you sure that you would like to exit the system?", "System Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "exitConfirm_vector.png"));
+            if (choice == 0) {
+                frame.dispose();
+                System.exit(0);
+            }
+        }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
     }
 }
 

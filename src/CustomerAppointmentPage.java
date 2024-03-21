@@ -1,10 +1,11 @@
 import javax.swing.*;
-import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class CustomerAppointmentPage implements ComponentListener {
+public class CustomerAppointmentPage implements ComponentListener, MouseListener {
 
     static JFrame frame;
     JPanel titleTopPanel, contentPanel, marginPanel, leftEmptyPane, rightEmptyPane, topEmptyPane, bottomEmptyPane,
@@ -30,6 +31,7 @@ public class CustomerAppointmentPage implements ComponentListener {
 
         logoutButton = new Asset().generateImage("logout_icon.png");
         logoutButton.setPreferredSize(new Dimension(frame.getHeight() / 6, frame.getHeight() / 6));
+        logoutButton.addMouseListener(this);
 
         title = new JLabel("Appointments");
         title.setFont(Asset.getTitleFont());
@@ -75,7 +77,7 @@ public class CustomerAppointmentPage implements ComponentListener {
         leftTitle.setFont(Asset.getNameFont("Bold"));
         leftTitle.setVerticalTextPosition(JLabel.TOP);
 
-        leftInfo = new ViewAppointmentComponent("TP067299").generateUpcomingAppointment();
+        leftInfo = new ViewAppointmentComponent(currentStudent.tpNumber).generateUpcomingAppointment();
         leftInfo.setBackground(Color.WHITE);
 
         leftScroll = new JScrollPane(leftInfo);
@@ -97,7 +99,7 @@ public class CustomerAppointmentPage implements ComponentListener {
                 "We value your opinion and strive to provide a better service to you in the future.</html>");
         rightSubtitle.setFont(Asset.getBodyFont("Plain"));
 
-        rightInfo = new ViewAppointmentComponent("TP067299").displayPreviousAppointment();
+        rightInfo = new ViewAppointmentComponent(currentStudent.tpNumber).displayPreviousAppointment();
         rightInfo.setBackground(Color.WHITE);
 
         rightScroll = new JScrollPane(rightInfo);
@@ -130,6 +132,10 @@ public class CustomerAppointmentPage implements ComponentListener {
         frame.setVisible(true);
     }
 
+    public static void setFrameEnable(boolean status) {
+        frame.setEnabled(status);
+    }
+
     @Override
     public void componentResized(ComponentEvent e) {
         titleTopPanel.setBounds(0, 0, frame.getWidth(), Asset.getFrameHeight() / 6);
@@ -158,5 +164,36 @@ public class CustomerAppointmentPage implements ComponentListener {
     @Override
     public void componentHidden(ComponentEvent e) {
 
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == logoutButton) {
+            int choice = JOptionPane.showConfirmDialog(frame, "Do you wish to return to the main menu?", "Return to Main Menu", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "return_icon.png"));
+            if (choice == 0) {
+                InitialMainPage.setFrameVisible(true);
+                frame.dispose();
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 }
