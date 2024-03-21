@@ -5,13 +5,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class ScheduleView extends JLayeredPane implements ComponentListener {
+public class ViewScheduleComponent extends JLayeredPane implements ComponentListener {
 
     JLabel title;
     JLayeredPane referencePane;
 
 
-    public ScheduleView(JLayeredPane referencePane, String technician, String date) {
+    public ViewScheduleComponent(JLayeredPane referencePane, String technician, String date) {
 
         this.referencePane = referencePane;
         this.referencePane.addComponentListener(this);
@@ -36,7 +36,7 @@ public class ScheduleView extends JLayeredPane implements ComponentListener {
             add(panel, DEFAULT_LAYER);
         }
 
-        TextFileOperations.readAppointment();
+        TextFileOperationsComponent.readAppointment();
 
         ArrayList<Appointment> filteredAppointment = new ArrayList<>();
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");

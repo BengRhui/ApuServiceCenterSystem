@@ -7,22 +7,22 @@ import java.awt.event.MouseListener;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class ModifyAccountAdmin implements ComponentListener, MouseListener {
+public class ModifyAccountManagerPage implements ComponentListener, MouseListener {
     public static void main(String[] args) {
-        currentPage = new ModifyAccountAdmin();
+        currentPage = new ModifyAccountManagerPage();
     }
 
-    static ModifyAccountAdmin currentPage;
+    static ModifyAccountManagerPage currentPage;
     static JFrame frame;
     JLabel backgroundPicture, backArrow, logoutButton, accountText, title, checkInputText;
     JPanel backgroundPanel;
     JScrollPane displayManagerPanel, displayTechnicianPanel, displayCustomerPanel;
     JLayeredPane confirmButton, cancelButton, saveButton, searchButton;
     JComboBox<String> selectAccount;
-    InformationPane infoPane1;
+    InformationPaneComponent infoPane1;
     JTextField checkPrompt;
 
-    public ModifyAccountAdmin() {
+    public ModifyAccountManagerPage() {
 
         frame = new JFrame("Modify Account Page");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,7 +31,7 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
         frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
         frame.addComponentListener(this);
 
-        infoPane1 = new InformationPane();
+        infoPane1 = new InformationPaneComponent();
 
         backgroundPicture = new Asset().generateImage("background.jpg");
 
@@ -60,8 +60,8 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
         confirmButton.setFocusable(true);
         confirmButton.addMouseListener(this);
 
-        displayTechnicianPanel = new InformationPane().bookAppointmentPane();
-        displayCustomerPanel = new JScrollPane(new InformationPane().customerInformation());
+        displayTechnicianPanel = new InformationPaneComponent().bookAppointmentPane();
+        displayCustomerPanel = new JScrollPane(new InformationPaneComponent().customerInformation());
 
         cancelButton = new Asset().generateButtonWithoutImage("Cancel", confirmButton.getWidth(), confirmButton.getHeight());
 
@@ -185,8 +185,8 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
                 searchButton.addMouseListener(new MouseListener() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        InformationPane.positionChoice.clear();
-                        InformationPane.positionChoice.addAll(Arrays.asList(Manager.getManagerPosition()));
+                        InformationPaneComponent.positionChoice.clear();
+                        InformationPaneComponent.positionChoice.addAll(Arrays.asList(Manager.getManagerPosition()));
 
                         if (backgroundPanel.getComponentZOrder(displayManagerPanel) > -1) {
                             backgroundPanel.remove(displayManagerPanel);
@@ -326,8 +326,8 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
                 searchButton.addMouseListener(new MouseListener() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        InformationPane.positionChoice.clear();
-                        InformationPane.positionChoice.addAll(Arrays.asList(Technician.getTechnicianPosition()));
+                        InformationPaneComponent.positionChoice.clear();
+                        InformationPaneComponent.positionChoice.addAll(Arrays.asList(Technician.getTechnicianPosition()));
 
                         if (backgroundPanel.getComponentZOrder(displayManagerPanel) > -1) {
                             backgroundPanel.remove(displayManagerPanel);
@@ -341,9 +341,9 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
                         }
 
                         if (checkPrompt.getText().equals("456")) {
-                            displayTechnicianPanel = new JScrollPane(new InformationPane().modifyManagerAndTechnicianAccountOwn());
+                            displayTechnicianPanel = new JScrollPane(new InformationPaneComponent().modifyManagerAndTechnicianAccountOwn());
                         } else {
-                            displayTechnicianPanel = new JScrollPane(new InformationPane().modifyManagerAndTechnicianAccountNotOwn());
+                            displayTechnicianPanel = new JScrollPane(new InformationPaneComponent().modifyManagerAndTechnicianAccountNotOwn());
                         }
                         displayTechnicianPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
                         backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
@@ -477,7 +477,7 @@ public class ModifyAccountAdmin implements ComponentListener, MouseListener {
                             backgroundPanel.remove(displayCustomerPanel);
                         }
 
-                        displayCustomerPanel = new JScrollPane(new InformationPane().customerModifyPersonalInformation());
+                        displayCustomerPanel = new JScrollPane(new InformationPaneComponent().customerModifyPersonalInformation());
                         displayCustomerPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
                         backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 

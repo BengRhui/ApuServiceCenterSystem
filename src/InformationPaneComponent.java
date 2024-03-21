@@ -8,11 +8,10 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Objects;
 import java.util.Properties;
 
-public class InformationPane extends JPanel {
+public class InformationPaneComponent extends JPanel {
 
     private final static int scrollPaneWidth = 900;
     JPanel panel;
@@ -21,9 +20,9 @@ public class InformationPane extends JPanel {
         panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
-        JPanel panel1 = new InformationPane().customerInformation();
-        JPanel panel2 = new InformationPane().divider();
-        JPanel panel3 = new InformationPane().appointmentDetails();
+        JPanel panel1 = new InformationPaneComponent().customerInformation();
+        JPanel panel2 = new InformationPaneComponent().divider();
+        JPanel panel3 = new InformationPaneComponent().appointmentDetails();
 
         panel1.setLocation(0, 0);
         panel2.setLocation(0, panel1.getHeight());
@@ -43,19 +42,19 @@ public class InformationPane extends JPanel {
     }
 
     JPanel panel1;
-    InformationPane infoPane;
+    InformationPaneComponent infoPane;
     static ArrayList<String> positionChoice = new ArrayList<>();
 
     public JPanel createManagerAndTechnicianAccount() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
-        infoPane = new InformationPane();
+        infoPane = new InformationPaneComponent();
         panel1 = infoPane.managerAndTechnicianPersonalInformation();
-        JPanel panel2 = new InformationPane().divider();
-        JPanel panel3 = new InformationPane().jobDetails();
-        JPanel panel4 = new InformationPane().divider();
-        JPanel panel5 = new InformationPane().loginDetails();
+        JPanel panel2 = new InformationPaneComponent().divider();
+        JPanel panel3 = new InformationPaneComponent().jobDetails();
+        JPanel panel4 = new InformationPaneComponent().divider();
+        JPanel panel5 = new InformationPaneComponent().loginDetails();
 
         panel1.setLocation(0, 0);
         panel2.setLocation(0, panel1.getHeight());
@@ -80,12 +79,12 @@ public class InformationPane extends JPanel {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
-        infoPane = new InformationPane();
+        infoPane = new InformationPaneComponent();
         panel1 = infoPane.managerAndTechnicianPersonalInformation();
-        JPanel panel2 = new InformationPane().divider();
-        JPanel panel3 = new InformationPane().accountDetails();
-        JPanel panel4 = new InformationPane().divider();
-        JPanel panel5 = new InformationPane().jobDetails();
+        JPanel panel2 = new InformationPaneComponent().divider();
+        JPanel panel3 = new InformationPaneComponent().accountDetails();
+        JPanel panel4 = new InformationPaneComponent().divider();
+        JPanel panel5 = new InformationPaneComponent().jobDetails();
 
         panel1.setLocation(0, 0);
         panel2.setLocation(0, panel1.getHeight());
@@ -110,14 +109,14 @@ public class InformationPane extends JPanel {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
-        infoPane = new InformationPane();
+        infoPane = new InformationPaneComponent();
         panel1 = infoPane.managerAndTechnicianPersonalInformation();
-        JPanel panel2 = new InformationPane().divider();
-        JPanel panel3 = new InformationPane().accountDetails();
-        JPanel panel4 = new InformationPane().divider();
-        JPanel panel5 = new InformationPane().jobDetails();
-        JPanel panel6 = new InformationPane().divider();
-        JPanel panel7 = new InformationPane().loginDetails();
+        JPanel panel2 = new InformationPaneComponent().divider();
+        JPanel panel3 = new InformationPaneComponent().accountDetails();
+        JPanel panel4 = new InformationPaneComponent().divider();
+        JPanel panel5 = new InformationPaneComponent().jobDetails();
+        JPanel panel6 = new InformationPaneComponent().divider();
+        JPanel panel7 = new InformationPaneComponent().loginDetails();
 
         panel1.setLocation(0, 0);
         panel2.setLocation(0, panel1.getHeight());
@@ -146,10 +145,10 @@ public class InformationPane extends JPanel {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
-        infoPane = new InformationPane();
+        infoPane = new InformationPaneComponent();
         panel1 = infoPane.managerAndTechnicianPersonalInformation();
-        JPanel panel2 = new InformationPane().divider();
-        JPanel panel3 = new InformationPane().loginDetails();
+        JPanel panel2 = new InformationPaneComponent().divider();
+        JPanel panel3 = new InformationPaneComponent().loginDetails();
 
         panel1.setLocation(0, 0);
         panel2.setLocation(0, panel1.getHeight());
@@ -235,7 +234,7 @@ public class InformationPane extends JPanel {
         itemsText.setFont(Asset.getBodyFont("Plain"));
         itemsText.setBounds(technicianText.getX() + technicianText.getWidth() + 20, technicianText.getY(), technicianText.getWidth(), technicianText.getHeight());
 
-        TextFileOperations.readElectronicsData();
+        TextFileOperationsComponent.readElectronicsData();
         String[] itemsChoices = new String[ElectronicItems.getFullItemList().size()];
         int i = 0;
         for (ElectronicItems item: ElectronicItems.getFullItemList()) {

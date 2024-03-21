@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.security.Key;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Feedback {
@@ -9,7 +9,7 @@ public class Feedback {
     int systemRating, technicianRating;
     String comment, appointmentID, technicianID, studentTP;
 
-    private static ArrayList<Feedback> overallFeedbackList = new ArrayList<>();
+    private final static ArrayList<Feedback> overallFeedbackList = new ArrayList<>();
     public Feedback(String appointmentID, String technicianID, String studentTP, int systemRating, int technicianRating, String comment) {
         this.appointmentID = appointmentID;
         this.technicianID = technicianID;
@@ -23,9 +23,9 @@ public class Feedback {
         return overallFeedbackList;
     }
 
-    public static ArrayList<Feedback> getFilteredFeedbackList(String tpNumber) {
+    public static ArrayList<Feedback> getStudentFilteredFeedbackList(String tpNumber) {
 
-        TextFileOperations.readFeedbackFromList();
+        TextFileOperationsComponent.readFeedbackFromList();
         ArrayList<Feedback> filter = new ArrayList<>();
         for (Feedback feedback: overallFeedbackList) {
             if (feedback.studentTP.equals(tpNumber)) {
@@ -33,6 +33,20 @@ public class Feedback {
             }
         }
         return filter;
+    }
+
+    public static ArrayList<Feedback> getTechnicianFilteredFeedbackLit(String technicianID) {
+        TextFileOperationsComponent.readTechnicianFromFile();
+        ArrayList<Feedback> filter = new ArrayList<>();
+        for (Feedback list: overallFeedbackList) {
+            if (list.technicianID.equals(technicianID)) {
+                filter.add(list);
+            }
+        }
+        return filter;
+    }
+    public LocalDateTime getDateAndTime() {
+        return LocalDateTime.of(Appointment.getAppointmentFromID(appointmentID).date, Appointment.getAppointmentFromID(appointmentID).startingTime);
     }
 
     public static JFrame provideFeedback(Appointment appointmentDetails, Feedback currentFeedback) {
@@ -110,10 +124,9 @@ public class Feedback {
 
         JTextArea comment = new JTextArea(5, 20);
         comment.setFont(Asset.getBodyFont("Plain"));
-        comment.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         comment.setLineWrap(true);
         comment.setWrapStyleWord(true);
-        comment.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        comment.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 2), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
         JLayeredPane saveButton = new Asset().generateButtonWithoutImage("Save", 250, 50);
 
@@ -125,7 +138,7 @@ public class Feedback {
         comment.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if (comment.getText().length() > 100) {
+                if (comment.getText().length() > 100 || e.getKeyChar() == ';') {
                     e.consume();
                 }
             }
@@ -200,18 +213,52 @@ public class Feedback {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                JRadioButton selectedButton1 = (JRadioButton) group1.getSelection();
-                String systemRating = selectedButton1.getText();
+                try {
+                    int systemRating;
+                    if (button1.isSelected()) {
+                        systemRating = 1;
+                    } else if (button2.isSelected()) {
+                        systemRating = 2;
+                    } else if (button3.isSelected()) {
+                        systemRating = 3;
+                    } else if (button4.isSelected()) {
+                        systemRating = 4;
+                    } else if (button5.isSelected()) {
+                        systemRating = 5;
+                    } else {
+                        throw new NullPointerException();
+                    }
 
-                JRadioButton selectedButton2 = (JRadioButton) group2.getSelection();
-                String technicianRating = selectedButton2.getText();
+                    int technicianRating;
+                    if (button6.isSelected()) {
+                        technicianRating = 1;
+                    } else if (button7.isSelected()) {
+                        technicianRating = 2;
+                    } else if (button8.isSelected()) {
+                        technicianRating = 3;
+                    } else if (button9.isSelected()) {
+                        technicianRating = 4;
+                    } else if (button10.isSelected()) {
+                        technicianRating = 5;
+                    } else {
+                        throw new NullPointerException();
+                    }
 
-                String commentText = comment.getText().strip();
+                    String commentText = comment.getText().strip();
+                    if (commentText.isEmpty()) {
+                        throw new NullPointerException();
+                    }
 
-                currentFeedback.systemRating = Integer.parseInt(systemRating);
-                currentFeedback.technicianRating = Integer.parseInt(technicianRating);
-                currentFeedback.comment = commentText;
+                    currentFeedback.systemRating = systemRating;
+                    currentFeedback.technicianRating = technicianRating;
+                    currentFeedback.comment = commentText;
+                    TextFileOperationsComponent.writeFeedbackToFile();
+                    JOptionPane.showMessageDialog(frame, "Record has been successfully saved.");
+                    frame.dispose();
 
+                } catch (NullPointerException ex) {
+                    JOptionPane.showMessageDialog(frame, "Please fill in all the fields before submitting.");
+                }
 
 
             }

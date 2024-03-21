@@ -2,29 +2,30 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-public class ManageAppointment implements ComponentListener, MouseListener {
-
+public class ModifyAccountTechnicianPage implements ComponentListener {
     public static void main(String[] args) {
-        new ManageAppointment();
+        currentPage = new ModifyAccountTechnicianPage();
     }
 
+    static ModifyAccountTechnicianPage currentPage;
     static JFrame frame;
     JLabel backgroundPicture, backArrow, logoutButton, title;
-    JPanel backgroundPanel, overallPanel, tablePanel;
-    JLayeredPane switchButton, containerPane;
-    CardLayout cardLayout = new CardLayout();
-    ScheduleView todayPanel;
+    JPanel backgroundPanel;
+    JScrollPane editPanel;
+    JLayeredPane cancelButton, saveButton;
+    InformationPaneComponent infoPane1;
 
-    public ManageAppointment() {
+    public ModifyAccountTechnicianPage() {
+
         frame = new JFrame("Modify Technician Page");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.setSize(Asset.getFrameWidth(), Asset.getFrameHeight());
         frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
         frame.addComponentListener(this);
+
+        infoPane1 = new InformationPaneComponent();
 
         backgroundPicture = new Asset().generateImage("background.jpg");
 
@@ -36,39 +37,25 @@ public class ManageAppointment implements ComponentListener, MouseListener {
 
         logoutButton = new Asset().generateImage("logout_icon.png");
 
-        title = new JLabel("Manage Appointment");
+        title = new JLabel("Modify Account");
         title.setFont(Asset.getTitleFont());
 
-        overallPanel = new JPanel(cardLayout);
-        overallPanel.setBackground(Asset.getTransparentColour());
+        editPanel = new JScrollPane(infoPane1.modifyAccountTechnician());
+        editPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
-        containerPane = new JLayeredPane();
-        containerPane.setSize(frame.getWidth() * 73 / 100, frame.getHeight() * 6 / 10);
+        saveButton = new Asset().generateButtonWithoutImage("Save details", 250, 50);
+        cancelButton = new Asset().generateButtonWithoutImage("Cancel", saveButton.getWidth(), saveButton.getHeight());
 
-
-        todayPanel = new ScheduleView(containerPane, "Lim", "09/03/2024");
-
-        tablePanel = new AppointmentTable("T001");
-
-        switchButton = new Asset().generateButtonWithoutImage("Switch View", 250, 50);
-        switchButton.addMouseListener(this);
-
-        backgroundPanel.addComponentListener(this);
-
-        overallPanel.add(todayPanel, "Today");
-        overallPanel.add(tablePanel, "Table");
-
-        containerPane.add(overallPanel, JLayeredPane.DEFAULT_LAYER);
-        containerPane.add(switchButton, JLayeredPane.MODAL_LAYER);
 
         backgroundPanel.add(backArrow);
         backgroundPanel.add(logoutButton);
         backgroundPanel.add(title);
-        backgroundPanel.add(containerPane);
+        backgroundPanel.add(editPanel);
+        backgroundPanel.add(cancelButton);
+        backgroundPanel.add(saveButton);
 
         frame.add(backgroundPanel);
         frame.add(backgroundPicture);
-
         frame.setVisible(true);
 
     }
@@ -81,14 +68,9 @@ public class ManageAppointment implements ComponentListener, MouseListener {
         backArrow.setLocation(backgroundPanel.getX(), backgroundPanel.getY() + 20);
         logoutButton.setLocation(backgroundPanel.getWidth() - logoutButton.getWidth() - 50, backgroundPanel.getY() - 5);
         title.setBounds(backArrow.getX() + backArrow.getWidth() + 20, logoutButton.getY(), logoutButton.getX() - backArrow.getWidth() - backArrow.getX(), logoutButton.getHeight());
-        containerPane.setBounds(title.getX(), title.getY() + title.getHeight() + 20, frame.getWidth() * 73 / 100, frame.getHeight() * 6 / 10);
-        overallPanel.setBounds(0, 0, containerPane.getWidth(), containerPane.getHeight());
-        tablePanel.setSize(overallPanel.getWidth(), overallPanel.getHeight());
-
-        todayPanel.revalidate();
-        todayPanel.repaint();
-
-        switchButton.setLocation(containerPane.getWidth() - switchButton.getWidth(), 0);
+        saveButton.setLocation(backgroundPanel.getWidth() - saveButton.getWidth() - 40, backgroundPanel.getHeight() - saveButton.getHeight() - 40);
+        cancelButton.setLocation(saveButton.getX() - 20 - cancelButton.getWidth(), saveButton.getY());
+        editPanel.setBounds(title.getX(), title.getY() + title.getHeight() + 20, saveButton.getX() + saveButton.getWidth() - title.getX(), cancelButton.getY() - title.getHeight() - title.getY() - 40);
     }
 
     @Override
@@ -103,33 +85,6 @@ public class ManageAppointment implements ComponentListener, MouseListener {
 
     @Override
     public void componentHidden(ComponentEvent e) {
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        if (e.getSource() == switchButton) {
-            cardLayout.next(overallPanel);
-        }
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
 
     }
 }

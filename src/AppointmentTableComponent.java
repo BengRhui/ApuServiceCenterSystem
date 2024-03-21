@@ -11,12 +11,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 
-public class AppointmentTable extends JPanel implements MouseListener {
+public class AppointmentTableComponent extends JPanel implements MouseListener {
 
     JLayeredPane saveButton;
     JTable table;
     String technicianID;
-    public AppointmentTable(String technicianID) {
+    public AppointmentTableComponent(String technicianID) {
 
         this.technicianID = technicianID;
         setLayout(new BorderLayout());
@@ -123,7 +123,7 @@ public class AppointmentTable extends JPanel implements MouseListener {
                 Appointment.getOverallAppointmentList().sort(Comparator.comparing(Appointment::getAppointmentID));
             }
 
-            TextFileOperations.writeAppointmentToFile();
+            TextFileOperationsComponent.writeAppointmentToFile();
             JOptionPane.showMessageDialog(null, "All appointment details have been updated successfully.");
 
         }
