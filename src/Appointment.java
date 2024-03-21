@@ -41,7 +41,6 @@ public class Appointment {
     }
 
     public static ArrayList<Appointment> getOverallAppointmentList() {
-        TextFileOperationsComponent.readAppointment();
         return overallAppointmentList;
     }
 

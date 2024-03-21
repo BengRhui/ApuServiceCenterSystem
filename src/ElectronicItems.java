@@ -10,11 +10,9 @@ public class ElectronicItems {
         this.itemID = itemID;
         this.itemName = itemName;
         this.price = price;
-        fullItemList.add(this);
     }
 
     public static ArrayList<ElectronicItems> getFullItemList() {
-        TextFileOperationsComponent.readElectronicsData();
         return fullItemList;
     }
 
