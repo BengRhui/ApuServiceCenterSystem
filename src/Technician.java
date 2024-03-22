@@ -12,10 +12,10 @@ public class Technician extends User {
         return technicianPosition;
     }
 
-    public Technician(String name, String gender, String maritalStatus, String addressLine1, String addressLine2, String addressLine3, String postcode, String city, String state, String nationality, String contactNo, String dateJoined, String position, String email, String password) {
+    public Technician(String technicianID, String name, String gender, String maritalStatus, String addressLine1, String addressLine2, String addressLine3, String postcode, String city, String state, String nationality, String contactNo, String dateJoined, String position, String email, String password) {
         super(name, gender, email, contactNo);
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        this.technicianID = "T" + String.format("%03d", Technician.getOverallTechnicianList().size() + 1);
+        this.technicianID = technicianID;
         this.maritalStatus = maritalStatus;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
@@ -72,4 +72,15 @@ public class Technician extends User {
         }
         return technicianID;
     }
+
+    public static String generateNewTechnicianID() {
+
+        TextFileOperationsComponent.readTechnicianFromFile();
+        StringBuilder lastID = new StringBuilder(Technician.getOverallTechnicianList().getLast().technicianID);
+        lastID.delete(0, 1);
+        int newID = Integer.parseInt(lastID.toString()) + 1;
+
+        return "T" + String.format("%03d", newID);
+    }
+
 }

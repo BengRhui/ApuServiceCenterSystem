@@ -159,9 +159,9 @@ public class InformationPaneComponent extends JPanel {
         panel.setBackground(Color.WHITE);
 
         technicianModifyOwn = new InformationPaneComponent();
-        panel1 = technicianModifyOwn.managerAndTechnicianPersonalInformation(null, technician);
+        JPanel panel1 = technicianModifyOwn.managerAndTechnicianPersonalInformation(null, technician);
         JPanel panel2 = new InformationPaneComponent().divider();
-        JPanel panel3 = new InformationPaneComponent().loginDetails();
+        JPanel panel3 = technicianModifyOwn.loginDetails();
 
         panel1.setLocation(0, 0);
         panel2.setLocation(0, panel1.getHeight());

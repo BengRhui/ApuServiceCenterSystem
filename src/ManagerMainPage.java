@@ -254,20 +254,6 @@ public class ManagerMainPage implements ComponentListener, MouseListener, Window
         viewFeedbackButton.setLocation(modifyAccountButton.getX(), modifyAccountButton.getY() + modifyAccountButton.getWidth() + 20);
     }
 
-//    public void refreshData(Manager manager) {
-//        positionInfo.setText(": " + manager.position);
-//        genderInfo.setText(": " + manager.gender);
-//        dateJoinedInfo.setText(": " + manager.dateJoined.format(dateFormat));
-//        nationalityInfo.setText(": " + manager.nationality);
-//        maritalStatusInfo.setText(": " + manager.maritalStatus);
-//        addressLine1.setText(": " + manager.addressLine1);
-//        addressLine2.setText("  " + manager.addressLine2);
-//        addressLine3.setText("  " + manager.addressLine3);
-//        addressLine4.setText("  " + manager.postcode + " " + manager.city + ", " + manager.state);
-//        emailInfo.setText(": " + manager.email);
-//        contactNoInfo.setText(": " + manager.contactNumber);
-//    }
-
     @Override
     public void componentMoved(ComponentEvent e) {
 

@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Manager extends User {
     String managerID, maritalStatus, addressLine1, addressLine2, addressLine3, postcode, city, state, nationality, password, position;
@@ -13,11 +14,11 @@ public class Manager extends User {
 
     public final static ArrayList<Manager> overallManagerList = new ArrayList<>();
 
-    public Manager(String name, String gender, String maritalStatus, String addressLine1, String addressLine2, String addressLine3, String postcode, String city, String state, String nationality, String contactNo, String dateJoined, String position, String email, String password) {
+    public Manager(String managerID, String name, String gender, String maritalStatus, String addressLine1, String addressLine2, String addressLine3, String postcode, String city, String state, String nationality, String contactNo, String dateJoined, String position, String email, String password) {
         super(name, gender, email, contactNo);
 
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        this.managerID = "A" + String.format("%03d", getOverallManagerList().size() + 1);
+        this.managerID = managerID;
         this.maritalStatus = maritalStatus;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
@@ -35,4 +36,13 @@ public class Manager extends User {
         return overallManagerList;
     }
 
+    public static String generateNewManagerID() {
+
+        TextFileOperationsComponent.readManagerFromFile();
+        StringBuilder lastID = new StringBuilder(Manager.getOverallManagerList().getLast().managerID);
+        lastID.delete(0, 1);
+        int newID = Integer.parseInt(lastID.toString()) + 1;
+
+        return "A" + String.format("%04d", newID);
+    }
 }

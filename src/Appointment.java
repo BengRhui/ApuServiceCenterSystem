@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Appointment {
 
@@ -19,12 +20,12 @@ public class Appointment {
         return appointmentTime;
     }
 
-    public Appointment(String technicianID, String studentTP, String item, String date, String startingTime, String endingTime, double price, String status) {
+    public Appointment(String appointmentID, String technicianID, String studentTP, String item, String date, String startingTime, String endingTime, double price, String status) {
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
 
-        this.appointmentID = "A" + String.format("%04d", overallAppointmentList.size() + 1);
+        this.appointmentID = appointmentID;
         this.technicianID = technicianID;
         this.studentTP = studentTP;
         this.item = item;
@@ -34,6 +35,16 @@ public class Appointment {
         this.price = price;
         this.paymentStatus = status.equals("Paid");
 
+    }
+
+    public static String generateNewAppointmentID() {
+
+        TextFileOperationsComponent.readAppointment();
+        StringBuilder lastID = new StringBuilder(Appointment.getOverallAppointmentList().getLast().appointmentID);
+        lastID.delete(0, 2);
+        int newID = Integer.parseInt(lastID.toString()) + 1;
+
+        return "AP" + String.format("%03d", newID);
     }
 
     public static void setOverallAppointmentList(Appointment appointment) {
@@ -55,10 +66,13 @@ public class Appointment {
             }
         }
 
+        filterList.sort(Comparator.comparing(Appointment::getAppointmentDateAndTime));
+
+
         Object[][] objectInTable = new Object[filterList.size()][];
         int i = 0;
-        for (Appointment appointment : filterList) {
-            Object[] string = {appointment.appointmentID, appointment.technicianID, appointment.studentTP, appointment.item, appointment.date.toString(), appointment.startingTime.toString(), appointment.endingTime.toString(), appointment.price + "", appointment.paymentStatus};
+        for (Appointment appointment : filterList.reversed()) {
+            Object[] string = {appointment.appointmentID, appointment.technicianID, appointment.studentTP, appointment.item, appointment.date.toString(), appointment.startingTime.toString(), appointment.endingTime.toString(), String.format("%.2f", appointment.price), appointment.paymentStatus};
             objectInTable[i] = string;
             i ++;
         }
@@ -67,12 +81,10 @@ public class Appointment {
     }
 
     public String getAppointmentID() {
-        TextFileOperationsComponent.readAppointment();
         return appointmentID;
     }
 
     public LocalDateTime getAppointmentDateAndTime() {
-        TextFileOperationsComponent.readAppointment();
         return LocalDateTime.of(date, startingTime);
     }
 

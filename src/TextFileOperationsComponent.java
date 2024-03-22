@@ -29,7 +29,7 @@ public class TextFileOperationsComponent {
                 for (int i = 0; i < line.length; i ++) {
                     line[i] = line[i].strip();
                 }
-                Manager manager = new Manager(line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14], line[15]);
+                Manager manager = new Manager(line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14], line[15]);
                 Manager.getOverallManagerList().add(manager);
             }
         } catch (IOException ex) {
@@ -73,7 +73,7 @@ public class TextFileOperationsComponent {
                 for (int i = 0; i < line.length; i ++) {
                     line[i] = line[i].strip();
                 }
-                Appointment newAppointment = new Appointment(line[1], line[2], line[3], line[4], line[5], line[6], Double.parseDouble(line[7]), line[8]);
+                Appointment newAppointment = new Appointment(line[0], line[1], line[2], line[3], line[4], line[5], line[6], Double.parseDouble(line[7]), line[8]);
                 Appointment.setOverallAppointmentList(newAppointment);
             }
             read.close();
@@ -117,6 +117,7 @@ public class TextFileOperationsComponent {
                     info[i] = info[i].strip();
                 }
                 Technician.getOverallTechnicianList().add(new Technician(
+                        info[0],
                         info[1],
                         info[2],
                         info[3],
