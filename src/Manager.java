@@ -17,7 +17,7 @@ public class Manager extends User {
         super(name, gender, email, contactNo);
 
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        this.managerID = "A" + String.format("%-3d", getOverallManagerList().size() + 1);
+        this.managerID = "A" + String.format("%03d", getOverallManagerList().size() + 1);
         this.maritalStatus = maritalStatus;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;

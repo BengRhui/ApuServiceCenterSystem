@@ -93,7 +93,7 @@ public class InformationPaneComponent extends JPanel {
         modifyOtherAdminAccount = new InformationPaneComponent();
         JPanel panel1 = modifyOtherAdminAccount.managerAndTechnicianPersonalInformation(manager, technician);
         JPanel panel2 = new InformationPaneComponent().divider();
-        JPanel panel3 = modifyOtherAdminAccount.accountDetails();
+        JPanel panel3 = modifyOtherAdminAccount.accountDetails(manager, technician);
         JPanel panel4 = new InformationPaneComponent().divider();
         JPanel panel5 = modifyOtherAdminAccount.jobDetails(manager, technician);
 
@@ -124,7 +124,7 @@ public class InformationPaneComponent extends JPanel {
         modifyOwnAccount = new InformationPaneComponent();
         JPanel panel1 = modifyOwnAccount.managerAndTechnicianPersonalInformation(manager, null);
         JPanel panel2 = new InformationPaneComponent().divider();
-        JPanel panel3 = modifyOwnAccount.accountDetails();
+        JPanel panel3 = modifyOwnAccount.accountDetails(manager, null);
         JPanel panel4 = new InformationPaneComponent().divider();
         JPanel panel5 = modifyOwnAccount.jobDetails(manager, null);
         JPanel panel6 = new InformationPaneComponent().divider();
@@ -767,6 +767,7 @@ public class InformationPaneComponent extends JPanel {
         dateJoined.setBounds(positionText.getX() + positionText.getWidth() + 20, positionText.getY(), positionText.getWidth(), positionText.getHeight());
 
         UtilDateModel model = new UtilDateModel();
+
         JDatePanelImpl datePanel = new JDatePanelImpl(model, new Properties());
         datePickerMPI = new JDatePickerImpl(datePanel, new DateComponentFormatter());
 
@@ -782,10 +783,14 @@ public class InformationPaneComponent extends JPanel {
 
         if (manager != null) {
             positionMPI.setSelectedItem(manager.position);
+            model.setDate(manager.dateJoined.getYear(), manager.dateJoined.getMonthValue() - 1, manager.dateJoined.getDayOfMonth());
+            model.setSelected(true);
         } else if (technician != null) {
             positionMPI.setSelectedItem(technician.position);
+            model.setDate(technician.dateJoined.getYear(), technician.dateJoined.getMonthValue() - 1, technician.dateJoined.getDayOfMonth());
+            model.setSelected(true);
         }
-        
+
         panel.add(title);
         panel.add(positionText);
         panel.add(positionMPI);
@@ -823,6 +828,9 @@ public class InformationPaneComponent extends JPanel {
     }
 
     public void updatePositionCombo(String position) {
+
+        System.out.println(position);
+
         positionMPI.removeAllItems();
 
         positionChoice.clear();
@@ -1036,6 +1044,8 @@ public class InformationPaneComponent extends JPanel {
         return emailCPI.getText();
     }
 
+    JTextField nameSPI, emailSPI, contactNoSPI;
+    JComboBox<String> genderSPI;
     public JPanel customerModifyPersonalInformation(Student student) {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
@@ -1049,51 +1059,73 @@ public class InformationPaneComponent extends JPanel {
         nameText.setFont(Asset.getBodyFont("Plain"));
         nameText.setBounds(title.getWidth() + title.getX(), title.getY() + 10, (panel.getWidth() - title.getWidth() - title.getX()) * 2 / 3 - 10 , 50);
 
-        JTextField name = new Asset().generateTextField();
-        name.setFont(Asset.getBodyFont("Plain"));
-        name.setBounds(nameText.getX(), nameText.getY() + nameText.getHeight(), nameText.getWidth(), nameText.getHeight());
+        nameSPI = new Asset().generateTextField();
+        nameSPI.setText(student.name);
+        nameSPI.setFont(Asset.getBodyFont("Plain"));
+        nameSPI.setBounds(nameText.getX(), nameText.getY() + nameText.getHeight(), nameText.getWidth(), nameText.getHeight());
 
         JLabel genderText = new JLabel("Gender");
         genderText.setFont(Asset.getBodyFont("Plain"));
         genderText.setBounds(nameText.getX() + nameText.getWidth() + 20, nameText.getY(), nameText.getWidth() / 2, nameText.getHeight());
 
         String[] genderChoice = User.getGenderTypes();
-        JComboBox<String> gender = new JComboBox<>(genderChoice);
-        gender.setFont(Asset.getBodyFont("Plain"));
-        gender.setBounds(genderText.getX(), genderText.getY() + genderText.getHeight(), genderText.getWidth(), genderText.getHeight());
-        gender.setBackground(Color.WHITE);
+        genderSPI = new JComboBox<>(genderChoice);
+        genderSPI.setSelectedItem(student.gender);
+        genderSPI.setFont(Asset.getBodyFont("Plain"));
+        genderSPI.setBounds(genderText.getX(), genderText.getY() + genderText.getHeight(), genderText.getWidth(), genderText.getHeight());
+        genderSPI.setBackground(Color.WHITE);
 
         JLabel emailText = new JLabel("Email");
         emailText.setFont(Asset.getBodyFont("Plain"));
-        emailText.setBounds(nameText.getX(), name.getY() + name.getHeight() + 20, nameText.getWidth(), nameText.getHeight());
+        emailText.setBounds(nameText.getX(), nameSPI.getY() + nameSPI.getHeight() + 20, nameText.getWidth(), nameText.getHeight());
 
-        JTextField email = new Asset().generateTextField();
-        email.setBounds(emailText.getX(), emailText.getY() + emailText.getHeight(), emailText.getWidth(), emailText.getHeight());
+        emailSPI = new Asset().generateTextField();
+        emailSPI.setText(student.email);
+        emailSPI.setBounds(emailText.getX(), emailText.getY() + emailText.getHeight(), emailText.getWidth(), emailText.getHeight());
 
         JLabel contactNoText = new JLabel("Contact No");
         contactNoText.setFont(Asset.getBodyFont("Plain"));
-        contactNoText.setBounds(gender.getX(), gender.getY() + gender.getHeight() + 20, gender.getWidth(), gender.getHeight());
+        contactNoText.setBounds(genderSPI.getX(), genderSPI.getY() + genderSPI.getHeight() + 20, genderSPI.getWidth(), genderSPI.getHeight());
 
-        JTextField contactNo = new Asset().generateTextField();
-        contactNo.setFont(Asset.getBodyFont("Plain"));
-        contactNo.setBounds(contactNoText.getX(), contactNoText.getY() + contactNoText.getHeight(), contactNoText.getWidth(), contactNoText.getHeight());
+        contactNoSPI = new Asset().generateTextField();
+        contactNoSPI.setText(student.contactNumber);
+        contactNoSPI.setFont(Asset.getBodyFont("Plain"));
+        contactNoSPI.setBounds(contactNoText.getX(), contactNoText.getY() + contactNoText.getHeight(), contactNoText.getWidth(), contactNoText.getHeight());
 
         panel.add(title);
         panel.add(nameText);
-        panel.add(name);
+        panel.add(nameSPI);
         panel.add(genderText);
-        panel.add(gender);
+        panel.add(genderSPI);
         panel.add(emailText);
-        panel.add(email);
+        panel.add(emailSPI);
         panel.add(contactNoText);
-        panel.add(contactNo);
+        panel.add(contactNoSPI);
 
         return panel;
+    }
+    //JTextField nameSPI, emailSPI, contactNoSPI;
+    //    JComboBox<String> genderSPI;
+
+    public String getNameSPI() {
+        return nameSPI.getText();
+    }
+
+    public String getEmailSPI() {
+        return emailSPI.getText();
+    }
+
+    public String getContactNoSPI() {
+        return contactNoSPI.getText();
+    }
+
+    public String getGenderSPI() {
+        return Objects.requireNonNull(genderSPI.getSelectedItem()).toString();
     }
 
     JComboBox<String> accountType;
 
-    public JPanel accountDetails() {
+    public JPanel accountDetails(Manager manager, Technician technician) {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
         panel.setSize(scrollPaneWidth, 150);
@@ -1111,6 +1143,12 @@ public class InformationPaneComponent extends JPanel {
         accountType.setFont(Asset.getBodyFont("Plain"));
         accountType.setBounds(accountText.getX(), accountText.getY() + accountText.getHeight(), accountText.getWidth(), accountText.getHeight());
         accountType.setBackground(Color.WHITE);
+
+        if (manager != null) {
+            accountType.setSelectedItem("Manager");
+        } else if (technician != null) {
+            accountType.setSelectedItem("Technician");
+        }
 
         JLayeredPane confirm = new Asset().generateButtonWithoutImage("Confirm", accountType.getWidth(), accountType.getHeight());
         confirm.setLocation(accountType.getX() + accountType.getWidth() + 20, accountType.getY());

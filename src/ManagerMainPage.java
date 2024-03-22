@@ -88,8 +88,6 @@ public class ManagerMainPage implements ComponentListener, MouseListener, Window
         addressLine3 = new JLabel("  " + manager.addressLine3);
         addressLine3.setFont(Asset.getBodyFont("Plain"));
 
-        name = new JLabel(manager.name, JLabel.CENTER);
-
         addressLine4 = new JLabel("  " + manager.postcode + " " + manager.city + ", " + manager.state);
         addressLine4.setFont(Asset.getBodyFont("Plain"));
 
