@@ -11,10 +11,6 @@ public class TextFileOperationsComponent {
     private final static String filePath = "textfile/";
     private final static String picPath = "asset/";
 
-    public static String getTextFilePath() {
-        return filePath;
-    }
-
     public static String getPictureFilePath() {
         return picPath;
     }
@@ -52,7 +48,7 @@ public class TextFileOperationsComponent {
                     for (int i = 0; i < line.length; i ++) {
                         line[i] = line[i].strip();
                     }
-                    ElectronicItems item = new ElectronicItems(line[1], Integer.parseInt(line[2]));
+                    ElectronicItems item = new ElectronicItems(line[0], line[1], Double.parseDouble(line[2]));
                     ElectronicItems.getFullItemList().add(item);
                 }
                 input.close();
@@ -317,4 +313,23 @@ public class TextFileOperationsComponent {
             JOptionPane.showMessageDialog(null, "Error in writing to student list file.");
         }
     }
+
+    public static void writeElectronicItem() {
+        try {
+            String fileName = "electronicItems.txt";
+            File file = new File(filePath + fileName);
+            PrintWriter write = new PrintWriter(file);
+
+            for (ElectronicItems item: ElectronicItems.getFullItemList()) {
+                String line = String.format("%-5s", item.itemID) + ";"
+                        + String.format("%-30s", item.itemName) + ";"
+                        + item.price;
+                write.println(line);
+            }
+            write.close();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error in writing to student list file.");
+        }
+    }
+
 }

@@ -1,6 +1,7 @@
-I001 ;Kettle                         ;80
-I002 ;Bedside lamp                   ;90
-I003 ;Iron / steamer                 ;100
-I004 ;Hair dryer                     ;70
-I005 ;Electronic shaver              ;150
-I006 ;Alarm clock                    ;80
+I001 ;Kettle                        ;80.0
+I002 ;Bedside lamp                  ;90.0
+I003 ;Iron / steamer                ;100.0
+I004 ;Hair dryer                    ;70.0
+I005 ;Electronic shaver             ;150.0
+I006 ;Alarm clock                   ;80.0
+I007 ;Cabinet                       ;200.0

@@ -11,7 +11,7 @@ public class ManagerMainPage implements ComponentListener, MouseListener, Window
     JPanel profilePicture, line, informationPanel;
     JLabel backgroundLeft, name, accountType, position, gender, dateJoined, nationality, maritalStatus, address, email,
             contactNo, positionInfo, genderInfo, dateJoinedInfo, nationalityInfo, maritalStatusInfo, addressLine1,
-            addressLine2, addressLine3, addressLine4, emailInfo, contactNoInfo, backgroundRight, mainTitle, exitButton;
+            addressLine2, addressLine3, addressLine4, emailInfo, contactNoInfo, backgroundRight, mainTitle, exitButton, settingsButton;
     static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy");
     int profileRadius = 125, lineStroke = 5;
 
@@ -139,6 +139,9 @@ public class ManagerMainPage implements ComponentListener, MouseListener, Window
         mainTitle = new JLabel("Main Page");
         mainTitle.setFont(Asset.getTitleFont());
 
+        settingsButton = new Asset().generateImage("settings_icon.png");
+        settingsButton.addMouseListener(this);
+
         exitButton = new Asset().generateImage("logout_icon.png");
         exitButton.addMouseListener(this);
 
@@ -181,6 +184,7 @@ public class ManagerMainPage implements ComponentListener, MouseListener, Window
         viewFeedbackButton = new Asset().generateButtonWithImageTop("View Feedback", "feedback_vector.png", 300, 300);
         viewFeedbackButton.addMouseListener(this);
 
+        rightPanel.add(settingsButton, JLayeredPane.PALETTE_LAYER);
         rightPanel.add(backgroundRight, JLayeredPane.DEFAULT_LAYER);
         rightPanel.add(mainTitle, JLayeredPane.PALETTE_LAYER);
         rightPanel.add(exitButton, JLayeredPane.PALETTE_LAYER);
@@ -247,11 +251,14 @@ public class ManagerMainPage implements ComponentListener, MouseListener, Window
         mainTitle.setBounds(70, rightPanel.getHeight() / 20, rightPanel.getWidth() / 2, 100);
 
         exitButton.setBounds(rightPanel.getWidth() * 4 / 5, mainTitle.getY(), 100, 100);
+        settingsButton.setBounds(exitButton.getX() - settingsButton.getWidth() - 20, exitButton.getY(), 100, 100);
 
         createAccountButton.setLocation(mainTitle.getX(), mainTitle.getY() + mainTitle.getHeight() + 25);
         modifyAccountButton.setLocation(mainTitle.getX() + createAccountButton.getWidth() + 20, createAccountButton.getY());
         createAppointmentButton.setLocation(mainTitle.getX(), createAccountButton.getY() + createAccountButton.getHeight() + 20);
         viewFeedbackButton.setLocation(modifyAccountButton.getX(), modifyAccountButton.getY() + modifyAccountButton.getWidth() + 20);
+
+        System.out.println(settingsButton.getX() + "\t" + settingsButton.getY());
     }
 
     @Override
@@ -305,6 +312,11 @@ public class ManagerMainPage implements ComponentListener, MouseListener, Window
             new ViewFeedbackManagerPage();
             frame.setVisible(false);
             frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
+
+        } else if (e.getSource() == settingsButton) {
+            Asset.setFramePosition(frame.getX(), frame.getY());
+            new AddItemPage();
+            frame.setEnabled(false);
         }
     }
 
@@ -315,6 +327,7 @@ public class ManagerMainPage implements ComponentListener, MouseListener, Window
         modifyAccountButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         createAppointmentButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         viewFeedbackButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        settingsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
     @Override
@@ -324,6 +337,7 @@ public class ManagerMainPage implements ComponentListener, MouseListener, Window
         modifyAccountButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         createAppointmentButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         viewFeedbackButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        settingsButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 
     @Override
