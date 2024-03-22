@@ -40,7 +40,7 @@ public class ModifyAccountTechnicianPage implements ComponentListener {
         title = new JLabel("Modify Account");
         title.setFont(Asset.getTitleFont());
 
-        editPanel = new JScrollPane(infoPane1.modifyAccountTechnician());
+        editPanel = new JScrollPane(infoPane1.modifyAccountTechnician(null));
         editPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
         saveButton = new Asset().generateButtonWithoutImage("Save details", 250, 50);

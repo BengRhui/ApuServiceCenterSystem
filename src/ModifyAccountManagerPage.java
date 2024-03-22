@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class ModifyAccountManagerPage implements ComponentListener, MouseListener {
 
-    static ModifyAccountManagerPage currentPage;
+    static Manager currentManager;
     static JFrame frame;
     JLabel backgroundPicture, backArrow, logoutButton, accountText, title, checkInputText;
     JPanel backgroundPanel;
@@ -20,6 +20,8 @@ public class ModifyAccountManagerPage implements ComponentListener, MouseListene
     JTextField checkPrompt;
 
     public ModifyAccountManagerPage(Manager manager) {
+
+        currentManager = manager;
 
         frame = new JFrame("Modify Account Page");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,9 +58,6 @@ public class ModifyAccountManagerPage implements ComponentListener, MouseListene
         confirmButton = new Asset().generateButtonWithoutImage("Confirm", 150, accountText.getHeight());
         confirmButton.setFocusable(true);
         confirmButton.addMouseListener(this);
-
-        displayTechnicianPanel = new InformationPaneComponent().bookAppointmentPane(null);
-        displayCustomerPanel = new JScrollPane(new InformationPaneComponent().customerInformation(null));
 
         cancelButton = new Asset().generateButtonWithoutImage("Cancel", confirmButton.getWidth(), confirmButton.getHeight());
 
@@ -196,40 +195,58 @@ public class ModifyAccountManagerPage implements ComponentListener, MouseListene
                             backgroundPanel.remove(displayCustomerPanel);
                         }
 
-                        if (checkPrompt.getText().equals("123")) {
-                            displayManagerPanel = new JScrollPane(infoPane1.modifyManagerAndTechnicianAccountOwn());
-                        } else {
-                            displayManagerPanel = new JScrollPane(infoPane1.modifyManagerAndTechnicianAccountNotOwn());
+                        try {
+                            TextFileOperationsComponent.readManagerFromFile();
+                            Manager managerAccount = null;
+                            for (Manager manager: Manager.getOverallManagerList()) {
+                                if (manager.email.equals(checkPrompt.getText())) {
+                                    managerAccount = manager;
+                                    break;
+                                }
+                            }
+
+                            if (managerAccount == null) {
+                                throw new NullPointerException();
+                            }
+
+                            if (checkPrompt.getText().equals(currentManager.email)) {
+                                displayManagerPanel = new JScrollPane(infoPane1.modifyManagerAndTechnicianAccountOwn(managerAccount));
+                            } else {
+                                displayManagerPanel = new JScrollPane(infoPane1.modifyManagerAndTechnicianAccountNotOwn(managerAccount, null));
+                            }
+                            displayManagerPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
+                            displayManagerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+                            backgroundPanel.add(displayManagerPanel);
+                            displayManagerPanel.setVisible(true);
+                            displayManagerPanel.revalidate();
+                            displayManagerPanel.repaint();
+                            backgroundPanel.addComponentListener(new ComponentListener() {
+                                @Override
+                                public void componentResized(ComponentEvent e) {
+                                    displayManagerPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
+                                    displayManagerPanel.revalidate();
+                                }
+
+                                @Override
+                                public void componentMoved(ComponentEvent e) {
+
+                                }
+
+                                @Override
+                                public void componentShown(ComponentEvent e) {
+
+                                }
+
+                                @Override
+                                public void componentHidden(ComponentEvent e) {
+
+                                }
+                            });
+
+                        } catch (NullPointerException ex) {
+                            JOptionPane.showMessageDialog(frame, "<html>Invalid credentials.<br>Please make sure that the email is typed correctly.</html>", "Invalid Manager", JOptionPane.ERROR_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "warning_icon.png"));
                         }
 
-                        displayManagerPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
-                        displayManagerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-                        backgroundPanel.add(displayManagerPanel);
-                        displayManagerPanel.setVisible(true);
-                        displayManagerPanel.revalidate();
-                        displayManagerPanel.repaint();
-                        backgroundPanel.addComponentListener(new ComponentListener() {
-                            @Override
-                            public void componentResized(ComponentEvent e) {
-                                displayManagerPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
-                                displayManagerPanel.revalidate();
-                            }
-
-                            @Override
-                            public void componentMoved(ComponentEvent e) {
-
-                            }
-
-                            @Override
-                            public void componentShown(ComponentEvent e) {
-
-                            }
-
-                            @Override
-                            public void componentHidden(ComponentEvent e) {
-
-                            }
-                        });
                     }
 
                     @Override
@@ -337,38 +354,54 @@ public class ModifyAccountManagerPage implements ComponentListener, MouseListene
                             backgroundPanel.remove(displayCustomerPanel);
                         }
 
-                        if (checkPrompt.getText().equals("456")) {
-                            displayTechnicianPanel = new JScrollPane(new InformationPaneComponent().modifyManagerAndTechnicianAccountOwn());
-                        } else {
-                            displayTechnicianPanel = new JScrollPane(new InformationPaneComponent().modifyManagerAndTechnicianAccountNotOwn());
+                        try {
+
+                            TextFileOperationsComponent.readTechnicianFromFile();
+
+                            Technician currentTechnician = null;
+                            for (Technician technician: Technician.getOverallTechnicianList()) {
+                                if (technician.email.equals(checkPrompt.getText())) {
+                                    currentTechnician = technician;
+                                    break;
+                                }
+                            }
+
+                            if (currentTechnician == null) {
+                                throw new NullPointerException();
+                            }
+
+                            displayTechnicianPanel = new JScrollPane(new InformationPaneComponent().modifyManagerAndTechnicianAccountNotOwn(null, currentTechnician));
+
+                            displayTechnicianPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
+                            backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+                            backgroundPanel.add(displayTechnicianPanel);
+                            displayTechnicianPanel.setVisible(true);
+                            displayTechnicianPanel.revalidate();
+                            backgroundPanel.addComponentListener(new ComponentListener() {
+                                @Override
+                                public void componentResized(ComponentEvent e) {
+                                    displayTechnicianPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
+                                    displayTechnicianPanel.revalidate();
+                                }
+
+                                @Override
+                                public void componentMoved(ComponentEvent e) {
+
+                                }
+
+                                @Override
+                                public void componentShown(ComponentEvent e) {
+
+                                }
+
+                                @Override
+                                public void componentHidden(ComponentEvent e) {
+
+                                }
+                            });
+                        } catch (NullPointerException ex) {
+                            JOptionPane.showMessageDialog(frame, "<html>Invalid credentials.<br>Please make sure that the email is typed correctly.</html>", "Invalid Manager", JOptionPane.ERROR_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "warning_icon.png"));
                         }
-                        displayTechnicianPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
-                        backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-                        backgroundPanel.add(displayTechnicianPanel);
-                        displayTechnicianPanel.setVisible(true);
-                        displayTechnicianPanel.revalidate();
-                        backgroundPanel.addComponentListener(new ComponentListener() {
-                            @Override
-                            public void componentResized(ComponentEvent e) {
-                                displayTechnicianPanel.setBounds(title.getX(), checkInputText.getY() + checkInputText.getHeight() + 30, title.getWidth() + logoutButton.getWidth() - 30, (backgroundPanel.getHeight() - checkInputText.getY() - checkInputText.getHeight()) * 9 / 10 - 100);
-                                displayTechnicianPanel.revalidate();
-                            }
-
-                            @Override
-                            public void componentMoved(ComponentEvent e) {
-
-                            }
-
-                            @Override
-                            public void componentShown(ComponentEvent e) {
-
-                            }
-
-                            @Override
-                            public void componentHidden(ComponentEvent e) {
-
-                            }
-                        });
                     }
 
                     @Override
@@ -530,7 +563,7 @@ public class ModifyAccountManagerPage implements ComponentListener, MouseListene
                 System.out.println("Error with selecting accounts.");
             }
         } else if (e.getSource() == saveButton) {
-            System.out.println(infoPane1.getAddressLine1());
+            System.out.println(infoPane1.getAddressLine1MPI());
         }
     }
 

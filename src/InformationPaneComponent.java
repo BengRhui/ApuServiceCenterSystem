@@ -10,7 +10,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -54,17 +53,16 @@ public class InformationPaneComponent extends JPanel {
     JPanel panel1;
     InformationPaneComponent createAdminAccount;
     static ArrayList<String> positionChoice = new ArrayList<>();
-
     public JPanel createManagerAndTechnicianAccount() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
         createAdminAccount = new InformationPaneComponent();
-        panel1 = createAdminAccount.managerAndTechnicianPersonalInformation();
-        JPanel panel2 = new InformationPaneComponent().divider();
-        JPanel panel3 = new InformationPaneComponent().jobDetails();
-        JPanel panel4 = new InformationPaneComponent().divider();
-        JPanel panel5 = new InformationPaneComponent().loginDetails();
+        JPanel panel1 = createAdminAccount.managerAndTechnicianPersonalInformation(null, null);
+        JPanel panel2 = createAdminAccount.divider();
+        JPanel panel3 = createAdminAccount.jobDetails();
+        JPanel panel4 = createAdminAccount.divider();
+        JPanel panel5 = createAdminAccount.loginDetails();
 
         panel1.setLocation(0, 0);
         panel2.setLocation(0, panel1.getHeight());
@@ -86,16 +84,17 @@ public class InformationPaneComponent extends JPanel {
     }
 
     InformationPaneComponent modifyOtherAdminAccount;
-    public JPanel modifyManagerAndTechnicianAccountNotOwn() {
+    public JPanel modifyManagerAndTechnicianAccountNotOwn(Manager manager, Technician technician) {
+
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
         modifyOtherAdminAccount = new InformationPaneComponent();
-        panel1 = modifyOtherAdminAccount.managerAndTechnicianPersonalInformation();
+        JPanel panel1 = modifyOtherAdminAccount.managerAndTechnicianPersonalInformation(manager, technician);
         JPanel panel2 = new InformationPaneComponent().divider();
-        JPanel panel3 = new InformationPaneComponent().accountDetails();
+        JPanel panel3 = modifyOtherAdminAccount.accountDetails();
         JPanel panel4 = new InformationPaneComponent().divider();
-        JPanel panel5 = new InformationPaneComponent().jobDetails();
+        JPanel panel5 = modifyOtherAdminAccount.jobDetails();
 
         panel1.setLocation(0, 0);
         panel2.setLocation(0, panel1.getHeight());
@@ -117,12 +116,12 @@ public class InformationPaneComponent extends JPanel {
     }
 
     InformationPaneComponent modifyOwnAccount;
-    public JPanel modifyManagerAndTechnicianAccountOwn() {
+    public JPanel modifyManagerAndTechnicianAccountOwn(Manager manager) {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
         modifyOwnAccount = new InformationPaneComponent();
-        panel1 = modifyOwnAccount.managerAndTechnicianPersonalInformation();
+        panel1 = modifyOwnAccount.managerAndTechnicianPersonalInformation(manager, null);
         JPanel panel2 = new InformationPaneComponent().divider();
         JPanel panel3 = new InformationPaneComponent().accountDetails();
         JPanel panel4 = new InformationPaneComponent().divider();
@@ -153,13 +152,13 @@ public class InformationPaneComponent extends JPanel {
         return panel;
     }
 
-    InformationPaneComponent adminModifyTechnician;
-    public JPanel modifyAccountTechnician() {
+    InformationPaneComponent technicianModifyOwn;
+    public JPanel modifyAccountTechnician(Technician technician) {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
 
-        adminModifyTechnician = new InformationPaneComponent();
-        panel1 = adminModifyTechnician.managerAndTechnicianPersonalInformation();
+        technicianModifyOwn = new InformationPaneComponent();
+        panel1 = technicianModifyOwn.managerAndTechnicianPersonalInformation(null, technician);
         JPanel panel2 = new InformationPaneComponent().divider();
         JPanel panel3 = new InformationPaneComponent().loginDetails();
 
@@ -195,6 +194,8 @@ public class InformationPaneComponent extends JPanel {
         namePlaceholder.setBounds(title.getWidth() + title.getX(), title.getY() + 10, panel.getWidth() - title.getWidth() - title.getX(), 50);
 
         JTextField name = new Asset().generateTextField();
+        name.setText(student.name);
+        name.setEditable(false);
         name.setBounds(namePlaceholder.getX(), namePlaceholder.getY() + namePlaceholder.getHeight(), namePlaceholder.getWidth() - 20, namePlaceholder.getHeight());
 
         JLabel emailText = new JLabel("Email");
@@ -202,6 +203,8 @@ public class InformationPaneComponent extends JPanel {
         emailText.setBounds(namePlaceholder.getX(), name.getY() + name.getHeight() + 20, namePlaceholder.getWidth() / 2 - 20, name.getHeight());
 
         JTextField email = new Asset().generateTextField();
+        email.setText(student.email);
+        email.setEditable(false);
         email.setBounds(emailText.getX(), emailText.getY() + emailText.getHeight(), emailText.getWidth(), emailText.getHeight());
 
         JLabel contactText = new JLabel("Contact Number");
@@ -209,18 +212,10 @@ public class InformationPaneComponent extends JPanel {
         contactText.setBounds(emailText.getX() + emailText.getWidth() + 20, emailText.getY(), emailText.getWidth(), emailText.getHeight());
 
         JTextField contact = new Asset().generateTextField();
-
+        contact.setText(student.contactNumber);
+        contact.setEditable(false);
         contact.setBounds(contactText.getX(), contactText.getY() + contactText.getHeight(), contactText.getWidth(), contactText.getHeight());
 
-        if (student != null) {
-            name.setText(student.name);
-            name.setEditable(false);
-            email.setText(student.email);
-            email.setEditable(false);
-            contact.setText(student.contactNumber);
-            contact.setEditable(false);
-        }
-        
         panel.add(title);
         panel.add(namePlaceholder);
         panel.add(name);
@@ -427,9 +422,11 @@ public class InformationPaneComponent extends JPanel {
         return LocalDate.of(bookPane.datePickerAD.getModel().getYear(), bookPane.datePickerAD.getModel().getMonth() + 1, bookPane.datePickerAD.getModel().getDay());
     }
 
-    private JTextField addressLine1;
+    private JTextField addressLine1MPI, addressLine2MPI, addressLine3MPI, postcodeMPI, stateMPI, cityMPI;
+    JTextField nameMPI, nationalityMPI, emailMPI, contactNoMPI;
+    JComboBox<String> genderChoiceMPI, maritalStatusChoiceMPI;
+    public JPanel managerAndTechnicianPersonalInformation(Manager manager, Technician technician) {
 
-    public JPanel managerAndTechnicianPersonalInformation() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
         panel.setSize(scrollPaneWidth, 870);
@@ -442,116 +439,195 @@ public class InformationPaneComponent extends JPanel {
         namePlaceholder.setFont(Asset.getBodyFont("Plain"));
         namePlaceholder.setBounds(title.getWidth() + title.getX(), title.getY() + 10, panel.getWidth() - title.getWidth() - title.getX(), 50);
 
-        JTextField name = new Asset().generateTextField();
-        name.setBounds(namePlaceholder.getX(), namePlaceholder.getY() + namePlaceholder.getHeight(), namePlaceholder.getWidth() - 20, namePlaceholder.getHeight());
+        nameMPI = new Asset().generateTextField();
+        nameMPI.setBounds(namePlaceholder.getX(), namePlaceholder.getY() + namePlaceholder.getHeight(), namePlaceholder.getWidth() - 20, namePlaceholder.getHeight());
 
         JLabel genderText = new JLabel("Gender");
         genderText.setFont(Asset.getBodyFont("Plain"));
-        genderText.setBounds(namePlaceholder.getX(), name.getY() + name.getHeight() + 20, namePlaceholder.getWidth() / 2 - 20, name.getHeight());
+        genderText.setBounds(namePlaceholder.getX(), nameMPI.getY() + nameMPI.getHeight() + 20, namePlaceholder.getWidth() / 2 - 20, nameMPI.getHeight());
 
-        JComboBox<String> genderChoice = new JComboBox<>(User.getGenderTypes());
-        genderChoice.setBounds(genderText.getX(), genderText.getY() + genderText.getHeight(), genderText.getWidth(), genderText.getHeight());
-        genderChoice.setFont(Asset.getBodyFont("Plain"));
-        genderChoice.setBackground(Color.WHITE);
+        genderChoiceMPI = new JComboBox<>(User.getGenderTypes());
+        genderChoiceMPI.setBounds(genderText.getX(), genderText.getY() + genderText.getHeight(), genderText.getWidth(), genderText.getHeight());
+        genderChoiceMPI.setFont(Asset.getBodyFont("Plain"));
+        genderChoiceMPI.setBackground(Color.WHITE);
 
         JLabel maritalStatusText = new JLabel("Marital Status");
         maritalStatusText.setFont(Asset.getBodyFont("Plain"));
         maritalStatusText.setBounds(genderText.getX() + genderText.getWidth() + 20, genderText.getY(), genderText.getWidth(), genderText.getHeight());
 
-        JComboBox<String> maritalStatusChoice = new JComboBox<>(User.getMaritalStatus());
-        maritalStatusChoice.setFont(Asset.getBodyFont("Plain"));
-        maritalStatusChoice.setBounds(maritalStatusText.getX(), maritalStatusText.getY() + maritalStatusText.getHeight(), maritalStatusText.getWidth(), maritalStatusText.getHeight());
-        maritalStatusChoice.setBackground(Color.WHITE);
+        maritalStatusChoiceMPI = new JComboBox<>(User.getMaritalStatus());
+        maritalStatusChoiceMPI.setFont(Asset.getBodyFont("Plain"));
+        maritalStatusChoiceMPI.setBounds(maritalStatusText.getX(), maritalStatusText.getY() + maritalStatusText.getHeight(), maritalStatusText.getWidth(), maritalStatusText.getHeight());
+        maritalStatusChoiceMPI.setBackground(Color.WHITE);
 
         JLabel addressText = new JLabel("Address");
         addressText.setFont(Asset.getBodyFont("Plain"));
-        addressText.setBounds(genderChoice.getX(), genderChoice.getY() + genderChoice.getHeight() + 20, genderChoice.getWidth(), genderChoice.getHeight());
+        addressText.setBounds(genderChoiceMPI.getX(), genderChoiceMPI.getY() + genderChoiceMPI.getHeight() + 20, genderChoiceMPI.getWidth(), genderChoiceMPI.getHeight());
 
-        addressLine1 = new Asset().generateTextField();
-        addressLine1.setBounds(addressText.getX(), addressText.getY() + addressText.getHeight(), name.getWidth(), addressText.getHeight());
+        addressLine1MPI = new Asset().generateTextField();
+        addressLine1MPI.setBounds(addressText.getX(), addressText.getY() + addressText.getHeight(), nameMPI.getWidth(), addressText.getHeight());
 
-        JTextField addressLine2 = new Asset().generateTextField();
-        addressLine2.setBounds(addressLine1.getX(), addressLine1.getY() + addressLine1.getHeight() + 10, addressLine1.getWidth(), addressLine1.getHeight());
+        addressLine2MPI = new Asset().generateTextField();
+        addressLine2MPI.setBounds(addressLine1MPI.getX(), addressLine1MPI.getY() + addressLine1MPI.getHeight() + 10, addressLine1MPI.getWidth(), addressLine1MPI.getHeight());
 
-        JTextField addressLine3 = new Asset().generateTextField();
-        addressLine3.setBounds(addressLine2.getX(), addressLine2.getY() + addressLine2.getHeight() + 10, addressLine2.getWidth(), addressLine2.getHeight());
+        addressLine3MPI = new Asset().generateTextField();
+        addressLine3MPI.setBounds(addressLine2MPI.getX(), addressLine2MPI.getY() + addressLine2MPI.getHeight() + 10, addressLine2MPI.getWidth(), addressLine2MPI.getHeight());
 
         JLabel postcodeText = new JLabel("Postcode");
         postcodeText.setFont(Asset.getBodyFont("Plain"));
-        postcodeText.setBounds(addressLine3.getX(), addressLine3.getY() + addressLine3.getHeight() + 20, genderText.getWidth(), genderText.getHeight());
+        postcodeText.setBounds(addressLine3MPI.getX(), addressLine3MPI.getY() + addressLine3MPI.getHeight() + 20, genderText.getWidth(), genderText.getHeight());
 
-        JTextField postcode = new Asset().generateTextField();
-        postcode.setFont(Asset.getBodyFont("Plain"));
-        postcode.setBounds(postcodeText.getX(), postcodeText.getY() + postcodeText.getHeight(), postcodeText.getWidth(), postcodeText.getHeight());
+        postcodeMPI = new Asset().generateTextField();
+        postcodeMPI.setFont(Asset.getBodyFont("Plain"));
+        postcodeMPI.setBounds(postcodeText.getX(), postcodeText.getY() + postcodeText.getHeight(), postcodeText.getWidth(), postcodeText.getHeight());
 
         JLabel stateText = new JLabel("State");
         stateText.setFont(Asset.getBodyFont("Plain"));
-        stateText.setBounds(maritalStatusText.getX(), postcodeText.getY(), postcode.getWidth(), postcode.getHeight());
-
-        JTextField state = new Asset().generateTextField();
-        state.setFont(Asset.getBodyFont("Plain"));
-        state.setBounds(stateText.getX(), stateText.getY() + stateText.getHeight(), stateText.getWidth(), stateText.getHeight());
+        stateText.setBounds(postcodeMPI.getX(), postcodeMPI.getY() + postcodeMPI.getHeight() + 20, postcodeMPI.getWidth(), postcodeMPI.getHeight());
 
         JLabel cityText = new JLabel("City");
         cityText.setFont(Asset.getBodyFont("Plain"));
-        cityText.setBounds(postcode.getX(), postcode.getY() + postcode.getHeight() + 20, postcode.getWidth(), postcode.getHeight());
+        cityText.setBounds(maritalStatusText.getX(), postcodeText.getY(), postcodeMPI.getWidth(), postcodeMPI.getHeight());
 
-        JTextField city = new Asset().generateTextField();
-        city.setFont(Asset.getBodyFont("Plain"));
-        city.setBounds(cityText.getX(), cityText.getY() + cityText.getHeight(), cityText.getWidth(), cityText.getHeight());
+        stateMPI = new Asset().generateTextField();
+        stateMPI.setFont(Asset.getBodyFont("Plain"));
+        stateMPI.setBounds(cityText.getX(), cityText.getY() + cityText.getHeight(), cityText.getWidth(), cityText.getHeight());
+
+        cityMPI = new Asset().generateTextField();
+        cityMPI.setFont(Asset.getBodyFont("Plain"));
+        cityMPI.setBounds(stateText.getX(), stateText.getY() + stateText.getHeight(), stateText.getWidth(), stateText.getHeight());
 
         JLabel nationalityText = new JLabel("Nationality");
         nationalityText.setFont(Asset.getBodyFont("Plain"));
-        nationalityText.setBounds(stateText.getX(), cityText.getY(), cityText.getWidth(), cityText.getHeight());
+        nationalityText.setBounds(cityText.getX(), stateText.getY(), stateText.getWidth(), stateText.getHeight());
 
-        JTextField nationality = new Asset().generateTextField();
-        nationality.setFont(Asset.getBodyFont("Plain"));
-        nationality.setBounds(nationalityText.getX(), nationalityText.getY() + nationalityText.getHeight(), city.getWidth(), city.getHeight());
+        nationalityMPI = new Asset().generateTextField();
+        nationalityMPI.setFont(Asset.getBodyFont("Plain"));
+        nationalityMPI.setBounds(nationalityText.getX(), nationalityText.getY() + nationalityText.getHeight(), cityMPI.getWidth(), cityMPI.getHeight());
 
         JLabel emailText = new JLabel("Email");
         emailText.setFont(Asset.getBodyFont("Plain"));
-        emailText.setBounds(cityText.getX(), city.getY() + city.getHeight() + 20, city.getWidth(), city.getHeight());
+        emailText.setBounds(stateText.getX(), nationalityMPI.getY() + nationalityMPI.getHeight() + 20, stateMPI.getWidth(), stateMPI.getHeight());
 
-        JTextField email = new Asset().generateTextField();
-        email.setFont(Asset.getBodyFont("Plain"));
-        email.setBounds(emailText.getX(), emailText.getY() + emailText.getHeight(), emailText.getWidth(), emailText.getHeight());
+        emailMPI = new Asset().generateTextField();
+        emailMPI.setFont(Asset.getBodyFont("Plain"));
+        emailMPI.setBounds(emailText.getX(), emailText.getY() + emailText.getHeight(), emailText.getWidth(), emailText.getHeight());
 
         JLabel contactNoText = new JLabel("Contact No");
         contactNoText.setFont(Asset.getBodyFont("Plain"));
         contactNoText.setBounds(nationalityText.getX(), emailText.getY(), emailText.getWidth(), emailText.getHeight());
 
-        JTextField contactNo = new Asset().generateTextField();
-        contactNo.setFont(Asset.getBodyFont("Plain"));
-        contactNo.setBounds(contactNoText.getX(), contactNoText.getY() + contactNoText.getHeight(), contactNoText.getWidth(), contactNoText.getHeight());
+        contactNoMPI = new Asset().generateTextField();
+        contactNoMPI.setFont(Asset.getBodyFont("Plain"));
+        contactNoMPI.setBounds(contactNoText.getX(), contactNoText.getY() + contactNoText.getHeight(), contactNoText.getWidth(), contactNoText.getHeight());
+
+        if (manager != null) {
+            nameMPI.setText(manager.name);
+            genderChoiceMPI.setSelectedItem(manager.gender);
+            maritalStatusChoiceMPI.setSelectedItem(manager.maritalStatus);
+            addressLine1MPI.setText(manager.addressLine1);
+            addressLine2MPI.setText(manager.addressLine2);
+            addressLine3MPI.setText(manager.addressLine3);
+            postcodeMPI.setText(manager.postcode);
+            stateMPI.setText(manager.state);
+            cityMPI.setText(manager.city);
+            nationalityMPI.setText(manager.nationality);
+            emailMPI.setText(manager.email);
+            contactNoMPI.setText(manager.contactNumber);
+        } else if (technician != null) {
+            nameMPI.setText(technician.name);
+            genderChoiceMPI.setSelectedItem(technician.gender);
+            maritalStatusChoiceMPI.setSelectedItem(technician.maritalStatus);
+            addressLine1MPI.setText(technician.addressLine1);
+            addressLine2MPI.setText(technician.addressLine2);
+            addressLine3MPI.setText(technician.addressLine3);
+            postcodeMPI.setText(technician.postcode);
+            stateMPI.setText(technician.state);
+            cityMPI.setText(technician.city);
+            nationalityMPI.setText(technician.nationality);
+            emailMPI.setText(technician.email);
+            contactNoMPI.setText(technician.contactNumber);
+        }
 
         panel.add(title);
         panel.add(namePlaceholder);
-        panel.add(name);
+        panel.add(nameMPI);
         panel.add(genderText);
-        panel.add(genderChoice);
+        panel.add(genderChoiceMPI);
         panel.add(maritalStatusText);
-        panel.add(maritalStatusChoice);
+        panel.add(maritalStatusChoiceMPI);
         panel.add(addressText);
-        panel.add(addressLine1);
-        panel.add(addressLine2);
-        panel.add(addressLine3);
+        panel.add(addressLine1MPI);
+        panel.add(addressLine2MPI);
+        panel.add(addressLine3MPI);
         panel.add(postcodeText);
-        panel.add(postcode);
+        panel.add(postcodeMPI);
         panel.add(stateText);
-        panel.add(state);
+        panel.add(stateMPI);
         panel.add(cityText);
-        panel.add(city);
+        panel.add(cityMPI);
         panel.add(nationalityText);
-        panel.add(nationality);
+        panel.add(nationalityMPI);
         panel.add(emailText);
-        panel.add(email);
+        panel.add(emailMPI);
         panel.add(contactNoText);
-        panel.add(contactNo);
+        panel.add(contactNoMPI);
 
         return panel;
     }
 
-    JComboBox<String> position = new JComboBox<>();
+    public String getAddressLine1MPI() {
+        String text = null;
+        if (createAdminAccount.addressLine1MPI.getText() != null) {
+            text = createAdminAccount.addressLine1MPI.getText();
+        } else if (modifyOtherAdminAccount.addressLine1MPI.getText() != null) {
+            text = modifyOtherAdminAccount.addressLine1MPI.getText();
+        } else if (modifyOwnAccount.addressLine1MPI.getText() != null) {
+            text = modifyOwnAccount.addressLine1MPI.getText();
+        } else if (technicianModifyOwn.addressLine1MPI.getText() != null) {
+            text = technicianModifyOwn.addressLine1MPI.getText();
+        }
+        return text;
+    }
+
+    public String getAddressLine2MPI() {
+        return createAdminAccount.addressLine2MPI.getText();
+    }
+    public String getAddressLine3MPI() {
+        return createAdminAccount.addressLine3MPI.getText();
+    }
+    public String getPostcodeMPI() {
+        return createAdminAccount.postcodeMPI.getText();
+    }
+    public String getStateMPI() {
+        return createAdminAccount.stateMPI.getText();
+    }
+    public String getCityMPI() {
+        return createAdminAccount.cityMPI.getText();
+    }
+    public String getNameMPI() {
+        return createAdminAccount.nameMPI.getText();
+    }
+    public String getNationalityMPI() {
+        return createAdminAccount.nationalityMPI.getText();
+    }
+    public String getEmailMPI() {
+        return createAdminAccount.emailMPI.getText();
+    }
+    public String getContactNoMPI() {
+        return createAdminAccount.contactNoMPI.getText();
+    }
+    public String getGenderMPI() {
+        return Objects.requireNonNull(createAdminAccount.genderChoiceMPI.getSelectedItem()).toString();
+    }
+
+    public String getMaritalStatusMPI() {
+        return Objects.requireNonNull(createAdminAccount.maritalStatusChoiceMPI.getSelectedItem()).toString();
+    }
+
+
+    JComboBox<String> positionMPI = new JComboBox<>();
+    JDatePickerImpl datePickerMPI;
     public JPanel jobDetails() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
@@ -565,9 +641,9 @@ public class InformationPaneComponent extends JPanel {
         positionText.setFont(Asset.getBodyFont("Plain"));
         positionText.setBounds(title.getWidth() + title.getX(), title.getY() + 10, (panel.getWidth() - title.getWidth() - title.getX()) / 2 - 20, 50);
 
-        position.setFont(Asset.getBodyFont("Plain"));
-        position.setBounds(positionText.getX(), positionText.getY() + positionText.getHeight(), positionText.getWidth(), positionText.getHeight());
-        position.setBackground(Color.WHITE);
+        positionMPI.setFont(Asset.getBodyFont("Plain"));
+        positionMPI.setBounds(positionText.getX(), positionText.getY() + positionText.getHeight(), positionText.getWidth(), positionText.getHeight());
+        positionMPI.setBackground(Color.WHITE);
 
         updatePositionCombo();
 
@@ -577,36 +653,45 @@ public class InformationPaneComponent extends JPanel {
 
         UtilDateModel model = new UtilDateModel();
         JDatePanelImpl datePanel = new JDatePanelImpl(model, new Properties());
-        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateComponentFormatter());
+        datePickerMPI = new JDatePickerImpl(datePanel, new DateComponentFormatter());
 
         datePanel.setFont(Asset.getBodyFont("Plain"));
-        datePicker.setBackground(Color.WHITE);
-        datePicker.setLocation(dateJoined.getX(), dateJoined.getY() + dateJoined.getHeight());
-        datePicker.setSize(new Dimension(dateJoined.getWidth(), dateJoined.getHeight()));
-        datePicker.getComponent(0).setPreferredSize(new Dimension(dateJoined.getWidth() - dateJoined.getHeight(),dateJoined.getHeight()));
-        datePicker.getComponent(1).setPreferredSize(new Dimension(dateJoined.getHeight(),dateJoined.getHeight()));
-        datePicker.getJFormattedTextField().setFont(Asset.getBodyFont("Plain"));
-        datePicker.getJFormattedTextField().setBackground(Color.WHITE);
-        datePicker.getComponent(1).setBackground(Color.WHITE);
+        datePickerMPI.setBackground(Color.WHITE);
+        datePickerMPI.setLocation(dateJoined.getX(), dateJoined.getY() + dateJoined.getHeight());
+        datePickerMPI.setSize(new Dimension(dateJoined.getWidth(), dateJoined.getHeight()));
+        datePickerMPI.getComponent(0).setPreferredSize(new Dimension(dateJoined.getWidth() - dateJoined.getHeight(),dateJoined.getHeight()));
+        datePickerMPI.getComponent(1).setPreferredSize(new Dimension(dateJoined.getHeight(),dateJoined.getHeight()));
+        datePickerMPI.getJFormattedTextField().setFont(Asset.getBodyFont("Plain"));
+        datePickerMPI.getJFormattedTextField().setBackground(Color.WHITE);
+        datePickerMPI.getComponent(1).setBackground(Color.WHITE);
 
 
         panel.add(title);
         panel.add(positionText);
-        panel.add(position);
+        panel.add(positionMPI);
         panel.add(dateJoined);
-        panel.add(datePicker);
+        panel.add(datePickerMPI);
         return panel;
     }
 
+    public String getPositionMPI() {
+        return Objects.requireNonNull(createAdminAccount.positionMPI.getSelectedItem()).toString();
+    }
+
+    public LocalDate getDateJoinedMPI() {
+        return LocalDate.of(createAdminAccount.datePickerMPI.getModel().getYear(), createAdminAccount.datePickerMPI.getModel().getMonth() + 1, createAdminAccount.datePickerMPI.getModel().getDay());
+    }
+
     public void updatePositionCombo() {
-        position.removeAllItems();
+        positionMPI.removeAllItems();
 
         for (String positionName: positionChoice) {
-            position.addItem(positionName);
+            positionMPI.addItem(positionName);
         }
 
     }
 
+    JPasswordField passwordMPI, reEnterPasswordMPI;
     public JPanel loginDetails() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
@@ -620,17 +705,19 @@ public class InformationPaneComponent extends JPanel {
         passwordText.setFont(Asset.getBodyFont("Plain"));
         passwordText.setBounds(title.getWidth() + title.getX(), title.getY() + 10, (panel.getWidth() - title.getWidth() - title.getX()) / 2 - 20, 50);
 
-        JTextField password = new Asset().generateTextField();
-        password.setFont(Asset.getBodyFont("Plain"));
-        password.setBounds(passwordText.getX(), passwordText.getY() + passwordText.getHeight(), passwordText.getWidth(), passwordText.getHeight());
+        passwordMPI = new JPasswordField();
+        passwordMPI.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(5, 15, 5, 5)));
+        passwordMPI.setFont(Asset.getBodyFont("Plain"));
+        passwordMPI.setBounds(passwordText.getX(), passwordText.getY() + passwordText.getHeight(), passwordText.getWidth(), passwordText.getHeight());
 
         JLabel reEnterPasswordText = new JLabel("Re-enter Password");
         reEnterPasswordText.setFont(Asset.getBodyFont("Plain"));
-        reEnterPasswordText.setBounds(password.getX(), password.getY() + password.getHeight() + 49, password.getWidth(), password.getHeight());
+        reEnterPasswordText.setBounds(passwordMPI.getX(), passwordMPI.getY() + passwordMPI.getHeight() + 49, passwordMPI.getWidth(), passwordMPI.getHeight());
 
-        JTextField reEnterPassword = new Asset().generateTextField();
-        reEnterPassword.setFont(Asset.getBodyFont("Plain"));
-        reEnterPassword.setBounds(reEnterPasswordText.getX(), reEnterPasswordText.getY() + reEnterPasswordText.getHeight(), reEnterPasswordText.getWidth(), reEnterPasswordText.getHeight());
+        reEnterPasswordMPI = new JPasswordField();
+        reEnterPasswordMPI.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(5, 15, 5, 5)));
+        reEnterPasswordMPI.setFont(Asset.getBodyFont("Plain"));
+        reEnterPasswordMPI.setBounds(reEnterPasswordText.getX(), reEnterPasswordText.getY() + reEnterPasswordText.getHeight(), reEnterPasswordText.getWidth(), reEnterPasswordText.getHeight());
 
         JLabel note = new JLabel("<html>Note:<br><br>" +
                 "The password must fulfil all requirements:<br><br>" +
@@ -647,14 +734,32 @@ public class InformationPaneComponent extends JPanel {
 
         panel.add(title);
         panel.add(passwordText);
-        panel.add(password);
+        panel.add(passwordMPI);
         panel.add(reEnterPasswordText);
-        panel.add(reEnterPassword);
+        panel.add(reEnterPasswordMPI);
         panel.add(note);
 
         return panel;
     }
 
+    public String getPasswordMPI() {
+        StringBuilder password = new StringBuilder();
+        for (char character: createAdminAccount.passwordMPI.getPassword()) {
+            password.append(character);
+        }
+        return password.toString();
+    }
+
+    public String getReEnterPasswordMPI() {
+        StringBuilder password = new StringBuilder();
+        for (char character: createAdminAccount.reEnterPasswordMPI.getPassword()) {
+            password.append(character);
+        }
+        return password.toString();
+    }
+
+    JTextField nameCPI, tpNumberCPI, contactNoCPI, emailCPI;
+    JComboBox<String> genderCPI;
     public JPanel customerCreatePersonalInformation() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
@@ -668,56 +773,76 @@ public class InformationPaneComponent extends JPanel {
         nameText.setFont(Asset.getBodyFont("Plain"));
         nameText.setBounds(title.getWidth() + title.getX(), title.getY() + 10, panel.getWidth() - title.getWidth() - title.getX() - 20, 50);
 
-        JTextField name = new Asset().generateTextField();
-        name.setFont(Asset.getBodyFont("Plain"));
-        name.setBounds(nameText.getX(), nameText.getY() + nameText.getHeight(), nameText.getWidth(), nameText.getHeight());
+        nameCPI = new Asset().generateTextField();
+        nameCPI.setFont(Asset.getBodyFont("Plain"));
+        nameCPI.setBounds(nameText.getX(), nameText.getY() + nameText.getHeight(), nameText.getWidth(), nameText.getHeight());
 
         JLabel tpNumberText = new JLabel("TP Number");
         tpNumberText.setFont(Asset.getBodyFont("Plain"));
-        tpNumberText.setBounds(name.getX(), name.getY() + name.getHeight() + 20, name.getWidth() / 3 * 2 - 10, name.getHeight());
+        tpNumberText.setBounds(nameCPI.getX(), nameCPI.getY() + nameCPI.getHeight() + 20, nameCPI.getWidth() / 3 * 2 - 10, nameCPI.getHeight());
 
-        JTextField tpNumber = new Asset().generateTextField();
-        tpNumber.setFont(Asset.getBodyFont("Plain"));
-        tpNumber.setBounds(tpNumberText.getX(), tpNumberText.getY() + tpNumberText.getHeight(), tpNumberText.getWidth(), tpNumberText.getHeight());
+        tpNumberCPI = new Asset().generateTextField();
+        tpNumberCPI.setFont(Asset.getBodyFont("Plain"));
+        tpNumberCPI.setBounds(tpNumberText.getX(), tpNumberText.getY() + tpNumberText.getHeight(), tpNumberText.getWidth(), tpNumberText.getHeight());
 
         JLabel genderText = new JLabel("Gender");
         genderText.setFont(Asset.getBodyFont("Plain"));
-        genderText.setBounds(tpNumberText.getX() + tpNumberText.getWidth() + 20, tpNumberText.getY(), name.getWidth() / 3 - 10, tpNumberText.getHeight());
+        genderText.setBounds(tpNumberText.getX() + tpNumberText.getWidth() + 20, tpNumberText.getY(), nameCPI.getWidth() / 3 - 10, tpNumberText.getHeight());
 
         String[] genderChoice = User.getGenderTypes();
-        JComboBox<String> gender = new JComboBox<>(genderChoice);
-        gender.setFont(Asset.getBodyFont("Plain"));
-        gender.setBounds(genderText.getX(), genderText.getY() + genderText.getHeight(), genderText.getWidth(), genderText.getHeight());
-        gender.setBackground(Color.WHITE);
+        genderCPI = new JComboBox<>(genderChoice);
+        genderCPI.setFont(Asset.getBodyFont("Plain"));
+        genderCPI.setBounds(genderText.getX(), genderText.getY() + genderText.getHeight(), genderText.getWidth(), genderText.getHeight());
+        genderCPI.setBackground(Color.WHITE);
 
         JLabel emailText = new JLabel("Email");
         emailText.setFont(Asset.getBodyFont("Plain"));
-        emailText.setBounds(tpNumberText.getX(), tpNumber.getY() + tpNumber.getHeight() + 20, tpNumberText.getWidth(), tpNumberText.getHeight());
+        emailText.setBounds(tpNumberText.getX(), tpNumberCPI.getY() + tpNumberCPI.getHeight() + 20, tpNumberText.getWidth(), tpNumberText.getHeight());
 
-        JTextField email = new Asset().generateTextField();
-        email.setBounds(emailText.getX(), emailText.getY() + emailText.getHeight(), emailText.getWidth(), emailText.getHeight());
+        emailCPI = new Asset().generateTextField();
+        emailCPI.setBounds(emailText.getX(), emailText.getY() + emailText.getHeight(), emailText.getWidth(), emailText.getHeight());
 
         JLabel contactNoText = new JLabel("Contact No");
         contactNoText.setFont(Asset.getBodyFont("Plain"));
-        contactNoText.setBounds(gender.getX(), gender.getY() + gender.getHeight() + 20, gender.getWidth(), gender.getHeight());
+        contactNoText.setBounds(genderCPI.getX(), genderCPI.getY() + genderCPI.getHeight() + 20, genderCPI.getWidth(), genderCPI.getHeight());
 
-        JTextField contactNo = new Asset().generateTextField();
-        contactNo.setFont(Asset.getBodyFont("Plain"));
-        contactNo.setBounds(contactNoText.getX(), contactNoText.getY() + contactNoText.getHeight(), contactNoText.getWidth(), contactNoText.getHeight());
+        contactNoCPI = new Asset().generateTextField();
+        contactNoCPI.setFont(Asset.getBodyFont("Plain"));
+        contactNoCPI.setBounds(contactNoText.getX(), contactNoText.getY() + contactNoText.getHeight(), contactNoText.getWidth(), contactNoText.getHeight());
 
         panel.add(title);
         panel.add(nameText);
-        panel.add(name);
+        panel.add(nameCPI);
         panel.add(tpNumberText);
-        panel.add(tpNumber);
+        panel.add(tpNumberCPI);
         panel.add(genderText);
-        panel.add(gender);
+        panel.add(genderCPI);
         panel.add(emailText);
-        panel.add(email);
+        panel.add(emailCPI);
         panel.add(contactNoText);
-        panel.add(contactNo);
+        panel.add(contactNoCPI);
 
         return panel;
+    }
+
+    public String getNameCPI() {
+        return nameCPI.getText();
+    }
+
+    public String getTpNumberCPI() {
+        return tpNumberCPI.getText();
+    }
+
+    public String getContactNoCPI() {
+        return contactNoCPI.getText();
+    }
+
+    public String getGenderCPI() {
+        return Objects.requireNonNull(genderCPI.getSelectedItem()).toString();
+    }
+
+    public String getEmailCPI() {
+        return emailCPI.getText();
     }
 
     public JPanel customerModifyPersonalInformation() {
@@ -803,10 +928,6 @@ public class InformationPaneComponent extends JPanel {
         panel.add(confirm);
 
         return panel;
-    }
-
-    public String getAddressLine1() {
-        return createAdminAccount.addressLine1.getText();
     }
 
     // Line pane

@@ -13,7 +13,7 @@ public class Technician extends User {
     }
 
     public Technician(String name, String gender, String maritalStatus, String addressLine1, String addressLine2, String addressLine3, String postcode, String city, String state, String nationality, String contactNo, String dateJoined, String position, String email, String password) {
-        super(name, gender, contactNo, email);
+        super(name, gender, email, contactNo);
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         this.technicianID = "T" + String.format("%03d", Technician.getOverallTechnicianList().size() + 1);
         this.maritalStatus = maritalStatus;

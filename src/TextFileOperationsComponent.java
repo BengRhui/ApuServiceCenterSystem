@@ -231,4 +231,88 @@ public class TextFileOperationsComponent {
         }
     }
 
+    public static void writeManager() {
+        try {
+            String fileName = "managerDetails.txt";
+            File file = new File(filePath + fileName);
+            PrintWriter write = new PrintWriter(file);
+
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            for (Manager manager: Manager.getOverallManagerList()) {
+                String line = String.format("%-5s", manager.managerID) + ";"
+                        + String.format("%-30s", manager.name) + ";"
+                        + String.format("%-20s", manager.gender) + ";"
+                        + String.format("%-15s", manager.maritalStatus) + ";"
+                        + String.format("%-40s", manager.addressLine1) + ";"
+                        + String.format("%-40s", manager.addressLine2) + ";"
+                        + String.format("%-40s", manager.addressLine3) + ";"
+                        + String.format("%-10s", manager.postcode) + ";"
+                        + String.format("%-20s", manager.city) + ";"
+                        + String.format("%-20s", manager.state) + ";"
+                        + String.format("%-30s", manager.nationality) + ";"
+                        + String.format("%-15s", manager.contactNumber) + ";"
+                        + String.format("%-15s", manager.dateJoined.format(dateFormat)) + ";"
+                        + String.format("%-30s", manager.position) + ";"
+                        + String.format("%-40s", manager.email) + ";"
+                        + manager.password;
+                write.println(line);
+            }
+            write.close();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error in writing to manager list file.");
+        }
+    }
+
+
+    public static void writeTechnician() {
+        try {
+            String fileName = "technicianDetails.txt";
+            File file = new File(filePath + fileName);
+            PrintWriter write = new PrintWriter(file);
+
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            for (Technician technician: Technician.getOverallTechnicianList()) {
+                String line = String.format("%-5s", technician.technicianID) + ";"
+                        + String.format("%-30s", technician.name) + ";"
+                        + String.format("%-20s", technician.gender) + ";"
+                        + String.format("%-15s", technician.maritalStatus) + ";"
+                        + String.format("%-40s", technician.addressLine1) + ";"
+                        + String.format("%-40s", technician.addressLine2) + ";"
+                        + String.format("%-40s", technician.addressLine3) + ";"
+                        + String.format("%-10s", technician.postcode) + ";"
+                        + String.format("%-20s", technician.city) + ";"
+                        + String.format("%-20s", technician.state) + ";"
+                        + String.format("%-30s", technician.nationality) + ";"
+                        + String.format("%-15s", technician.contactNumber) + ";"
+                        + String.format("%-15s", technician.dateJoined.format(dateFormat)) + ";"
+                        + String.format("%-30s", technician.position) + ";"
+                        + String.format("%-40s", technician.email) + ";"
+                        + technician.password;
+                write.println(line);
+            }
+            write.close();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error in writing to technician list file.");
+        }
+    }
+
+    public static void writeStudent() {
+        try {
+            String fileName = "studentInformation.txt";
+            File file = new File(filePath + fileName);
+            PrintWriter write = new PrintWriter(file);
+
+            for (Student student: Student.getOverallStudentList()) {
+                String line = String.format("%-10s", student.tpNumber) + ";"
+                        + String.format("%-30s", student.name) + ";"
+                        + String.format("%-20s", student.gender) + ";"
+                        + String.format("%-40s", student.email) + ";"
+                        + student.contactNumber;
+                write.println(line);
+            }
+            write.close();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error in writing to student list file.");
+        }
+    }
 }
