@@ -1,26 +1,23 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.event.*;
 
-public class ViewFeedbackTechnicianPage implements ComponentListener {
-    public static void main(String[] args) {
-        new ViewFeedbackTechnicianPage();
-    }
+public class ViewFeedbackTechnicianPage implements ComponentListener, WindowListener, MouseListener {
 
     static JFrame frame;
     JLabel backgroundPicture, backArrow, logoutButton, title, leftSubtitle, rightSubtitle;
     JPanel backgroundPanel, leftPanel, rightPanel;
     JScrollPane rightScrollPanel;
 
-    public ViewFeedbackTechnicianPage() {
+    public ViewFeedbackTechnicianPage(Technician technician) {
 
         frame = new JFrame("View Feedback Page");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setLayout(null);
         frame.setSize(Asset.getFrameWidth(), Asset.getFrameHeight());
         frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
         frame.addComponentListener(this);
+        frame.addWindowListener(this);
 
         backgroundPicture = new Asset().generateImage("background.jpg");
 
@@ -29,8 +26,10 @@ public class ViewFeedbackTechnicianPage implements ComponentListener {
         backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 
         backArrow = new Asset().generateImage("backArrow_icon.png");
+        backArrow.addMouseListener(this);
 
         logoutButton = new Asset().generateImage("logout_icon.png");
+        logoutButton.addMouseListener(this);
 
         title = new JLabel("View Feedback");
         title.setFont(Asset.getTitleFont());
@@ -41,11 +40,11 @@ public class ViewFeedbackTechnicianPage implements ComponentListener {
         rightSubtitle = new JLabel("Individual Feedback");
         rightSubtitle.setFont(Asset.getNameFont("Bold"));
 
-        leftPanel = new ViewFeedbackComponent().technicianOverallView("T001");
+        leftPanel = new ViewFeedbackComponent().technicianOverallView(technician.technicianID);
         leftPanel.setBackground(Color.WHITE);
         leftPanel.setBorder(null);
 
-        rightPanel = new ViewFeedbackComponent().individualReview("T001");
+        rightPanel = new ViewFeedbackComponent().individualReview(technician.technicianID);
         rightPanel.setBackground(Color.WHITE);
 
         rightScrollPanel = new JScrollPane(rightPanel);
@@ -94,5 +93,85 @@ public class ViewFeedbackTechnicianPage implements ComponentListener {
     @Override
     public void componentHidden(ComponentEvent e) {
 
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        if (e.getSource() == frame) {
+            int choice = JOptionPane.showConfirmDialog(frame, "Are you sure that you would like to logout from the system?", "System Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "logout_icon.png"));
+            if (choice == 0) {
+                Asset.setFramePosition(frame.getX(), frame.getY());
+                new LoginPage();
+                frame.dispose();
+            }
+        }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        if (e.getSource() == backArrow) {
+            Asset.setFramePosition(frame.getX(), frame.getY());
+            TechnicianMainPage.setVisibility(true);
+            frame.dispose();
+        } else if (e.getSource() == logoutButton) {
+            int choice = JOptionPane.showConfirmDialog(frame, "Are you sure that you would like to logout from the system?", "System Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "logout_icon.png"));
+            if (choice == 0) {
+                Asset.setFramePosition(frame.getX(), frame.getY());
+                new LoginPage();
+                frame.dispose();
+            }
+        }
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        backArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        backArrow.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 }

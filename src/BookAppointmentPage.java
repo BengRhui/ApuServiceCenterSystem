@@ -189,7 +189,7 @@ public class BookAppointmentPage implements ComponentListener, MouseListener, Wi
                         } else {
                             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                             DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HHmm");
-                            Appointment newAppointment = new Appointment(Technician.getIdFromName(appointmentChoice), currentStudent.tpNumber, serviceItem, appointmentDate.format(dateFormat), appointmentStart.format(timeFormat), appointmentEnd.format(timeFormat), ElectronicItems.getPriceFromItem(serviceItem), "Unpaid");
+                            Appointment newAppointment = new Appointment(Appointment.generateNewAppointmentID(), Technician.getIdFromName(appointmentChoice), currentStudent.tpNumber, serviceItem, appointmentDate.format(dateFormat), appointmentStart.format(timeFormat), appointmentEnd.format(timeFormat), ElectronicItems.getPriceFromItem(serviceItem), "Unpaid");
                             Appointment.addAppointmentToFile(newAppointment);
                             Feedback emptyFeedback = new Feedback(newAppointment.appointmentID, newAppointment.technicianID, currentStudent.tpNumber, 0, 0, "null");
                             Feedback.addFeedbackToFile(emptyFeedback);

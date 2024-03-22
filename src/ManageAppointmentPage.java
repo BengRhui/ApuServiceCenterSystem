@@ -1,15 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-public class ManageAppointmentComponent implements ComponentListener, MouseListener {
-
-    public static void main(String[] args) {
-        new ManageAppointmentComponent();
-    }
+public class ManageAppointmentPage implements ComponentListener, MouseListener, WindowListener {
 
     static JFrame frame;
     JLabel backgroundPicture, backArrow, logoutButton, title;
@@ -18,13 +13,14 @@ public class ManageAppointmentComponent implements ComponentListener, MouseListe
     CardLayout cardLayout = new CardLayout();
     ViewScheduleComponent todayPanel;
 
-    public ManageAppointmentComponent() {
+    public ManageAppointmentPage(Technician technician) {
         frame = new JFrame("Modify Technician Page");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setLayout(null);
         frame.setSize(Asset.getFrameWidth(), Asset.getFrameHeight());
         frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
         frame.addComponentListener(this);
+        frame.addWindowListener(this);
 
         backgroundPicture = new Asset().generateImage("background.jpg");
 
@@ -33,8 +29,10 @@ public class ManageAppointmentComponent implements ComponentListener, MouseListe
         backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 
         backArrow = new Asset().generateImage("backArrow_icon.png");
+        backArrow.addMouseListener(this);
 
         logoutButton = new Asset().generateImage("logout_icon.png");
+        logoutButton.addMouseListener(this);
 
         title = new JLabel("Manage Appointment");
         title.setFont(Asset.getTitleFont());
@@ -45,10 +43,11 @@ public class ManageAppointmentComponent implements ComponentListener, MouseListe
         containerPane = new JLayeredPane();
         containerPane.setSize(frame.getWidth() * 73 / 100, frame.getHeight() * 6 / 10);
 
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        todayPanel = new ViewScheduleComponent(containerPane, "Lim", "09/03/2024");
+        todayPanel = new ViewScheduleComponent(containerPane, technician.name, LocalDate.now().format(dateFormat));
 
-        tablePanel = new AppointmentTableComponent("T001");
+        tablePanel = new AppointmentTableComponent(technician.technicianID);
 
         switchButton = new Asset().generateButtonWithoutImage("Switch View", 250, 50);
         switchButton.addMouseListener(this);
@@ -120,16 +119,74 @@ public class ManageAppointmentComponent implements ComponentListener, MouseListe
     public void mouseReleased(MouseEvent e) {
         if (e.getSource() == switchButton) {
             cardLayout.next(overallPanel);
+        } else if (e.getSource() == backArrow) {
+            int choice = JOptionPane.showConfirmDialog(frame, "<html>Do you wish to return to the main page?<br>Do not forget to save the data before exit.</html>", "System Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "return_icon.png"));
+            if (choice == 0) {
+                Asset.setFramePosition(frame.getX(), frame.getY());
+                TechnicianMainPage.setVisibility(true);
+                frame.dispose();
+            }
+        } else if (e.getSource() == logoutButton) {
+            int choice = JOptionPane.showConfirmDialog(frame, "<html>Are you sure that you would like to logout from the system?<br>Do not forget to save the data before exit.</html>", "System Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "logout_icon.png"));
+            if (choice == 0) {
+                Asset.setFramePosition(frame.getX(), frame.getY());
+                new LoginPage();
+                frame.dispose();
+            }
         }
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        backArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
+        backArrow.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        if (e.getSource() == frame) {
+            int choice = JOptionPane.showConfirmDialog(frame, "Are you sure that you would like to logout from the system?", "System Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(TextFileOperationsComponent.getPictureFilePath() + "logout_icon.png"));
+            if (choice == 0) {
+                Asset.setFramePosition(frame.getX(), frame.getY());
+                new LoginPage();
+                frame.dispose();
+            }
+        }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
 
     }
 }

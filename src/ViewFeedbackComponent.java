@@ -100,15 +100,18 @@ public class ViewFeedbackComponent {
             feedbackList = Feedback.getTechnicianFilteredFeedbackLit(technicianID);
         }
 
-
-        double technicianSum = 0;
-        double technicianCount = 0;
+        double technicianSum = 0, technicianCount = 0;
         for (Feedback feedback: feedbackList) {
             technicianSum += feedback.technicianRating;
             technicianCount += 1;
         }
 
-        JLabel systemOverallScore = new JLabel(String.format("%.2f", technicianSum / technicianCount));
+        JLabel systemOverallScore = new JLabel();
+        if (technicianCount == 0) {
+            systemOverallScore.setText("Null");
+        } else {
+            systemOverallScore.setText(String.format("%.2f", technicianSum / technicianCount));
+        }
         systemOverallScore.setFont(Asset.getTitleFont());
         systemOverallScore.setSize(150, 50);
 
@@ -166,6 +169,12 @@ public class ViewFeedbackComponent {
         }
 
         int panelHeight = revertedList.size() * (300 + 20);
+
+        if (revertedList.isEmpty()) {
+            JLabel layer = new JLabel("No comments provided.");
+            layer.setFont(Asset.getNameFont("Plain"));
+            panel.add(layer);
+        }
 
         for (Feedback feedback: revertedList) {
 

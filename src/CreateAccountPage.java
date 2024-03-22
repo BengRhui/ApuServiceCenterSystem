@@ -323,7 +323,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener, Wind
 
                     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-                    Manager manager = new Manager(infoPane1.getNameMPI(), infoPane1.getGenderMPI(), infoPane1.getMaritalStatusMPI(), infoPane1.getAddressLine1MPI(), infoPane1.getAddressLine2MPI(), infoPane1.getAddressLine3MPI(), infoPane1.getPostcodeMPI(), infoPane1.getCityMPI(), infoPane1.getStateMPI(), infoPane1.getNationalityMPI(), infoPane1.getContactNoMPI(), infoPane1.getDateJoinedMPI().format(dateFormat), infoPane1.getPositionMPI(), infoPane1.getEmailMPI(), infoPane1.getPasswordMPI());
+                    Manager manager = new Manager(Manager.generateNewManagerID(), infoPane1.getNameMPI(), infoPane1.getGenderMPI(), infoPane1.getMaritalStatusMPI(), infoPane1.getAddressLine1MPI(), infoPane1.getAddressLine2MPI(), infoPane1.getAddressLine3MPI(), infoPane1.getPostcodeMPI(), infoPane1.getCityMPI(), infoPane1.getStateMPI(), infoPane1.getNationalityMPI(), infoPane1.getContactNoMPI(), infoPane1.getDateJoinedMPI().format(dateFormat), infoPane1.getPositionMPI(), infoPane1.getEmailMPI(), infoPane1.getPasswordMPI());
                     Manager.getOverallManagerList().add(manager);
 
                     TextFileOperationsComponent.writeManager();
@@ -403,7 +403,7 @@ public class CreateAccountPage implements ComponentListener, MouseListener, Wind
 
                     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-                    Technician technician = new Technician(infoPane2.getNameMPI(), infoPane2.getGenderMPI(), infoPane2.getMaritalStatusMPI(), infoPane2.getAddressLine1MPI(), infoPane2.getAddressLine2MPI(), infoPane2.getAddressLine3MPI(), infoPane2.getPostcodeMPI(), infoPane2.getCityMPI(), infoPane2.getStateMPI(), infoPane2.getNationalityMPI(), infoPane2.getContactNoMPI(), infoPane2.getDateJoinedMPI().format(dateFormat), infoPane2.getPositionMPI(), infoPane2.getEmailMPI(), infoPane2.getPasswordMPI());
+                    Technician technician = new Technician(Technician.generateNewTechnicianID(), infoPane2.getNameMPI(), infoPane2.getGenderMPI(), infoPane2.getMaritalStatusMPI(), infoPane2.getAddressLine1MPI(), infoPane2.getAddressLine2MPI(), infoPane2.getAddressLine3MPI(), infoPane2.getPostcodeMPI(), infoPane2.getCityMPI(), infoPane2.getStateMPI(), infoPane2.getNationalityMPI(), infoPane2.getContactNoMPI(), infoPane2.getDateJoinedMPI().format(dateFormat), infoPane2.getPositionMPI(), infoPane2.getEmailMPI(), infoPane2.getPasswordMPI());
                     Technician.getOverallTechnicianList().add(technician);
 
                     TextFileOperationsComponent.writeTechnician();
