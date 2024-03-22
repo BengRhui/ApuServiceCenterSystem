@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -60,7 +61,7 @@ public class InformationPaneComponent extends JPanel {
         createAdminAccount = new InformationPaneComponent();
         JPanel panel1 = createAdminAccount.managerAndTechnicianPersonalInformation(null, null);
         JPanel panel2 = createAdminAccount.divider();
-        JPanel panel3 = createAdminAccount.jobDetails();
+        JPanel panel3 = createAdminAccount.jobDetails(null, null);
         JPanel panel4 = createAdminAccount.divider();
         JPanel panel5 = createAdminAccount.loginDetails();
 
@@ -94,7 +95,7 @@ public class InformationPaneComponent extends JPanel {
         JPanel panel2 = new InformationPaneComponent().divider();
         JPanel panel3 = modifyOtherAdminAccount.accountDetails();
         JPanel panel4 = new InformationPaneComponent().divider();
-        JPanel panel5 = modifyOtherAdminAccount.jobDetails();
+        JPanel panel5 = modifyOtherAdminAccount.jobDetails(manager, technician);
 
         panel1.setLocation(0, 0);
         panel2.setLocation(0, panel1.getHeight());
@@ -121,13 +122,13 @@ public class InformationPaneComponent extends JPanel {
         panel.setBackground(Color.WHITE);
 
         modifyOwnAccount = new InformationPaneComponent();
-        panel1 = modifyOwnAccount.managerAndTechnicianPersonalInformation(manager, null);
+        JPanel panel1 = modifyOwnAccount.managerAndTechnicianPersonalInformation(manager, null);
         JPanel panel2 = new InformationPaneComponent().divider();
-        JPanel panel3 = new InformationPaneComponent().accountDetails();
+        JPanel panel3 = modifyOwnAccount.accountDetails();
         JPanel panel4 = new InformationPaneComponent().divider();
-        JPanel panel5 = new InformationPaneComponent().jobDetails();
+        JPanel panel5 = modifyOwnAccount.jobDetails(manager, null);
         JPanel panel6 = new InformationPaneComponent().divider();
-        JPanel panel7 = new InformationPaneComponent().loginDetails();
+        JPanel panel7 = modifyOwnAccount.loginDetails();
 
         panel1.setLocation(0, 0);
         panel2.setLocation(0, panel1.getHeight());
@@ -578,57 +579,171 @@ public class InformationPaneComponent extends JPanel {
 
     public String getAddressLine1MPI() {
         String text = null;
-        if (createAdminAccount.addressLine1MPI.getText() != null) {
+        if (createAdminAccount != null && createAdminAccount.addressLine1MPI.getText() != null) {
             text = createAdminAccount.addressLine1MPI.getText();
-        } else if (modifyOtherAdminAccount.addressLine1MPI.getText() != null) {
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.addressLine1MPI.getText() != null) {
             text = modifyOtherAdminAccount.addressLine1MPI.getText();
-        } else if (modifyOwnAccount.addressLine1MPI.getText() != null) {
+        } else if (modifyOwnAccount != null && modifyOwnAccount.addressLine1MPI.getText() != null) {
             text = modifyOwnAccount.addressLine1MPI.getText();
-        } else if (technicianModifyOwn.addressLine1MPI.getText() != null) {
+        } else if (technicianModifyOwn != null && technicianModifyOwn.addressLine1MPI.getText() != null) {
             text = technicianModifyOwn.addressLine1MPI.getText();
         }
         return text;
     }
 
     public String getAddressLine2MPI() {
-        return createAdminAccount.addressLine2MPI.getText();
+        String text = null;
+        if (createAdminAccount != null && createAdminAccount.addressLine2MPI.getText() != null) {
+            text = createAdminAccount.addressLine2MPI.getText();
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.addressLine2MPI.getText() != null) {
+            text = modifyOtherAdminAccount.addressLine2MPI.getText();
+        } else if (modifyOwnAccount != null && modifyOwnAccount.addressLine2MPI.getText() != null) {
+            text = modifyOwnAccount.addressLine2MPI.getText();
+        } else if (technicianModifyOwn != null && technicianModifyOwn.addressLine2MPI.getText() != null) {
+            text = technicianModifyOwn.addressLine2MPI.getText();
+        }
+        return text;
     }
+
     public String getAddressLine3MPI() {
-        return createAdminAccount.addressLine3MPI.getText();
+        String text = null;
+        if (createAdminAccount != null && createAdminAccount.addressLine3MPI.getText() != null) {
+            text = createAdminAccount.addressLine3MPI.getText();
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.addressLine3MPI.getText() != null) {
+            text = modifyOtherAdminAccount.addressLine3MPI.getText();
+        } else if (modifyOwnAccount != null && modifyOwnAccount.addressLine3MPI.getText() != null) {
+            text = modifyOwnAccount.addressLine3MPI.getText();
+        } else if (technicianModifyOwn != null && technicianModifyOwn.addressLine3MPI.getText() != null) {
+            text = technicianModifyOwn.addressLine3MPI.getText();
+        }
+        return text;
     }
+
     public String getPostcodeMPI() {
-        return createAdminAccount.postcodeMPI.getText();
+        String text = null;
+        if (createAdminAccount != null && createAdminAccount.postcodeMPI.getText() != null) {
+            text = createAdminAccount.postcodeMPI.getText();
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.postcodeMPI.getText() != null) {
+            text = modifyOtherAdminAccount.postcodeMPI.getText();
+        } else if (modifyOwnAccount != null && modifyOwnAccount.postcodeMPI.getText() != null) {
+            text = modifyOwnAccount.postcodeMPI.getText();
+        } else if (technicianModifyOwn != null && technicianModifyOwn.postcodeMPI.getText() != null) {
+            text = technicianModifyOwn.postcodeMPI.getText();
+        }
+        return text;
     }
     public String getStateMPI() {
-        return createAdminAccount.stateMPI.getText();
+        String text = null;
+        if (createAdminAccount != null && createAdminAccount.stateMPI.getText() != null) {
+            text = createAdminAccount.stateMPI.getText();
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.stateMPI.getText() != null) {
+            text = modifyOtherAdminAccount.stateMPI.getText();
+        } else if (modifyOwnAccount != null && modifyOwnAccount.stateMPI.getText() != null) {
+            text = modifyOwnAccount.stateMPI.getText();
+        } else if (technicianModifyOwn != null && technicianModifyOwn.stateMPI.getText() != null) {
+            text = technicianModifyOwn.stateMPI.getText();
+        }
+        return text;
     }
+
     public String getCityMPI() {
-        return createAdminAccount.cityMPI.getText();
+        String text = null;
+        if (createAdminAccount != null && createAdminAccount.cityMPI.getText() != null) {
+            text = createAdminAccount.cityMPI.getText();
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.cityMPI.getText() != null) {
+            text = modifyOtherAdminAccount.cityMPI.getText();
+        } else if (modifyOwnAccount != null && modifyOwnAccount.cityMPI.getText() != null) {
+            text = modifyOwnAccount.cityMPI.getText();
+        } else if (technicianModifyOwn != null && technicianModifyOwn.cityMPI.getText() != null) {
+            text = technicianModifyOwn.cityMPI.getText();
+        }
+        return text;
     }
+
     public String getNameMPI() {
-        return createAdminAccount.nameMPI.getText();
+        String text = null;
+        if (createAdminAccount != null && createAdminAccount.nameMPI.getText() != null) {
+            text = createAdminAccount.nameMPI.getText();
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.nameMPI.getText() != null) {
+            text = modifyOtherAdminAccount.nameMPI.getText();
+        } else if (modifyOwnAccount != null && modifyOwnAccount.nameMPI.getText() != null) {
+            text = modifyOwnAccount.nameMPI.getText();
+        } else if (technicianModifyOwn != null && technicianModifyOwn.nameMPI.getText() != null) {
+            text = technicianModifyOwn.nameMPI.getText();
+        }
+        return text;
     }
     public String getNationalityMPI() {
-        return createAdminAccount.nationalityMPI.getText();
+        String text = null;
+        if (createAdminAccount != null && createAdminAccount.nationalityMPI.getText() != null) {
+            text = createAdminAccount.nationalityMPI.getText();
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.nationalityMPI.getText() != null) {
+            text = modifyOtherAdminAccount.nationalityMPI.getText();
+        } else if (modifyOwnAccount != null && modifyOwnAccount.nationalityMPI.getText() != null) {
+            text = modifyOwnAccount.nationalityMPI.getText();
+        } else if (technicianModifyOwn != null && technicianModifyOwn.nationalityMPI.getText() != null) {
+            text = technicianModifyOwn.nationalityMPI.getText();
+        }
+        return text;
     }
     public String getEmailMPI() {
-        return createAdminAccount.emailMPI.getText();
+        String text = null;
+        if (createAdminAccount != null && createAdminAccount.emailMPI.getText() != null) {
+            text = createAdminAccount.emailMPI.getText();
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.emailMPI.getText() != null) {
+            text = modifyOtherAdminAccount.emailMPI.getText();
+        } else if (modifyOwnAccount != null && modifyOwnAccount.emailMPI.getText() != null) {
+            text = modifyOwnAccount.emailMPI.getText();
+        } else if (technicianModifyOwn != null && technicianModifyOwn.emailMPI.getText() != null) {
+            text = technicianModifyOwn.emailMPI.getText();
+        }
+        return text;
     }
     public String getContactNoMPI() {
-        return createAdminAccount.contactNoMPI.getText();
+        String text = null;
+        if (createAdminAccount != null && createAdminAccount.contactNoMPI.getText() != null) {
+            text = createAdminAccount.contactNoMPI.getText();
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.contactNoMPI.getText() != null) {
+            text = modifyOtherAdminAccount.contactNoMPI.getText();
+        } else if (modifyOwnAccount != null && modifyOwnAccount.contactNoMPI.getText() != null) {
+            text = modifyOwnAccount.contactNoMPI.getText();
+        } else if (technicianModifyOwn != null && technicianModifyOwn.contactNoMPI.getText() != null) {
+            text = technicianModifyOwn.contactNoMPI.getText();
+        }
+        return text;
     }
     public String getGenderMPI() {
-        return Objects.requireNonNull(createAdminAccount.genderChoiceMPI.getSelectedItem()).toString();
+        String text = null;
+        if (createAdminAccount != null && createAdminAccount.genderChoiceMPI.getSelectedItem() != null) {
+            text = Objects.requireNonNull(createAdminAccount.genderChoiceMPI.getSelectedItem()).toString();
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.genderChoiceMPI.getSelectedItem() != null) {
+            text = Objects.requireNonNull(modifyOtherAdminAccount.genderChoiceMPI.getSelectedItem()).toString();
+        } else if (modifyOwnAccount != null && modifyOwnAccount.genderChoiceMPI.getSelectedItem() != null) {
+            text = Objects.requireNonNull(modifyOwnAccount.genderChoiceMPI.getSelectedItem()).toString();
+        } else if (technicianModifyOwn != null && technicianModifyOwn.genderChoiceMPI.getSelectedItem() != null) {
+            text = Objects.requireNonNull(technicianModifyOwn.genderChoiceMPI.getSelectedItem()).toString();
+        }
+        return text;
     }
 
     public String getMaritalStatusMPI() {
-        return Objects.requireNonNull(createAdminAccount.maritalStatusChoiceMPI.getSelectedItem()).toString();
+        String text = null;
+        if (createAdminAccount != null && createAdminAccount.maritalStatusChoiceMPI.getSelectedItem() != null) {
+            text = Objects.requireNonNull(createAdminAccount.maritalStatusChoiceMPI.getSelectedItem()).toString();
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.maritalStatusChoiceMPI.getSelectedItem() != null) {
+            text = Objects.requireNonNull(modifyOtherAdminAccount.maritalStatusChoiceMPI.getSelectedItem()).toString();
+        } else if (modifyOwnAccount != null && modifyOwnAccount.maritalStatusChoiceMPI.getSelectedItem() != null) {
+            text = Objects.requireNonNull(modifyOwnAccount.maritalStatusChoiceMPI.getSelectedItem()).toString();
+        } else if (technicianModifyOwn != null && technicianModifyOwn.maritalStatusChoiceMPI.getSelectedItem() != null) {
+            text = Objects.requireNonNull(technicianModifyOwn.maritalStatusChoiceMPI.getSelectedItem()).toString();
+        }
+        return text;
     }
 
 
     JComboBox<String> positionMPI = new JComboBox<>();
     JDatePickerImpl datePickerMPI;
-    public JPanel jobDetails() {
+    public JPanel jobDetails(Manager manager, Technician technician) {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
         panel.setSize(scrollPaneWidth, 150);
@@ -645,7 +760,7 @@ public class InformationPaneComponent extends JPanel {
         positionMPI.setBounds(positionText.getX(), positionText.getY() + positionText.getHeight(), positionText.getWidth(), positionText.getHeight());
         positionMPI.setBackground(Color.WHITE);
 
-        updatePositionCombo();
+        updatePositionCombo(Objects.requireNonNull(accountType.getSelectedItem()).toString());
 
         JLabel dateJoined = new JLabel("Date Joined");
         dateJoined.setFont(Asset.getBodyFont("Plain"));
@@ -665,7 +780,12 @@ public class InformationPaneComponent extends JPanel {
         datePickerMPI.getJFormattedTextField().setBackground(Color.WHITE);
         datePickerMPI.getComponent(1).setBackground(Color.WHITE);
 
-
+        if (manager != null) {
+            positionMPI.setSelectedItem(manager.position);
+        } else if (technician != null) {
+            positionMPI.setSelectedItem(technician.position);
+        }
+        
         panel.add(title);
         panel.add(positionText);
         panel.add(positionMPI);
@@ -675,15 +795,42 @@ public class InformationPaneComponent extends JPanel {
     }
 
     public String getPositionMPI() {
-        return Objects.requireNonNull(createAdminAccount.positionMPI.getSelectedItem()).toString();
+        String text = null;
+        if (createAdminAccount != null && createAdminAccount.positionMPI.getSelectedItem() != null) {
+            text = Objects.requireNonNull(createAdminAccount.positionMPI.getSelectedItem()).toString();
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.positionMPI.getSelectedItem() != null) {
+            text = Objects.requireNonNull(modifyOtherAdminAccount.positionMPI.getSelectedItem()).toString();
+        } else if (modifyOwnAccount != null && modifyOwnAccount.positionMPI.getSelectedItem() != null) {
+            text = Objects.requireNonNull(modifyOwnAccount.positionMPI.getSelectedItem()).toString();
+        } else if (technicianModifyOwn != null && technicianModifyOwn.positionMPI.getSelectedItem() != null) {
+            text = Objects.requireNonNull(technicianModifyOwn.positionMPI.getSelectedItem()).toString();
+        }
+        return text;
     }
 
     public LocalDate getDateJoinedMPI() {
-        return LocalDate.of(createAdminAccount.datePickerMPI.getModel().getYear(), createAdminAccount.datePickerMPI.getModel().getMonth() + 1, createAdminAccount.datePickerMPI.getModel().getDay());
+        LocalDate text = null;
+        if (createAdminAccount != null && createAdminAccount.datePickerMPI.getModel() != null) {
+            text = LocalDate.of(createAdminAccount.datePickerMPI.getModel().getYear(), createAdminAccount.datePickerMPI.getModel().getMonth() + 1, createAdminAccount.datePickerMPI.getModel().getDay());
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.datePickerMPI.getModel() != null) {
+            text = LocalDate.of(modifyOtherAdminAccount.datePickerMPI.getModel().getYear(), modifyOtherAdminAccount.datePickerMPI.getModel().getMonth() + 1, modifyOtherAdminAccount.datePickerMPI.getModel().getDay());
+        } else if (modifyOwnAccount != null && modifyOwnAccount.datePickerMPI.getModel() != null) {
+            text = LocalDate.of(modifyOwnAccount.datePickerMPI.getModel().getYear(), modifyOwnAccount.datePickerMPI.getModel().getMonth() + 1, modifyOwnAccount.datePickerMPI.getModel().getDay());
+        } else if (technicianModifyOwn != null && technicianModifyOwn.datePickerMPI.getModel() != null) {
+            text = LocalDate.of(technicianModifyOwn.datePickerMPI.getModel().getYear(), technicianModifyOwn.datePickerMPI.getModel().getMonth() + 1, technicianModifyOwn.datePickerMPI.getModel().getDay());
+        }
+        return text;
     }
 
-    public void updatePositionCombo() {
+    public void updatePositionCombo(String position) {
         positionMPI.removeAllItems();
+
+        positionChoice.clear();
+        if (position.equals("Manager")) {
+            positionChoice.addAll(Arrays.asList(Manager.getManagerPosition()));
+        } else if (position.equals("Technician")) {
+            positionChoice.addAll(Arrays.asList(Technician.getTechnicianPosition()));
+        }
 
         for (String positionName: positionChoice) {
             positionMPI.addItem(positionName);
@@ -743,19 +890,63 @@ public class InformationPaneComponent extends JPanel {
     }
 
     public String getPasswordMPI() {
-        StringBuilder password = new StringBuilder();
-        for (char character: createAdminAccount.passwordMPI.getPassword()) {
-            password.append(character);
+        String text = null;
+        if (createAdminAccount != null && createAdminAccount.passwordMPI.getPassword() != null) {
+            StringBuilder password = new StringBuilder();
+            for (char character: createAdminAccount.passwordMPI.getPassword()) {
+                password.append(character);
+            }
+            text = password.toString();
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.passwordMPI.getPassword() != null) {
+            StringBuilder password = new StringBuilder();
+            for (char character: modifyOtherAdminAccount.passwordMPI.getPassword()) {
+                password.append(character);
+            }
+            text = password.toString();
+        } else if (modifyOwnAccount != null && modifyOwnAccount.passwordMPI.getPassword() != null) {
+            StringBuilder password = new StringBuilder();
+            for (char character: modifyOwnAccount.passwordMPI.getPassword()) {
+                password.append(character);
+            }
+            text = password.toString();
+        } else if (technicianModifyOwn != null && technicianModifyOwn.passwordMPI.getPassword() != null) {
+            StringBuilder password = new StringBuilder();
+            for (char character: technicianModifyOwn.passwordMPI.getPassword()) {
+                password.append(character);
+            }
+            text = password.toString();
         }
-        return password.toString();
+        return text;
     }
 
     public String getReEnterPasswordMPI() {
-        StringBuilder password = new StringBuilder();
-        for (char character: createAdminAccount.reEnterPasswordMPI.getPassword()) {
-            password.append(character);
+        String text = null;
+        if (createAdminAccount != null && createAdminAccount.reEnterPasswordMPI.getPassword() != null) {
+            StringBuilder password = new StringBuilder();
+            for (char character: createAdminAccount.reEnterPasswordMPI.getPassword()) {
+                password.append(character);
+            }
+            text = password.toString();
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.reEnterPasswordMPI.getPassword() != null) {
+            StringBuilder password = new StringBuilder();
+            for (char character: modifyOtherAdminAccount.reEnterPasswordMPI.getPassword()) {
+                password.append(character);
+            }
+            text = password.toString();
+        } else if (modifyOwnAccount != null && modifyOwnAccount.reEnterPasswordMPI.getPassword() != null) {
+            StringBuilder password = new StringBuilder();
+            for (char character: modifyOwnAccount.reEnterPasswordMPI.getPassword()) {
+                password.append(character);
+            }
+            text = password.toString();
+        } else if (technicianModifyOwn != null && technicianModifyOwn.reEnterPasswordMPI.getPassword() != null) {
+            StringBuilder password = new StringBuilder();
+            for (char character: technicianModifyOwn.reEnterPasswordMPI.getPassword()) {
+                password.append(character);
+            }
+            text = password.toString();
         }
-        return password.toString();
+        return text;
     }
 
     JTextField nameCPI, tpNumberCPI, contactNoCPI, emailCPI;
@@ -845,7 +1036,7 @@ public class InformationPaneComponent extends JPanel {
         return emailCPI.getText();
     }
 
-    public JPanel customerModifyPersonalInformation() {
+    public JPanel customerModifyPersonalInformation(Student student) {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
         panel.setSize(scrollPaneWidth, 290);
@@ -900,6 +1091,8 @@ public class InformationPaneComponent extends JPanel {
         return panel;
     }
 
+    JComboBox<String> accountType;
+
     public JPanel accountDetails() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
@@ -914,7 +1107,7 @@ public class InformationPaneComponent extends JPanel {
         accountText.setBounds(title.getWidth() + title.getX(), title.getY() + 10, (panel.getWidth() - title.getWidth() - title.getX()) / 2 - 20, 50);
 
         String[] accountChoice = {"Manager", "Technician"};
-        JComboBox<String> accountType = new JComboBox<>(accountChoice);
+        accountType = new JComboBox<>(accountChoice);
         accountType.setFont(Asset.getBodyFont("Plain"));
         accountType.setBounds(accountText.getX(), accountText.getY() + accountText.getHeight(), accountText.getWidth(), accountText.getHeight());
         accountType.setBackground(Color.WHITE);
@@ -922,12 +1115,59 @@ public class InformationPaneComponent extends JPanel {
         JLayeredPane confirm = new Asset().generateButtonWithoutImage("Confirm", accountType.getWidth(), accountType.getHeight());
         confirm.setLocation(accountType.getX() + accountType.getWidth() + 20, accountType.getY());
 
+        confirm.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                String type = Objects.requireNonNull(accountType.getSelectedItem()).toString();
+                if (type.equals("Manager")) {
+                    updatePositionCombo("Manager");
+                } else if (type.equals("Technician")) {
+                    updatePositionCombo("Technician");
+                }
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
         panel.add(title);
         panel.add(accountText);
         panel.add(accountType);
         panel.add(confirm);
 
         return panel;
+    }
+
+    public String getAccountType() {
+        String text = null;
+        if (createAdminAccount != null && createAdminAccount.accountType.getSelectedItem() != null) {
+            text = Objects.requireNonNull(createAdminAccount.accountType.getSelectedItem()).toString();
+        } else if (modifyOtherAdminAccount != null && modifyOtherAdminAccount.accountType.getSelectedItem() != null) {
+            text = Objects.requireNonNull(modifyOtherAdminAccount.accountType.getSelectedItem()).toString();
+        } else if (modifyOwnAccount != null && modifyOwnAccount.accountType.getSelectedItem() != null) {
+            text = Objects.requireNonNull(modifyOwnAccount.accountType.getSelectedItem()).toString();
+        } else if (technicianModifyOwn != null && technicianModifyOwn.accountType.getSelectedItem() != null) {
+            text = Objects.requireNonNull(technicianModifyOwn.accountType.getSelectedItem()).toString();
+        }
+        return text;
     }
 
     // Line pane

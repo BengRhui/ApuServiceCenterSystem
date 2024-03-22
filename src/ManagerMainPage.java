@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class ManagerMainPage implements ComponentListener, MouseListener, WindowListener {
 
+    static ManagerMainPage page;
     static JFrame frame;
     JLayeredPane leftPanel, rightPanel, createAccountButton, modifyAccountButton, createAppointmentButton, viewFeedbackButton;
     JPanel profilePicture, line, informationPanel;
@@ -15,6 +16,7 @@ public class ManagerMainPage implements ComponentListener, MouseListener, Window
     int profileRadius = 125, lineStroke = 5;
 
     public ManagerMainPage(Manager manager) {
+
         frame = new JFrame("Manager Main Page");
         frame.setSize(Asset.getFrameWidth(), Asset.getFrameHeight());
         frame.setLocation(Asset.getFramePositionX(), Asset.getFramePositionY());
@@ -253,7 +255,7 @@ public class ManagerMainPage implements ComponentListener, MouseListener, Window
         createAppointmentButton.setLocation(mainTitle.getX(), createAccountButton.getY() + createAccountButton.getHeight() + 20);
         viewFeedbackButton.setLocation(modifyAccountButton.getX(), modifyAccountButton.getY() + modifyAccountButton.getWidth() + 20);
     }
-//
+
 //    public void refreshData(Manager manager) {
 //        positionInfo.setText(": " + manager.position);
 //        genderInfo.setText(": " + manager.gender);
@@ -265,7 +267,7 @@ public class ManagerMainPage implements ComponentListener, MouseListener, Window
 //        addressLine3.setText("  " + manager.addressLine3);
 //        addressLine4.setText("  " + manager.postcode + " " + manager.city + ", " + manager.state);
 //        emailInfo.setText(": " + manager.email);
-//        contactNoInfo.setText(": " + manager.contactNo);
+//        contactNoInfo.setText(": " + manager.contactNumber);
 //    }
 
     @Override
